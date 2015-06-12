@@ -26,3 +26,8 @@ Target all EC2 machines with the tags env=dev and roles app or admin and execute
 ```
 -e "env=dev roles=admin" --tags=apache,crontab
 ```
+
+Restart apache2 service
+```
+ansible-playbook -i plugins/inventory/ec2.py --user=ubuntu services.yml --private-key=~/.ssh/yourkey.pem -e 'env=dev role=app service=apache2 state=restarted'
+```
