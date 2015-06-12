@@ -1,0 +1,3 @@
+---
+- name: Perform php config
+  include: php.yml tags=php

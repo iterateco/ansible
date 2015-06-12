@@ -1,0 +1,3 @@
+---
+- name: Perform elasticache tasks
+  include: elasticache.yml tags=elasticache

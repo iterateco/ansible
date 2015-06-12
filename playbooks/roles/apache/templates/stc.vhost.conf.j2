@@ -1,0 +1,65 @@
+{% set virtual_host = apache_sites_available[item] %}
+
+{% for port in virtual_host.ports %}
+<VirtualHost *:{{ port }}>
+  {% if virtual_host.ssl is defined and virtual_host.ssl.port is defined and port == virtual_host.ssl.port -%}
+  SetEnv HTTPS 'on'
+  {% else %}
+  SetEnv HTTPS 'off'
+  {%- endif %}
+
+  ServerName {{ virtual_host.host }}
+  DocumentRoot {{ app_dir_web }}
+  SetEnvIf User-Agent "Amazon CloudFront" is_cdn=1
+  CustomLog /var/log/apache2/{{ virtual_host.host }}.log common env=!is_cdn
+
+  FileETag none
+
+  ExpiresActive On
+  ExpiresDefault "access plus 1 year"
+
+  <Directory "{{ app_dir_web }}">
+    AllowOverride none
+    Options FollowSymLinks ExecCGI
+
+    {% if virtual_host.basic_auth is defined -%}
+    AuthUserFile {{ apache_htpasswd_path }}
+    AuthName "{{ virtual_host.basic_auth.authname }}"
+    AuthType Basic
+    Require valid-user
+    {%- endif %}
+
+    <Files "health.html">
+      Allow from all
+      Satisfy any
+    </Files>
+
+    RewriteEngine On
+
+    {% if virtual_host.ssl is defined and virtual_host.ssl.port is defined and virtual_host.ssl.required is defined -%}
+      {% if port != virtual_host.ssl.port and virtual_host.ssl.required -%}
+    RewriteCond %{SERVER_PORT} !^{{ virtual_host.ssl.port }}$
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R,L]
+      {%- endif %}
+    {%- endif %}
+
+    RewriteCond $1 \.php
+    RewriteRule ^(.*) - [R=404,L,NC]
+
+  </Directory>
+
+  {% if virtual_host.ssl is defined and virtual_host.ssl.port is defined and port == virtual_host.ssl.port and virtual_host.ssl.engine_enabled is defined and virtual_host.ssl.engine_enabled -%}
+  SSLEngine on
+  SSLCertificateFile {{ apache_ssl_path }}/cert.crt
+  SSLCertificateKeyFile {{ apache_ssl_path }}/cert.key
+  SSLCertificateChainFile {{ apache_ssl_path }}/chain.crt
+  {%- endif %}
+
+  {% if virtual_host.headers is defined -%}
+    {% for header in virtual_host.headers %}
+  Header set {{ header }}
+    {% endfor %}
+  {%- endif %}
+
+</VirtualHost>
+{% endfor %}

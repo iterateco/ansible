@@ -1,0 +1,9 @@
+---
+jenkins_url: localhost
+jenkins_port: 8080
+jenkins_cli_dest: /usr/local/bin/jenkins-cli.jar
+jenkins_plugins:
+  - scm-api
+  - git-client
+  - git
+  - slack

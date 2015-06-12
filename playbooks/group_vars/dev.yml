@@ -1,0 +1,32 @@
+# dev environment ansible variables
+---
+apache_sites_available:
+  app:
+    host: "{{env}}.{{app_domain_name}}"
+    ports: [80, 443]
+    template: vhost.conf.j2
+    directory_index: "app_{{env}}.php"
+    basic_auth: 
+      authname: XXXXX
+      username: XXXXX
+      password: XXXXX
+    ssl:
+      port: 443
+      required: false
+      engine_enabled: false
+    headers:
+      - 'Access-Control-Allow-Origin "*"'
+  stc:
+    host: "{{env}}-stc.{{app_domain_name}}"
+    ports: [80, 443]
+    template: stc.vhost.conf.j2
+    directory_index: "app_{{env}}.php"
+    ssl:
+      port: 443
+      required: false
+      engine_enabled: false
+    headers:
+      - 'Access-Control-Allow-Origin "*"'
+
+# crontabs:
+#   - "*/1 * * * * root TERM=dumb {{ app_command }} JOB_COMMAND --env={{ env }}"

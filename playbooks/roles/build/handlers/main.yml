@@ -1,0 +1,4 @@
+---
+# Safe-restart Jenkins
+- name: Restart Jenkins
+  command: java -jar {{ jenkins_cli_dest }} -s http://{{ jenkins_url }}:{{ jenkins_port }} safe-restart

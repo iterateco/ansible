@@ -1,0 +1,14 @@
+# Project-specific variables used to generate an aws ami image
+---
+ami_keypair: mgg
+ami_name: mgg-base
+ami_security_group: ami
+ami_instance_type: t2.micro
+ami_aws_region: us-east-1
+
+# See http://alestic.com/
+# Ubuntu 14.04 LTS Trusty HVM EBS-SSD boot
+ami_base_image: ami-10389d78
+
+aws_access_key: XXXXX
+aws_secret_key: XXXXX

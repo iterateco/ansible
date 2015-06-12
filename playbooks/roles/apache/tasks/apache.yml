@@ -1,0 +1,62 @@
+---
+- name: Configure apache2 enable mods
+  command: a2enmod {{ item }}
+  with_items:
+    - headers
+    - cache
+    - rewrite
+    - expires
+    - php5
+
+- name: Remove default virtual host
+  command: a2dissite {{ item }}
+  with_items:
+    - 000-default
+    - default-ssl
+
+- name: Template copy; Configure apache2 ports
+  template: src=ports.conf.j2 dest=/etc/apache2/ports.conf
+
+- name: Template copy; Configure app virtual host
+  template: src={{ apache_sites_available[item].template }} dest=/etc/apache2/sites-available/{{ apache_sites_available[item].host }}.conf
+  with_items:
+    - "{{ apache_sites_enabled }}"
+
+- name: Configure apache to not return version information in response headers (1/2)
+  lineinfile: dest=/etc/apache2/conf-enabled/security.conf regexp="^ServerTokens " line="ServerTokens Prod" state=present
+
+- name: Configure apache to not return version information in response headers (2/2)
+  lineinfile: dest=/etc/apache2/conf-enabled/security.conf regexp="^ServerSignature " line="ServerSignature Off" state=present
+
+- name: Enable app virtual host
+  command: a2ensite {{ apache_sites_available[item].host }}.conf
+  with_items:
+    - "{{ apache_sites_enabled }}"
+
+- name: Insert htpasswd values
+  command: htpasswd -bc {{ apache_htpasswd_path }} {{ apache_sites_available[item].basic_auth.username }} {{ apache_sites_available[item].basic_auth.password }}
+  when: apache_sites_available[item].basic_auth is defined
+  with_items:
+    - "{{ apache_sites_enabled }}"
+
+- name: Configure apache2 ssl mod (local-only)
+  command: a2enmod ssl
+  when: apache_sites_available[item].ssl.engine_enabled is defined and apache_sites_available[item].ssl.engine_enabled
+  with_items:
+    - "{{ apache_sites_enabled }}"
+
+- name: Make certs directory
+  file: path={{ apache_ssl_path }} state=directory
+  when: apache_sites_available[item].ssl.engine_enabled is defined and apache_sites_available[item].ssl.engine_enabled
+  with_items:
+    - "{{ apache_sites_enabled }}"
+
+- name: Copy certifcate files
+  copy: src={{ item[1] }} dest={{ apache_ssl_path }}/{{ item[1] }} mode=644
+  when: apache_sites_available[item[0]].ssl.engine_enabled is defined and apache_sites_available[item[0]].ssl.engine_enabled
+  with_nested:
+    - "{{ apache_sites_enabled }}"
+    - ['cert.crt', 'cert.key', 'chain.crt']
+
+- name: Reload apache
+  service: name=apache2 state=reloaded

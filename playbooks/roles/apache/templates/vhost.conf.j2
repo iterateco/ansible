@@ -1,0 +1,75 @@
+{% set virtual_host = apache_sites_available[item] %}
+
+{% for port in virtual_host.ports %}
+<VirtualHost *:{{ port }}>
+
+  {% if virtual_host.ssl is defined and virtual_host.ssl.port is defined and port == virtual_host.ssl.port -%}
+  SetEnv HTTPS 'on'
+  {% else %}
+  SetEnv HTTPS 'off'
+  {%- endif %}
+
+  DirectoryIndex {{ virtual_host.directory_index }}
+  DocumentRoot {{ app_dir_web }}
+  ServerName {{ virtual_host.host }}
+
+  {% if virtual_host.alias is defined -%}
+  ServerAlias {{ virtual_host.alias }}
+  {%- endif %}
+
+  SetEnvIf Request_URI "/health.html" is_heartbeat_request=1
+  CustomLog /var/log/apache2/{{ virtual_host.host }}.log common env=!is_heartbeat_request
+
+  <Directory "{{ app_dir_web }}">
+    AllowOverride All
+    Allow from All
+    Options FollowSymLinks ExecCGI
+
+    {% if virtual_host.basic_auth is defined -%}
+    AuthUserFile {{ apache_htpasswd_path }}
+    AuthName "{{ virtual_host.basic_auth.authname }}"
+    AuthType Basic
+    Require valid-user
+    {%- endif %}
+
+    <Files "health.html">
+      Allow from all
+      Satisfy any
+    </Files>
+
+    RewriteEngine On
+
+    {% if virtual_host.ssl is defined and virtual_host.ssl.port is defined and virtual_host.ssl.required is defined -%}
+      {% if port != virtual_host.ssl.port and virtual_host.ssl.required -%}
+    RewriteCond %{SERVER_PORT} !^{{ virtual_host.ssl.port }}$
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R,L]
+      {%- endif %}
+    {%- endif %}
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.*)$ {{ virtual_host.directory_index }} [QSA,L]
+
+    #FileETag none
+
+    #Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
+    #Header set Pragma "no-cache"
+
+    #ExpiresActive On
+    #ExpiresDefault A0
+  </Directory>
+
+  {% if virtual_host.headers is defined -%}
+    {% for header in virtual_host.headers %}
+  Header set {{ header }}
+    {% endfor %}
+  {%- endif %}
+
+  {% if virtual_host.ssl is defined and virtual_host.ssl.port is defined and port == virtual_host.ssl.port and virtual_host.ssl.engine_enabled is defined and virtual_host.ssl.engine_enabled -%}
+  SSLEngine on
+  SSLCertificateFile {{ apache_ssl_path }}/cert.crt
+  SSLCertificateKeyFile {{ apache_ssl_path }}/cert.key
+  SSLCertificateChainFile {{ apache_ssl_path }}/chain.crt
+  {%- endif %}
+
+</VirtualHost>
+{% endfor %}

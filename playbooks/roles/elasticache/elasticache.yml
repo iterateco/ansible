@@ -1,0 +1,24 @@
+---
+- name: Download AmazonElasticCacheClient
+  get_url: url=http://elasticache-downloads.s3.amazonaws.com/ClusterClient/PHP-5.5/latest-64bit dest=/tmp/cacheClient.tar.gz
+
+- name: Install AmazonElasticCacheClient
+  command: pecl install /tmp/cacheClient.tar.gz
+
+- name: Unarchive AmazonElasticCacheClient
+  command: tar -zxf /tmp/cacheClient.tar.gz -C /tmp
+
+- name: Copy AmazonElasticCacheClient Binary
+  command: cp /tmp/AmazonElastiCacheClusterClient-1.0.0/amazon-elasticache-cluster-client.so /usr/lib/php5/20121212/
+
+- name: Permission AmazonElasticCacheClient Binary
+  file: path=/usr/lib/php5/20121212/amazon-elasticache-cluster-client.so mode=0644
+
+- name: Add PHP elasticache.ini
+  template: src=elasticache.ini.j2 dest=/etc/php5/mods-available/elasticache.ini
+
+- name: Enable the elasticache.ini
+  command: php5enmod elasticache
+
+- name: Disable built-in memcached
+  command: php5dismod memcached

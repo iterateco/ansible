@@ -1,0 +1,3 @@
+---
+- name: Perform bashprompt tasks
+  include: bashprompt.yml tags=bashprompt

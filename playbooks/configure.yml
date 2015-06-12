@@ -1,0 +1,12 @@
+# This is used to admin tasks (such as installing cron jobs)
+---
+#- hosts: ["tag_Env_{{ env }}", "&tag_Roles_{{ roles }}"]
+- hosts: "&{{ env | expand('tag_Env_') }}:{{ roles | expand('tag_Roles_') }}"
+  sudo: true
+  vars_files:
+    - group_vars/{{ env }}.yml
+  roles:
+    - php
+    - { role: apache, apache_sites_enabled: ['app', 'stc'] }
+    - crontab
+    - bashprompt

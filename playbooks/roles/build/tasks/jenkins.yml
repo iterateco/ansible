@@ -1,0 +1,50 @@
+---
+- name: Download Jenkins apt key and install key
+  apt_key: url=http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key state=present
+
+- name: Add Jenkins repo as source
+  apt_repository: repo='deb http://pkg.jenkins-ci.org/debian binary/' state=present
+
+- name: Update apt then install Jenkins
+  apt: update_cache=yes cache_valid_time=3600 name=jenkins
+
+# See http://stackoverflow.com/questions/23919744/how-to-restart-jenkins-using-ansible-and-wait-for-it-to-come-back
+# Can't use wait_for since the Jenkins *process* boots faster than its *web api*
+- name: Wait until Jenkins web API is available
+  shell: curl --head --silent http://{{ jenkins_url }}:{{ jenkins_port }}/cli/
+  register: result
+  until: result.stdout.find("200 OK") != -1
+  retries: 12
+  delay: 5
+
+- name: retrieve cli jar from within Jenkins
+  get_url: url=http://{{ jenkins_url }}:{{ jenkins_port }}/jnlpJars/jenkins-cli.jar dest={{ jenkins_cli_dest }} mode=0440
+
+# See https://gist.github.com/rowan-m/1026918
+# Normally Jenkins updates its plugins list at some time post-boot,
+# but unsure of how to exactly wait/find out when the list is ready.
+# Instead we'll manually push the lastest list to Jenkins.
+- name: Update plugins list manually
+  shell: curl -L http://updates.jenkins-ci.org/update-center.json | sed '1d;$d' | curl -X POST -H "Accept':' application/json" -d @- http://{{ jenkins_url }}:{{ jenkins_port }}/updateCenter/byId/default/postBack
+
+- name: List all installed plugins
+  shell: java -jar {{ jenkins_cli_dest }} -s http://{{ jenkins_url }}:{{ jenkins_port }} list-plugins | cut -f 1 -d ' '
+  when: jenkins_plugins is defined
+  register: plugins_installed
+
+- name: Install our plugins if necessary
+  command: java -jar {{ jenkins_cli_dest }} -s http://{{ jenkins_url }}:{{ jenkins_port }} install-plugin {{ item }}
+  when: plugins_installed.changed and plugins_installed.stdout.find('{{ item }}') == -1
+  with_items: jenkins_plugins
+  notify:
+    - Restart Jenkins
+
+- name: List plugins to be updated
+  shell: java -jar {{ jenkins_cli_dest }} -s http://{{ jenkins_url }}:{{ jenkins_port }} list-plugins | grep ')$' | cut -f 1 -d ' ' | sed ':a;N;$!ba;s/\n/ /g'
+  register: plugins_updates
+
+- name: Update plugins as necessary
+  command: java -jar {{ jenkins_cli_dest }} -s http://{{ jenkins_url }}:{{ jenkins_port }} install-plugin {{ plugins_updates.stdout }}
+  when: plugins_updates.stdout != ''
+  notify:
+    - Restart Jenkins

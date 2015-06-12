@@ -1,0 +1,13 @@
+# Runs tasks that are for developer use only, running on local virtual machines
+---
+- name: Template copy; copy over updated bash prompt
+  template:
+    src: bash_prompt.j2
+    dest: "/home/{{ ssh_user }}/.bash_prompt"
+
+- name: Update bashrc to load in our bash prompt
+  lineinfile:
+    dest: "/home/{{ ssh_user }}/.bashrc"
+    regexp: "^source .bash_prompt"
+    state: present
+    line: "source .bash_prompt"

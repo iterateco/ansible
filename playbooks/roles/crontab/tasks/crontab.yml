@@ -1,0 +1,8 @@
+---
+- name: Remove crontab
+  file: path=/etc/cron.d/{{ app_name }} state=absent
+
+- name: Install crontab
+  when: crontabs is defined
+  template: src=crontabs.j2 dest=/etc/cron.d/{{ app_name }}
+  when: crontabs is defined
