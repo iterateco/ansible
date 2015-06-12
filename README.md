@@ -8,3 +8,15 @@ ansible-playbook -i plugins/inventory/ec2.py --user=ubuntu --private-key=~/.ssh/
 ansible-playbook -i plugins/inventory/ec2.py --user=ubuntu --private-key=~/.ssh/yourkey.pem deploy.yml -e "env=prod build_id=XXX"
 ansible-playbook -i plugins/inventory/ec2.py --user=ubuntu --private-key=~/.ssh/yourkey.pem ami.yml
 ```
+
+Target all EC2 machines with the tags env=prod and roles=app
+
+```
+-e "env=prod roles=app"
+```
+
+Target all EC2 machines with the tags env=dev and roles app or admin
+
+```
+-e "env=dev roles=app,admin"
+```
