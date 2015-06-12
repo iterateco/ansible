@@ -20,3 +20,9 @@ Target all EC2 machines with the tags env=dev and roles app or admin
 ```
 -e "env=dev roles=app,admin"
 ```
+
+Target all EC2 machines with the tags env=dev and roles app or admin and execute only specific ansible playbook tags.  For instnace the following would update configuration files for apache and crontab on the admin machine.
+
+```
+-e "env=dev roles=admin" --tags=apache,crontab
+```
