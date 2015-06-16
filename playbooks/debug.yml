@@ -1,0 +1,6 @@
+# debug
+---
+- hosts: all
+  tasks:
+    - name: Dump all vars
+      action: template src=templates/debug.j2 dest=/tmp/ansible.all
