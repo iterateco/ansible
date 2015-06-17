@@ -34,8 +34,13 @@ ansible-playbook -i plugins/inventory/ec2.py --user=ubuntu services.yml --privat
 
 ### Roles
 
-Apache
+Apache configuration
 ````
+apache_ports:
+  - 80
+  - 443
+apache_health_check_file: health.html
+
 apache_sites_available:
   app:
     host: "{{env}}.{{app_domain_name}}"
