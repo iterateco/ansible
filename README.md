@@ -43,6 +43,10 @@ apache_sites_available:
     host: "{{env}}.{{app_domain_name}}"
     ports: [80, 443]
     directory_index: "app_{{env}}.php"
+    basic_auth: # optional
+      authname: MySite
+      username: myusername
+      password: mypassword
     ssl: # optional
       port: 443 # port ssl will listen on
       required: false # force http => https redirect
@@ -52,13 +56,8 @@ apache_sites_available:
       - 'Header set Access-Control-Allow-Origin "*"'
   stc:
     host: "{{env}}-stc.{{app_domain_name}}"
-    ports: [80, 443]
+    ports: [80]
     directory_index: "app_{{env}}.php"
-    ssl:
-      port: 443
-      required: false
-      engine_enabled: true
-      cert_src_path: PATH_TO_SRC_CERTS
     directives:
       - 'FileETag none'
       - 'ExpiresActive On'
