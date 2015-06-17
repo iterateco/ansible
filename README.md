@@ -51,7 +51,7 @@ apache_sites_available:
       port: 443 # port ssl will listen on
       required: false # force http => https redirect
       engine_enabled: true # turn on ssl engine
-      cert_src_path: PATH_TO_SRC_CERTS  # required if engine_enabled is true.  Path to 'cert.crt', 'cert.key', 'chain.crt'.  example: /MY_PROJECT/CERTS
+      cert_src_path: /path/to/ssl/certs  # required if engine_enabled is true.  Assumes following files exists at path. ['cert.crt', 'cert.key', 'chain.crt']
     directives: # optional, any custom apache directorives. Currently only supports directives outside of directory directive.
       - 'Header set Access-Control-Allow-Origin "*"'
   stc:
