@@ -18,7 +18,7 @@
   template: src=ports.conf.j2 dest=/etc/apache2/ports.conf
 
 - name: Template copy; Configure app virtual host
-  template: src={{ apache_sites_available[item].template }} dest=/etc/apache2/sites-available/{{ apache_sites_available[item].host }}.conf
+  template: src=vhost.conf.j2 dest=/etc/apache2/sites-available/{{ apache_sites_available[item].host }}.conf
   with_items:
     - "{{ apache_sites_enabled }}"
 

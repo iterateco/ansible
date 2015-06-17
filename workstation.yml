@@ -10,9 +10,6 @@
   vars_files:
     - group_vars/{{ env }}.yml
 
-  vars:
-    roles: workstation
-
   roles:
     - baseinstall
     - php
