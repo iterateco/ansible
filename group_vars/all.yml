@@ -7,9 +7,7 @@ app_dir_web: /var/www/current/Symfony/web
 app_dir_root: /var/www/current
 app_command: php /var/www/current/Symfony/app/console
 
-apache_ports:
-  - 80
-  - 443
+apache_ports: [80, 443]
 apache_health_check_file: health.html
 
 php_memory_limit: 256M
