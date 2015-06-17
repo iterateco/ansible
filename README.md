@@ -36,38 +36,34 @@ ansible-playbook -i plugins/inventory/ec2.py --user=ubuntu services.yml --privat
 
 Apache configuration
 ````
-apache_ports:
-  - 80
-  - 443
+apache_ports: [80, 443]
 apache_health_check_file: health.html
-
 apache_sites_available:
   app:
     host: "{{env}}.{{app_domain_name}}"
     ports: [80, 443]
     directory_index: "app_{{env}}.php"
-    ssl:
-      port: 443
-      required: false
-      engine_enabled: true
-      cert_src_path: PATH_TO_SRC_CERTS
-    directives:
+    basic_auth: # optional
+      authname: MySite
+      username: myusername
+      password: mypassword
+    ssl: # optional
+      port: 443 # port ssl will listen on
+      required: false # force http => https redirect
+      engine_enabled: true # turn on ssl engine
+      cert_src_path: PATH_TO_SRC_CERTS  # required if engine_enabled is true.  Path to 'cert.crt', 'cert.key', 'chain.crt'.  example: /MY_PROJECT/CERTS
+    directives: # optional, any custom apache directorives. Currently only supports directives outside of directory directive.
       - 'Header set Access-Control-Allow-Origin "*"'
   stc:
     host: "{{env}}-stc.{{app_domain_name}}"
-    ports: [80, 443]
+    ports: [80]
     directory_index: "app_{{env}}.php"
-    ssl:
-      port: 443
-      required: false
-      engine_enabled: true
-      cert_src_path: PATH_TO_SRC_CERTS
     directives:
       - 'FileETag none'
       - 'ExpiresActive On'
       - 'ExpiresDefault "access plus 1 year"'
       - 'Header set Access-Control-Allow-Origin "*"'
 ````
-If ssl.engine_enabled then you must supply cert_src_path
+
 App, stc are sample names of sites.  This way they can be referenced when enabling sites.
 For example:  - { role: apache, apache_sites_enabled: ['app', 'stc'] }
