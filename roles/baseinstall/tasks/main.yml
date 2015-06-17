@@ -1,28 +1,28 @@
 # This script is used to install the core set of software
 # that's used by all machines, for all environments
 ---
-- name: Add apt repositories
-  apt_repository: repo={{ item }}
-  with_items: packages_apt_repositories
-  when: packages_apt_repositories is defined
+# - name: Add apt repositories
+#   apt_repository: repo={{ item }}
+#   with_items: packages_apt_repositories
+#   when: packages_apt_repositories is defined
 
 - name: Update apt
   apt: update_cache=yes cache_valid_time=600 upgrade=full
 
 - name: Install apt packages
-  apt: pkg={{ item }} state=installed
-  with_items: packages_apt
-  when: packages_apt is defined
+  apt: pkg={{ item.name }} state=installed
+  with_items: baseinstall_packages
+  when: item.manager == 'apt'
 
 - name: Update pip 
   command: pip install -U pip
 
 - name: Install pip packages
-  pip: name={{ item }} state=latest
-  with_items: packages_pip
-  when: packages_pip is defined
+  pip: name={{ item.name }} state=latest
+  with_items: baseinstall_packages
+  when: item.manager == 'pip'
 
 - name: Install npm packages
-  npm: name={{ item }} global=yes
-  with_items: packages_npm
-  when: packages_npm is defined
+  npm: name={{ item.name }} global=yes
+  with_items: baseinstall_packages
+  when: item.manager == 'npm'

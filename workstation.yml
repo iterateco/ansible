@@ -15,7 +15,7 @@
 
   roles:
     - baseinstall
-    - php
-    - { role: apache, apache_sites_enabled: ['app', 'stc'] }
-    - mysql
-    - bashprompt
+    # - php
+    # - { role: apache, apache_sites_enabled: ['app', 'stc'] }
+    # - mysql
+    # - bashprompt
