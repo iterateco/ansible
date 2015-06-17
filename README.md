@@ -69,3 +69,5 @@ apache_sites_available:
       - 'Header set Access-Control-Allow-Origin "*"'
 ````
 If ssl.engine_enabled then you must supply cert_src_path
+App, stc are sample names of sites.  This way they can be referenced when enabling sites.
+For example:  - { role: apache, apache_sites_enabled: ['app', 'stc'] }
