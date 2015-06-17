@@ -1,7 +1,7 @@
 # Variables shared by all playbooks. Loaded implicitly due to name.
 ---
-app_domain_name: XXXXX.com
-app_name: XXXXX
+app_domain_name: ansible.com
+app_name: ansible
 
 app_dir_web: /var/www/current/Symfony/web
 app_dir_root: /var/www/current

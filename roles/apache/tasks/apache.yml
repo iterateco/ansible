@@ -8,6 +8,11 @@
     - expires
     - php5
 
+- name: Configure apache2 disable mods. # will be turned on later if need be
+  command: a2dismod {{ item }}
+  with_items:
+    - ssl
+
 - name: Remove default virtual host
   command: a2dissite {{ item }}
   with_items:
@@ -52,7 +57,7 @@
     - "{{ apache_sites_enabled }}"
 
 - name: Copy certifcate files
-  copy: src={{ item[1] }} dest={{ apache_ssl_path }}/{{ item[1] }} mode=644
+  copy: src={{ apache_sites_available[item[0]].ssl.cert_src_path }}/{{ item[1] }} dest={{ apache_ssl_path }}/{{ item[1] }} mode=644
   when: apache_sites_available[item[0]].ssl.engine_enabled is defined and apache_sites_available[item[0]].ssl.engine_enabled
   with_nested:
     - "{{ apache_sites_enabled }}"
