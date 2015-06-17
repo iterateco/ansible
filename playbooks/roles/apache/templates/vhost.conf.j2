@@ -5,7 +5,7 @@
 
   {% if virtual_host.ssl is defined and virtual_host.ssl.port is defined and port == virtual_host.ssl.port -%}
   SetEnv HTTPS 'on'
-  {% else %}
+  {% else -%}
   SetEnv HTTPS 'off'
   {%- endif %}
 
@@ -13,12 +13,11 @@
   DocumentRoot {{ app_dir_web }}
   ServerName {{ virtual_host.host }}
 
-  {% if virtual_host.alias is defined -%}
-  ServerAlias {{ virtual_host.alias }}
+  {%if virtual_host.directives is defined -%}
+  {% for directive in virtual_host.directives -%}
+  {{ directive }}
+  {% endfor %}
   {%- endif %}
-
-  SetEnvIf Request_URI "/health.html" is_heartbeat_request=1
-  CustomLog /var/log/apache2/{{ virtual_host.host }}.log common env=!is_heartbeat_request
 
   <Directory "{{ app_dir_web }}">
     AllowOverride All
@@ -30,15 +29,15 @@
     AuthName "{{ virtual_host.basic_auth.authname }}"
     AuthType Basic
     Require valid-user
-    {%- endif %}
 
-    <Files "health.html">
+    # allows access to health check from LB if basic_auth is defined
+    <Files "{{apache_health_check_file}}">
       Allow from all
       Satisfy any
     </Files>
+    {%- endif %}
 
     RewriteEngine On
-
     {% if virtual_host.ssl is defined and virtual_host.ssl.port is defined and virtual_host.ssl.required is defined -%}
       {% if port != virtual_host.ssl.port and virtual_host.ssl.required -%}
     RewriteCond %{SERVER_PORT} !^{{ virtual_host.ssl.port }}$
@@ -48,21 +47,7 @@
 
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^(.*)$ {{ virtual_host.directory_index }} [QSA,L]
-
-    #FileETag none
-
-    #Header set Cache-Control "max-age=0, no-cache, no-store, must-revalidate"
-    #Header set Pragma "no-cache"
-
-    #ExpiresActive On
-    #ExpiresDefault A0
   </Directory>
-
-  {% if virtual_host.headers is defined -%}
-    {% for header in virtual_host.headers %}
-  Header set {{ header }}
-    {% endfor %}
-  {%- endif %}
 
   {% if virtual_host.ssl is defined and virtual_host.ssl.port is defined and port == virtual_host.ssl.port and virtual_host.ssl.engine_enabled is defined and virtual_host.ssl.engine_enabled -%}
   SSLEngine on

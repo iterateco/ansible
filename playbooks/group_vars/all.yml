@@ -10,6 +10,7 @@ app_command: php /var/www/current/Symfony/app/console
 apache_ports:
   - 80
   - 443
+apache_health_check_file: health.html
 
 php_memory_limit: 256M
 php_upload_max_filesize: 250M

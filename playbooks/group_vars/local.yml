@@ -11,22 +11,23 @@ apache_sites_available:
   app:
     host: "{{env}}.{{app_domain_name}}"
     ports: [80, 443]
-    template: vhost.conf.j2
     directory_index: "app_{{env}}.php"
     ssl:
       port: 443
       required: false
       engine_enabled: false
-    headers:
-      - 'Access-Control-Allow-Origin "*"'
+    directives:
+      - 'Header set Access-Control-Allow-Origin "*"'
   stc:
     host: "{{env}}-stc.{{app_domain_name}}"
     ports: [80, 443]
-    template: stc.vhost.conf.j2
     directory_index: "app_{{env}}.php"
     ssl:
       port: 443
       required: false
       engine_enabled: false
-    headers:
-      - 'Access-Control-Allow-Origin "*"'
+    directives:
+      - 'FileETag none'
+      - 'ExpiresActive On'
+      - 'ExpiresDefault "access plus 1 year"'
+      - 'Header set Access-Control-Allow-Origin "*"'

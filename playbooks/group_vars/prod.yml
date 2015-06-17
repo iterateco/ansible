@@ -2,27 +2,32 @@
 ---
 apache_sites_available:
   app:
-    host: "{{app_domain_name}}"
+    host: "{{env}}.{{app_domain_name}}"
     ports: [80, 443]
-    template: vhost.conf.j2
     directory_index: "app_{{env}}.php"
     ssl:
       port: 443
       required: false
       engine_enabled: false
-    headers:
-      - 'Access-Control-Allow-Origin "*"'
+    directives:
+      - 'Header set Access-Control-Allow-Origin "*"'
+      - 'SetEnvIf Request_URI "/{{apache_health_check_file}}" is_heartbeat_request=1'
+      - 'CustomLog /var/log/apache2/{{env}}.{{app_domain_name}}.log common env=!is_heartbeat_request'
   stc:
-    host: "stc.{{app_domain_name}}"
+    host: "{{env}}-stc.{{app_domain_name}}"
     ports: [80, 443]
-    template: stc.vhost.conf.j2
     directory_index: "app_{{env}}.php"
     ssl:
       port: 443
       required: false
       engine_enabled: false
-    headers:
-      - 'Access-Control-Allow-Origin "*"'
+    directives:
+      - 'FileETag none'
+      - 'ExpiresActive On'
+      - 'ExpiresDefault "access plus 1 year"'
+      - 'Header set Access-Control-Allow-Origin "*"'
+      - 'SetEnvIf Request_URI "/{{apache_health_check_file}}" is_heartbeat_request=1'
+      - 'CustomLog /var/log/apache2/{{env}}-stc.{{app_domain_name}}.log common env=!is_heartbeat_request'
 
 # crontabs:
 #   - "*/1 * * * * root TERM=dumb {{ app_command }} JOB_COMMAND --env={{ env }}"
