@@ -31,3 +31,36 @@ Restart apache2 service
 ```
 ansible-playbook -i plugins/inventory/ec2.py --user=ubuntu services.yml --private-key=~/.ssh/yourkey.pem -e 'env=dev role=app service=apache2 state=restarted'
 ```
+
+### Roles
+
+Apache
+````
+apache_sites_available:
+  app:
+    host: "{{env}}.{{app_domain_name}}"
+    ports: [80, 443]
+    directory_index: "app_{{env}}.php"
+    ssl:
+      port: 443
+      required: false
+      engine_enabled: true
+      cert_src_path: PATH_TO_SRC_CERTS
+    directives:
+      - 'Header set Access-Control-Allow-Origin "*"'
+  stc:
+    host: "{{env}}-stc.{{app_domain_name}}"
+    ports: [80, 443]
+    directory_index: "app_{{env}}.php"
+    ssl:
+      port: 443
+      required: false
+      engine_enabled: true
+      cert_src_path: PATH_TO_SRC_CERTS
+    directives:
+      - 'FileETag none'
+      - 'ExpiresActive On'
+      - 'ExpiresDefault "access plus 1 year"'
+      - 'Header set Access-Control-Allow-Origin "*"'
+````
+If ssl.engine_enabled then you must supply cert_src_path
