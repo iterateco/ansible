@@ -31,3 +31,4 @@ apache_sites_available:
       - 'ExpiresActive On'
       - 'ExpiresDefault "access plus 1 year"'
       - 'Header set Access-Control-Allow-Origin "*"'
+

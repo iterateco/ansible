@@ -10,5 +10,5 @@ ami_aws_region: us-east-1
 # Ubuntu 14.04 LTS Trusty HVM EBS-SSD boot
 ami_base_image: ami-10389d78
 
-aws_access_key: XXXXX
-aws_secret_key: XXXXX
+ami_aws_access_key: XXXXX
+ami_aws_secret_key: XXXXX

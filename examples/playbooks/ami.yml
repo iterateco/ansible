@@ -76,8 +76,8 @@
   tasks:
     - name: Register new ami
       ec2_ami:
-        aws_access_key={{ aws_access_key }}
-        aws_secret_key={{ aws_secret_key }}
+        aws_access_key={{ ami_aws_access_key }}
+        aws_secret_key={{ ami_aws_secret_key }}
         region={{ ami_aws_region }}
         instance_id={{ item }}
         wait=yes

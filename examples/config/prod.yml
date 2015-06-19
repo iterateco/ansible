@@ -2,7 +2,7 @@
 ---
 apache_sites_available:
   app:
-    host: "{{env}}.{{app_domain_name}}"
+    host: "{{app_domain_name}}"
     ports: [80, 443]
     directory_index: "app_{{env}}.php"
     ssl:
@@ -14,7 +14,7 @@ apache_sites_available:
       - 'SetEnvIf Request_URI "/{{apache_health_check_file}}" is_heartbeat_request=1'
       - 'CustomLog /var/log/apache2/{{env}}.{{app_domain_name}}.log common env=!is_heartbeat_request'
   stc:
-    host: "{{env}}-stc.{{app_domain_name}}"
+    host: "stc.{{app_domain_name}}"
     ports: [80, 443]
     directory_index: "app_{{env}}.php"
     ssl:
@@ -29,5 +29,5 @@ apache_sites_available:
       - 'SetEnvIf Request_URI "/{{apache_health_check_file}}" is_heartbeat_request=1'
       - 'CustomLog /var/log/apache2/{{env}}-stc.{{app_domain_name}}.log common env=!is_heartbeat_request'
 
-# crontabs:
-#   - "*/1 * * * * root TERM=dumb {{ app_command }} JOB_COMMAND --env={{ env }}"
+crontabs:
+  - "*/1 * * * * root TERM=dumb {{ app_command }} mgg:attachment-transcode-queue --env={{ env }} 2> /tmp/queue.cron.err"
