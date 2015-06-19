@@ -60,10 +60,7 @@ baseinstall_packages:
   - {name: python-pip, manager: apt}
   - {name: ansible, manager: pip}
   - {name: jinja2, manager: pip}
-  - {name: cherrypy, manager: pip}
   - {name: boto, manager: pip}
-  - {name: pycrypto, manager: pip}
-  - {name: ws4py, manager: pip}
-  - {name: virtualenv, manager: pip}
   - {name: uglify-js, manager: npm}
   - {name: uglifycss, manager: npm}
+  - {name: forever, manager: npm}
