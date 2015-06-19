@@ -5,10 +5,6 @@ apache_sites_available:
     host: "{{env}}.{{app_domain_name}}"
     ports: [80, 443]
     directory_index: "app_{{env}}.php"
-    basic_auth: 
-      authname: My Project
-      username: username
-      password: password
     ssl:
       port: 443
       required: false
@@ -32,6 +28,6 @@ apache_sites_available:
       - 'Header set Access-Control-Allow-Origin "*"'
       - 'SetEnvIf Request_URI "/{{apache_health_check_file}}" is_heartbeat_request=1'
       - 'CustomLog /var/log/apache2/{{env}}-stc.{{app_domain_name}}.log common env=!is_heartbeat_request'
-      
-crontabs:
-  - "*/1 * * * * root TERM=dumb {{ app_command }} mgg:attachment-transcode-queue --env={{ env }} 2> /tmp/queue.cron.err"
+
+# crontabs:
+#   - "*/1 * * * * root TERM=dumb {{ app_command }} JOB_COMMAND --env={{ env }}"
