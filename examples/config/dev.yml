@@ -6,9 +6,9 @@ apache_sites_available:
     ports: [80, 443]
     directory_index: "app_{{env}}.php"
     basic_auth: 
-      authname: Kohrgolf
-      username: mgg
-      password: goldengoals
+      authname: My Project
+      username: username
+      password: password
     ssl:
       port: 443
       required: false
