@@ -2,11 +2,13 @@
 ---
 app_domain_name: ansible.com
 app_name: ansible
+ssh_user: ubuntu
 
 apache_ports: [80, 443]
 apache_health_check_file: health.html
 
 bashprompt_base: ansible
+bashprompt_home: "/home/{{ ssh_user }}"
 
 php_memory_limit: 256M
 php_upload_max_filesize: 250M
@@ -17,7 +19,7 @@ php_display_startup_errors: Off
 
 mysql_root_password: localpass
 
-ssh_user: ubuntu
+
 
 
 # List of software to install for the base build.
