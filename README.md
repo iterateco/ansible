@@ -9,9 +9,7 @@ ansible-playbook -i ec2.py --user=ubuntu --private-key=yourkey.pem deploy.yml -e
 ansible-playbook -i ec2.py --user=ubuntu --private-key=yourkey.pem ami.yml
 ```
 
-Note that "env=prod roles=app" are essentially selectors for ec2 instances and group_vars.
-
-Target all EC2 machines with the tags env=prod and roles=app
+Target all EC2 machines with the tags env=prod and roles=app.
 
 ```
 -e "env=prod roles=app"
@@ -53,7 +51,7 @@ Install php only
 -e "env=dev roles=admin" --tags=install:php
 ```
 
-Install php,apache only
+Install php and apache only
 
 ```
 -e "env=dev roles=admin" --tags=install:php,install:apache
