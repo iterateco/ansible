@@ -1,0 +1,12 @@
+---
+- name: Create nodejs group
+  shell: addgroup --system nodejs
+
+- name: Create nodejs user
+  shell: adduser --system --home /home/nodejs --shell /bin/bash --ingroup nodejs --gecos NodeJs,,, nodejs
+
+- name: Create ssh directory
+  file: dest=/home/nodejs/.ssh mode=700 owner=nodejs group=nodejs state=directory
+
+- name: Create log directory
+  file: dest=/home/nodejs/log mode=755 owner=nodejs group=nodejs state=directory

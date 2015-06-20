@@ -1,0 +1,3 @@
+---
+- name: Perform nodejs tasks
+  include: nodejs.yml tags=nodejs
