@@ -43,7 +43,8 @@ ansible-playbook -i plugins/inventory/ec2.py --user=ubuntu services.yml --privat
 - [nodejs](#role-nodejs)
 - [php](#role-php)
 
-<a name="role-apache">### apache</a>
+### apache
+<a name="role-apache"></a>
 ````
 apache_ports: [80, 443]
 apache_health_check_file: health.html
@@ -81,13 +82,13 @@ For example:
 ```
 - { role: apache, apache_sites_enabled: ['app', 'stc'] }
 ```
-
-### bashprompt
 <a name="role-bashprompt"></a>
-to do
+### bashprompt
 
-### common
+*no configuration variables*
+
 <a name="role-common"></a>
+### common
 ```
 common_packages:
   - {name: acl, manager: apt}
@@ -131,13 +132,16 @@ common_packages:
   - {name: uglifycss, manager: npm}
   - {name: forever, manager: npm}
 ```
-### mysql
+
 <a name="role-mysql"></a>
+### mysql
+
 ```
 mysql_root_password: localpass
 ```
-### jenkins
+
 <a name="role-jenkins"></a>
+### jenkins
 ```
 jenkins_url: localhost
 jenkins_port: 8080
@@ -150,8 +154,8 @@ jenkins_plugins:
 
 ```
 
-### php
 <a name="role-php"></a>
+### php
 ```
 php_memory_limit: 256M
 php_upload_max_filesize: 250M
