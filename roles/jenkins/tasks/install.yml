@@ -1,0 +1,9 @@
+---
+- name: Download Jenkins apt key and install key
+  apt_key: url=http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key state=present
+
+- name: Add Jenkins repo as source
+  apt_repository: repo='deb http://pkg.jenkins-ci.org/debian binary/' state=present
+
+- name: Update apt then install Jenkins
+  apt: update_cache=yes cache_valid_time=3600 name=jenkins

@@ -1,13 +1,4 @@
 ---
-- name: Download Jenkins apt key and install key
-  apt_key: url=http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key state=present
-
-- name: Add Jenkins repo as source
-  apt_repository: repo='deb http://pkg.jenkins-ci.org/debian binary/' state=present
-
-- name: Update apt then install Jenkins
-  apt: update_cache=yes cache_valid_time=3600 name=jenkins
-
 # See http://stackoverflow.com/questions/23919744/how-to-restart-jenkins-using-ansible-and-wait-for-it-to-come-back
 # Can't use wait_for since the Jenkins *process* boots faster than its *web api*
 - name: Wait until Jenkins web API is available

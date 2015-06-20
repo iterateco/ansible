@@ -13,12 +13,3 @@
 
 - name: Permission AmazonElasticCacheClient Binary
   file: path=/usr/lib/php5/20121212/amazon-elasticache-cluster-client.so mode=0644
-
-- name: Add PHP elasticache.ini
-  template: src=elasticache.ini.j2 dest=/etc/php5/mods-available/elasticache.ini
-
-- name: Enable the elasticache.ini
-  command: php5enmod elasticache
-
-- name: Disable built-in memcached
-  command: php5dismod memcached

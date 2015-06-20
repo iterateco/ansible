@@ -1,2 +1,6 @@
 *.pyc
 *.DS_STORE
+ansible.cfg
+Vagrantfile
+Symfony/
+.vagrant/

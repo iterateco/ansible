@@ -1,3 +1,6 @@
 ---
-- name: Perform nodejs tasks
-  include: nodejs.yml tags=nodejs
+- name: Install nodejs
+  include: install.yml tags=nodejs,install,install:nodejs
+
+- name: Configure nodejs
+  include: configure.yml tags=nodejs,configure,configure:nodejs

@@ -1,3 +1,6 @@
 ---
-- name: Perform php config
-  include: php.yml tags=php
+- name: Install php
+  include: install.yml tags=php,install,install:php
+
+- name: Configure php
+  include: configure.yml tags=php,configure,configure:php

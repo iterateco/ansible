@@ -1,3 +1,6 @@
 ---
-- name: Perform mySQL tasks
-  include: mysql.yml tags=mysql
+- name: Install mysql
+  include: install.yml tags=mysql,install,install:mysql
+
+- name: Configure mysql
+  include: configure.yml tags=mysql,configure,configure:mysql

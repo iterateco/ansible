@@ -1,0 +1,7 @@
+---
+- name: Update apt
+  apt: update_cache=yes cache_valid_time=600 upgrade=full
+
+- name: Install apt packages
+  apt: pkg={{ item }} state=installed
+  with_items: php_apt_packages

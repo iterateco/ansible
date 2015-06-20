@@ -1,3 +1,6 @@
 ---
-- name: Perform elasticache tasks
-  include: elasticache.yml tags=elasticache
+- name: Install elasticache
+  include: install.yml tags=elasticache,install,install:elasticache
+
+- name: Configure elasticache
+  include: configure.yml tags=elasticache,configure,configure:elasticache

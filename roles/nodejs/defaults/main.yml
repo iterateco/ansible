@@ -1,0 +1,3 @@
+---
+nodejs_apt_packages:
+  - nodejs-legacy

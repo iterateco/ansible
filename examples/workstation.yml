@@ -2,16 +2,16 @@
 # Usage:
 # vagrant up
 # or:
-# ansible-playbook -i inventory/local workstation.yml -u vagrant  --private-key=~/.vagrant.d/insecure_private_key -e 'env=local'
+# ansible-playbook -i "host," workstation.yml -u vagrant --private-key=~/.vagrant.d/insecure_private_key -e 'env=local'
 ---
 - hosts: all
   sudo: true
 
   vars_files:
-    - group_vars/{{ env }}.yml
+    - group_vars/local.yml
 
   roles:
-    - baseinstall
+    - common
     - php
     - { role: apache, apache_sites_enabled: ['app', 'stc'] }
     - mysql

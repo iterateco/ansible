@@ -1,3 +1,6 @@
 ---
-- name: Perform apache tasks
-  include: apache.yml tags=apache
+- name: Install apache
+  include: install.yml tags=apache,install,install:apache
+
+- name: Configure apache
+  include: configure.yml tags=apache,configure,configure:apache
