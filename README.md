@@ -136,7 +136,7 @@ common_packages:
 ### crontab
 ```
 crontab_list:
-  - "*/1 * * * * root TERM=dumb {{ app_command }} JOB_COMMAND --env={{ env }}"
+  - "*/1 * * * * root JOB_COMMAND --env={{ env }}"
 ```
 
 <a name="role-elasticache"></a>
