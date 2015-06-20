@@ -9,8 +9,11 @@
 #
 # Note 2: you will probably need to run this script with your ec2.ini destination variables set to public ips.
 #
+# export AWS_ACCESS_KEY_ID='XXXX'
+# export AWS_SECRET_ACCESS_KEY='XXXX'
+# export EC2_OVERRIDE_DESTVAR='public'
 # Usage:
-# ansible-playbook -i ansible/playbooks/plugins/inventory/ec2.py --user=ubuntu --private-key=~/path/yourkey.pem ansible/playbooks/ami.yml
+# ansible-playbook -i /etc/ansible/plugins/inventory/ec2.py --user=ubuntu --private-key=~/path/yourkey.pem ami.yml
 ---
 - name: Create an instance
   hosts: localhost
@@ -49,7 +52,7 @@
   vars:
     ami: true
   roles:
-    - baseinstall
+    - common
   tasks:
     - name: Set init services to manual start
       shell: echo manual | sudo tee /etc/init/{{ item }}.override
@@ -76,8 +79,8 @@
   tasks:
     - name: Register new ami
       ec2_ami:
-        aws_access_key={{ ami_aws_access_key }}
-        aws_secret_key={{ ami_aws_secret_key }}
+        aws_access_key={{ lookup('env','AWS_ACCESS_KEY_ID') }}
+        aws_secret_key={{ lookup('env','AWS_SECRET_ACCESS_KEY') }}
         region={{ ami_aws_region }}
         instance_id={{ item }}
         wait=yes
