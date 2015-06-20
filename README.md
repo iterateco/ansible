@@ -150,6 +150,7 @@ crontab_list:
 
 ```
 mysql_root_password: localpass
+mysql_database_name: localdb
 ```
 
 <a name="role-jenkins"></a>
