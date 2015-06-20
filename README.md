@@ -63,6 +63,8 @@ ansible-playbook -i plugins/inventory/ec2.py --user=ubuntu services.yml --privat
 ```
 
 ## Role Configuration
+The following configuration values can be set in group_vars files and will override the defaults listed below.
+
 - [apache](#role-apache)
 - [bashprompt](#role-bashprompt)
 - [common](#role-common)
