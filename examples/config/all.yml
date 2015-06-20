@@ -58,6 +58,7 @@ baseinstall_packages:
   - {name: python-setuptools, manager: apt}
   - {name: python-dev, manager: apt}
   - {name: python-pip, manager: apt}
+  - {name: mysql-server-5.6, manager: apt}
   - {name: ansible, manager: pip}
   - {name: jinja2, manager: pip}
   - {name: boto, manager: pip}
