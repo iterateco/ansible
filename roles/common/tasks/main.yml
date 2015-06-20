@@ -11,7 +11,7 @@
 
 - name: Install apt packages
   apt: pkg={{ item.name }} state=installed
-  with_items: baseinstall_packages
+  with_items: common_packages
   when: item.manager == 'apt'
 
 - name: Update pip 
@@ -19,10 +19,10 @@
 
 - name: Install pip packages
   pip: name={{ item.name }} state=latest
-  with_items: baseinstall_packages
+  with_items: common_packages
   when: item.manager == 'pip'
 
 - name: Install npm packages
   npm: name={{ item.name }} global=yes
-  with_items: baseinstall_packages
+  with_items: common_packages
   when: item.manager == 'npm'
