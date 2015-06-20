@@ -33,6 +33,7 @@ ansible-playbook -i plugins/inventory/ec2.py --user=ubuntu services.yml --privat
 ```
 
 ### Roles
+[Apache](#role-apache)
 
 Apache configuration
 ````
@@ -67,3 +68,5 @@ apache_sites_available:
 
 App, stc are sample names of sites.  This way they can be referenced when enabling sites.
 For example:  - { role: apache, apache_sites_enabled: ['app', 'stc'] }
+
+<a name="role-apache"></a>
