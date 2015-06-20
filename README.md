@@ -27,6 +27,36 @@ Target all EC2 machines with the tags env=dev and roles app or admin and execute
 -e "env=dev roles=admin" --tags=apache,crontab
 ```
 
+Install all ansible roles
+
+```
+-e "env=dev roles=admin" --tags=install
+```
+
+Configure on all ansible roles
+
+```
+-e "env=dev roles=admin" --tags=configure
+```
+
+Configure php role only
+
+```
+-e "env=dev roles=admin" --tags=configure:php
+```
+
+Install php only
+
+```
+-e "env=dev roles=admin" --tags=install:php
+```
+
+Install php,apache only
+
+```
+-e "env=dev roles=admin" --tags=install:php,install:apache
+```
+
 Restart apache2 service
 ```
 ansible-playbook -i plugins/inventory/ec2.py --user=ubuntu services.yml --private-key=~/.ssh/yourkey.pem -e 'env=dev role=app service=apache2 state=restarted'
@@ -50,6 +80,10 @@ apache_ports: [80, 443]
 apache_health_check_file: health.html
 apache_ssl_path: /etc/apache2/certs
 apache_htpasswd_path: /etc/apache2/.htpasswd
+apache_apt_packages:
+  - apache2-utils
+  - apache2
+  - libapache2-mod-php5
 apache_sites_available:
   app:
     host: "{{env}}.{{app_domain_name}}"
@@ -94,47 +128,35 @@ bashprompt_home: /home/ubuntu
 <a name="role-common"></a>
 ### common
 ```
-common_packages:
-  - {name: acl, manager: apt}
-  - {name: git, manager: apt}
-  - {name: vim, manager: apt}
-  - {name: zip, manager: apt}
-  - {name: apache2, manager: apt}
-  - {name: mysql-client-5.6, manager: apt}
-  - {name: mysql-server-5.6, manager: apt}
-  - {name: curl, manager: apt}
-  - {name: ntp, manager: apt}
-  - {name: nodejs-legacy, manager: apt}
-  - {name: npm, manager: apt}
-  - {name: apache2-utils, manager: apt}
-  - {name: build-essential, manager: apt}
-  - {name: libssl-dev, manager: apt}
-  - {name: libexpat1-dev, manager: apt}
-  - {name: rsync, manager: apt}
-  - {name: memcached, manager: apt}
-  - {name: libapache2-mod-php5, manager: apt}
-  - {name: php5, manager: apt}
-  - {name: php-apc, manager: apt}
-  - {name: php-soap, manager: apt}
-  - {name: php-pear, manager: apt}
-  - {name: php5-cli, manager: apt}
-  - {name: php5-curl, manager: apt}
-  - {name: php5-mysql, manager: apt}
-  - {name: php5-intl, manager: apt}
-  - {name: php5-gd, manager: apt}
-  - {name: php5-mcrypt, manager: apt}
-  - {name: php5-memcached, manager: apt}
-  - {name: python-mysqldb, manager: apt}
-  - {name: python-keyczar, manager: apt}
-  - {name: python-setuptools, manager: apt}
-  - {name: python-dev, manager: apt}
-  - {name: python-pip, manager: apt}
-  - {name: ansible, manager: pip}
-  - {name: jinja2, manager: pip}
-  - {name: boto, manager: pip}
-  - {name: uglify-js, manager: npm}
-  - {name: uglifycss, manager: npm}
-  - {name: forever, manager: npm}
+common_apt_packages:
+  - acl
+  - git
+  - vim
+  - zip
+  - mysql-client-5.6
+  - curl
+  - ntp
+  - npm
+  - build-essential
+  - libssl-dev
+  - libexpat1-dev
+  - rsync
+  - memcached
+  - python-mysqldb
+  - python-keyczar
+  - python-setuptools
+  - python-dev
+  - python-pip
+
+common_pip_packages:
+  - ansible
+  - jinja2
+  - boto
+
+common_npm_packages:
+  - uglify-js
+  - uglifycss
+  - forever
 ```
 
 <a name="role-crontab"></a>
@@ -154,6 +176,8 @@ crontab_list:
 ```
 mysql_root_password: localpass
 mysql_database_name: localdb
+mysql_apt_packages:
+  - mysql-server-5.6
 ```
 
 <a name="role-jenkins"></a>
@@ -172,7 +196,10 @@ jenkins_plugins:
 
 <a name="role-nodejs"></a>
 ### nodejs
-*no configuration variables*
+```
+nodejs_apt_packages:
+  - nodejs-legacy
+```
 
 <a name="role-php"></a>
 ### php
@@ -183,6 +210,18 @@ php_max_file_uploads: 10
 php_max_execution_time: 120
 php_display_errors: Off
 php_display_startup_errors: Off
+php_apt_packages:
+  - php5
+  - php-apc
+  - php-soap
+  - php-pear
+  - php5-cli
+  - php5-curl
+  - php5-mysql
+  - php5-intl
+  - php5-gd
+  - php5-mcrypt
+  - php5-memcached
 ```
 
 
