@@ -10,7 +10,7 @@
   {%- endif %}
 
   DirectoryIndex {{ virtual_host.directory_index }}
-  DocumentRoot {{ app_dir_web }}
+  DocumentRoot {{ virtual_host.document_root }}
   ServerName {{ virtual_host.host }}
 
   {%if virtual_host.directives is defined -%}
@@ -19,7 +19,7 @@
   {% endfor %}
   {%- endif %}
 
-  <Directory "{{ app_dir_web }}">
+  <Directory "{{ virtual_host.document_root }}">
     AllowOverride All
     Allow from All
     Options FollowSymLinks ExecCGI

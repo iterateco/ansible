@@ -12,6 +12,7 @@ apache_sites_available:
     host: "{{env}}.{{app_domain_name}}"
     ports: [80, 443]
     directory_index: "app_{{env}}.php"
+    document_root: /var/www/current/Symfony/web
     ssl:
       port: 443
       required: false
@@ -22,6 +23,7 @@ apache_sites_available:
     host: "{{env}}-stc.{{app_domain_name}}"
     ports: [80, 443]
     directory_index: "app_{{env}}.php"
+    document_root: /var/www/current/Symfony/web
     ssl:
       port: 443
       required: false

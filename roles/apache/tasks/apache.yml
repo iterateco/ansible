@@ -44,7 +44,7 @@
   with_items:
     - "{{ apache_sites_enabled }}"
 
-- name: Configure apache2 ssl mod (local-only)
+- name: Configure apache2 ssl mod
   command: a2enmod ssl
   when: apache_sites_available[item].ssl.engine_enabled is defined and apache_sites_available[item].ssl.engine_enabled
   with_items:

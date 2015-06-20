@@ -9,6 +9,7 @@
     release_dir_prefix: /var/www
     release_dir_parent: releases
     parameters_dir: Symfony/app/config
+    app_dir_root: /var/www/current
 
   tasks:
 

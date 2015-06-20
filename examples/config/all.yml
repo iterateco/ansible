@@ -3,16 +3,12 @@
 app_domain_name: ansible.com
 app_name: ansible
 
-app_dir_web: /var/www/current/Symfony/web
-app_dir_root: /var/www/current
-app_command: php /var/www/current/Symfony/app/console
-
 apache_ports: [80, 443]
 apache_health_check_file: health.html
 
 php_memory_limit: 256M
 php_upload_max_filesize: 250M
-php_max_file_uploads: 10
+php_max_file_uploads: 20
 php_max_execution_time: 120
 php_display_errors: Off
 php_display_startup_errors: Off

@@ -5,6 +5,7 @@ apache_sites_available:
     host: "{{env}}.{{app_domain_name}}"
     ports: [80, 443]
     directory_index: "app_{{env}}.php"
+    document_root: /var/www/current/Symfony/web
     ssl:
       port: 443
       required: false
@@ -17,6 +18,7 @@ apache_sites_available:
     host: "{{env}}-stc.{{app_domain_name}}"
     ports: [80, 443]
     directory_index: "app_{{env}}.php"
+    document_root: /var/www/current/Symfony/web
     ssl:
       port: 443
       required: false
@@ -29,5 +31,5 @@ apache_sites_available:
       - 'SetEnvIf Request_URI "/{{apache_health_check_file}}" is_heartbeat_request=1'
       - 'CustomLog /var/log/apache2/{{env}}-stc.{{app_domain_name}}.log common env=!is_heartbeat_request'
 
-# crontabs:
-#   - "*/1 * * * * root TERM=dumb {{ app_command }} JOB_COMMAND --env={{ env }}"
+crontab_list:
+  - "*/1 * * * * root php /var/www/current/Symfony/app/console JOB_COMMAND --env={{ env }}"
