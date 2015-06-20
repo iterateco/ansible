@@ -32,7 +32,7 @@ Restart apache2 service
 ansible-playbook -i plugins/inventory/ec2.py --user=ubuntu services.yml --private-key=~/.ssh/yourkey.pem -e 'env=dev role=app service=apache2 state=restarted'
 ```
 
-### Role Configuration
+## Role Configuration
 - [apache](#role-apache)
 - [bashprompt](#role-bashprompt)
 - [common](#role-common)
@@ -44,7 +44,7 @@ ansible-playbook -i plugins/inventory/ec2.py --user=ubuntu services.yml --privat
 - [php](#role-php)
 
 <a name="role-apache"></a>
-# apache
+### apache
 ````
 apache_ports: [80, 443]
 apache_health_check_file: health.html
@@ -78,13 +78,16 @@ apache_sites_available:
 ````
 
 App, stc are sample names of sites.  This way they can be referenced when enabling sites.
-For example:  - { role: apache, apache_sites_enabled: ['app', 'stc'] }
+For example:  
+```
+- { role: apache, apache_sites_enabled: ['app', 'stc'] }
+```
 
-# bashprompt
+### bashprompt
 <a name="role-bashprompt"></a>
 to do
 
-# common
+### common
 <a name="role-common"></a>
 ```
 common_packages:
@@ -129,12 +132,12 @@ common_packages:
   - {name: uglifycss, manager: npm}
   - {name: forever, manager: npm}
 ```
-# mysql
+### mysql
 <a name="role-mysql"></a>
 ```
 mysql_root_password: localpass
 ```
-# jenkins
+### jenkins
 <a name="role-jenkins"></a>
 ```
 jenkins_url: localhost
@@ -148,7 +151,7 @@ jenkins_plugins:
 
 ```
 
-# php
+### php
 <a name="role-php"></a>
 ```
 php_memory_limit: 256M
