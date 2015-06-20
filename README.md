@@ -135,7 +135,7 @@ common_packages:
 <a name="role-crontab"></a>
 ### crontab
 ```
-crontab:
+crontab_list:
   - "*/1 * * * * root TERM=dumb {{ app_command }} JOB_COMMAND --env={{ env }}"
 ```
 
