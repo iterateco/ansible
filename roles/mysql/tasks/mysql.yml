@@ -1,7 +1,4 @@
 ---
-- name: install mysql server
-  apt: pkg=mysql-server-5.6 state=installed
-
 - name: start mysql server
   service: name=mysql state=started
 
