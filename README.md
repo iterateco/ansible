@@ -55,6 +55,7 @@ apache_sites_available:
     host: "{{env}}.{{app_domain_name}}"
     ports: [80, 443]
     directory_index: "app_{{env}}.php"
+    document_root: /var/www/current/Symfony/web
     basic_auth: # optional
       authname: MySite
       username: myusername
@@ -70,6 +71,7 @@ apache_sites_available:
     host: "{{env}}-stc.{{app_domain_name}}"
     ports: [80]
     directory_index: "app_{{env}}.php"
+    document_root: /var/www/current/Symfony/web
     directives:
       - 'FileETag none'
       - 'ExpiresActive On'
