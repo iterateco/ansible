@@ -84,7 +84,6 @@ For example:
 ```
 <a name="role-bashprompt"></a>
 ### bashprompt
-
 *no configuration variables*
 
 <a name="role-common"></a>
@@ -133,6 +132,17 @@ common_packages:
   - {name: forever, manager: npm}
 ```
 
+<a name="role-crontabs"></a>
+### crontabs
+```
+crontabs:
+  - "*/1 * * * * root TERM=dumb {{ app_command }} JOB_COMMAND --env={{ env }}"
+```
+
+<a name="role-elasticache"></a>
+### elasticache
+*no configuration variables*
+
 <a name="role-mysql"></a>
 ### mysql
 
@@ -153,6 +163,10 @@ jenkins_plugins:
   - slack
 
 ```
+
+<a name="role-nodejs"></a>
+### nodejs
+*no configuration variables*
 
 <a name="role-php"></a>
 ### php
