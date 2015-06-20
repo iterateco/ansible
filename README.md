@@ -132,10 +132,10 @@ common_packages:
   - {name: forever, manager: npm}
 ```
 
-<a name="role-crontabs"></a>
-### crontabs
+<a name="role-crontab"></a>
+### crontab
 ```
-crontabs:
+crontab:
   - "*/1 * * * * root TERM=dumb {{ app_command }} JOB_COMMAND --env={{ env }}"
 ```
 
