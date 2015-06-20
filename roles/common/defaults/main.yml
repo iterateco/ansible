@@ -1,5 +1,5 @@
 ---
-baseinstall_packages:
+common_packages:
   - {name: acl, manager: apt}
   - {name: git, manager: apt}
   - {name: vim, manager: apt}

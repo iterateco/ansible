@@ -12,7 +12,7 @@ apache_health_check_file: health.html
 
 php_memory_limit: 256M
 php_upload_max_filesize: 250M
-php_max_file_uploads: 20
+php_max_file_uploads: 10
 php_max_execution_time: 120
 php_display_errors: Off
 php_display_startup_errors: Off
@@ -24,7 +24,8 @@ ssh_user: ubuntu
 
 # List of software to install for the base build.
 # All other builds will be applied on top of this.
-baseinstall_packages:
+# see roles/common/defaults/main.yml for defaults
+common_packages:
   - {name: acl, manager: apt}
   - {name: git, manager: apt}
   - {name: vim, manager: apt}
