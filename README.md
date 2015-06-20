@@ -88,6 +88,7 @@ For example:
 ### bashprompt
 ```
 bashprompt_base: localhost
+bashprompt_home: /home/ubuntu
 ```
 
 <a name="role-common"></a>
