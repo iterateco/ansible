@@ -1,6 +1,6 @@
 # local environment ansible variables
 ---
-app_database_name: "{{app_name}}_{{env}}"
+mysql_database_name: "{{app_name}}_{{env}}"
 
 php_display_errors: On
 php_display_startup_errors: On

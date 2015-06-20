@@ -3,7 +3,7 @@
   service: name=mysql state=started
 
 - name: Create a new database if not exists
-  mysql_db: name={{ app_database_name }} state=present
+  mysql_db: name={{ mysql_database_name }} state=present
 
 # - name: Update app database permission
 #   mysql_user: name={{ app_database_user }} host={{ item }} password={{ app_database_password }} priv={{ app_database_name }}.*:ALL,GRANT
