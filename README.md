@@ -86,7 +86,7 @@ For example:
 ```
 <a name="role-bashprompt"></a>
 ### bashprompt
-*no configuration variables*
+bashprompt_base: localhost
 
 <a name="role-common"></a>
 ### common
