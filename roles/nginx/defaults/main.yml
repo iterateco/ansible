@@ -1,0 +1,4 @@
+---
+nginx_apt_packages:
+  - nginx-full
+  - passenger

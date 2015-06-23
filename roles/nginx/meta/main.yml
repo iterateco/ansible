@@ -1,0 +1,4 @@
+---
+# needs ruby variables
+dependencies:
+  - { role: ruby }

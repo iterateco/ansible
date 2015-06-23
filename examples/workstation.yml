@@ -16,3 +16,11 @@
     - { role: apache, apache_sites_enabled: ['app', 'stc'] }
     - mysql
     - bashprompt
+
+
+  # roles:
+  #   - common
+  #   - ruby
+  #   - { role: nginx, nginx_sites_enabled: ['app'] }
+  #   - mysql
+  #   - bashprompt

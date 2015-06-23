@@ -1,11 +1,6 @@
 # This script is used to install the core set of software
 # that's used by all machines, for all environments
 ---
-# - name: Add apt repositories
-#   apt_repository: repo={{ item }}
-#   with_items: packages_apt_repositories
-#   when: packages_apt_repositories is defined
-
 - name: Update apt
   apt: update_cache=yes cache_valid_time=600 upgrade=full
 
@@ -26,3 +21,8 @@
   npm: name={{ item }} global=yes
   with_items: common_npm_packages
   when: common_npm_packages is defined
+
+- name: Install gem packages
+  gem: name={{ item }} state=latest user_install=no
+  with_items: common_gem_packages
+  when: common_gem_packages is defined

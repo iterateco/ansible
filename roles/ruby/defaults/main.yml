@@ -1,0 +1,28 @@
+---
+ruby_home: /home/ubuntu
+ruby_path: /usr/local/bin/ruby
+ruby_version: 2.2.2
+ruby_apt_packages:
+  - curl
+  - zlib1g-dev
+  - build-essential
+  - libssl-dev
+  - libreadline-dev
+  - libyaml-dev
+  - libsqlite3-dev
+  - sqlite3
+  - libxml2-dev
+  - libxslt1-dev
+  - libcurl4-openssl-dev
+  - python-software-properties
+  - libffi-dev
+  - libmysqlclient-dev # needed for mysql gem
+
+
+# the following packages might be needed for rails
+# installing the two gems below removed Could not find a JavaScript runtime
+# gem 'execjs'
+# gem 'therubyracer'
+
+# some people suggest using nodejs-legacy apt package
+# nodejs-legacy # needed for rails

@@ -1,0 +1,10 @@
+---
+- stat: path={{ ruby_path }}
+  register: ruby_installed
+
+- name: Install ruby
+  include: install.yml tags=ruby,install,install:ruby
+  when: ruby_installed.stat.exists == False
+
+# - name: Configure ruby
+#   include: configure.yml tags=ruby,configure,configure:ruby

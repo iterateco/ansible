@@ -20,49 +20,7 @@ php_display_startup_errors: Off
 mysql_root_password: localpass
 
 
+# rail configuration
+# common_gem_packages:
+#   - bundler
 
-
-# List of software to install for the base build.
-# All other builds will be applied on top of this.
-# see roles/common/defaults/main.yml for defaults
-common_packages:
-  - {name: acl, manager: apt}
-  - {name: git, manager: apt}
-  - {name: vim, manager: apt}
-  - {name: zip, manager: apt}
-  - {name: apache2, manager: apt}
-  - {name: mysql-client-5.6, manager: apt}
-  - {name: curl, manager: apt}
-  - {name: ntp, manager: apt}
-  - {name: nodejs-legacy, manager: apt}
-  - {name: npm, manager: apt}
-  - {name: apache2-utils, manager: apt}
-  - {name: build-essential, manager: apt}
-  - {name: libssl-dev, manager: apt}
-  - {name: libexpat1-dev, manager: apt}
-  - {name: rsync, manager: apt}
-  - {name: memcached, manager: apt}
-  - {name: libapache2-mod-php5, manager: apt}
-  - {name: php5, manager: apt}
-  - {name: php-apc, manager: apt}
-  - {name: php-soap, manager: apt}
-  - {name: php-pear, manager: apt}
-  - {name: php5-cli, manager: apt}
-  - {name: php5-curl, manager: apt}
-  - {name: php5-mysql, manager: apt}
-  - {name: php5-intl, manager: apt}
-  - {name: php5-gd, manager: apt}
-  - {name: php5-mcrypt, manager: apt}
-  - {name: php5-memcached, manager: apt}
-  - {name: python-mysqldb, manager: apt}
-  - {name: python-keyczar, manager: apt}
-  - {name: python-setuptools, manager: apt}
-  - {name: python-dev, manager: apt}
-  - {name: python-pip, manager: apt}
-  - {name: mysql-server-5.6, manager: apt}
-  - {name: ansible, manager: pip}
-  - {name: jinja2, manager: pip}
-  - {name: boto, manager: pip}
-  - {name: uglify-js, manager: npm}
-  - {name: uglifycss, manager: npm}
-  - {name: forever, manager: npm}

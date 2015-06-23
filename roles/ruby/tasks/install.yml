@@ -1,0 +1,28 @@
+---
+- name: Update apt
+  apt: update_cache=yes cache_valid_time=600 upgrade=full
+
+- name: Install apt packages
+  apt: pkg={{ item }} state=installed
+  with_items: ruby_apt_packages
+
+- name: Set release_dir variable path
+  set_fact: ruby_build_dir=/tmp/ruby-{{ruby_version}}
+
+- name: Download ruby
+  get_url: url=http://ftp.ruby-lang.org/pub/ruby/2.2/ruby-{{ruby_version}}.tar.gz dest=/tmp/ruby-{{ruby_version}}.tar.gz
+
+- name: Unarchive ruby
+  command: tar -xzvf /tmp/ruby-{{ruby_version}}.tar.gz -C /tmp
+
+- name: Configure ruby
+  command: './configure chdir={{ ruby_build_dir }}'
+
+- name: Make ruby
+  command: 'make chdir={{ ruby_build_dir }}'
+
+- name: Make ruby install
+  command: 'make install chdir={{ ruby_build_dir }}'
+
+- name: Update gemrc
+  lineinfile: 'dest={{ ruby_home }}/.gemrc create=yes line="gem: --no-ri --no-rdoc" insertafter=EOF'

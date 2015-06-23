@@ -34,3 +34,11 @@ apache_sites_available:
       - 'ExpiresDefault "access plus 1 year"'
       - 'Header set Access-Control-Allow-Origin "*"'
 
+
+
+# nginx_sites_available:
+#   app:
+#     host: "{{env}}.{{app_domain_name}}"
+#     rails_env: development
+#     document_root: /var/www/current/iterate/public
+

@@ -1,0 +1,6 @@
+---
+- name: Install nginx
+  include: install.yml tags=nginx,install,install:nginx
+
+- name: Configure nginx
+  include: configure.yml tags=nginx,install,configure:nginx

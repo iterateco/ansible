@@ -1,0 +1,43 @@
+{% set virtual_host = nginx_sites_available[item] %}
+
+server {
+        listen 80 default_server;
+        listen [::]:80 default_server ipv6only=on;
+
+        server_name {{ virtual_host.host }};
+        passenger_enabled on;
+
+        rails_env    {{ virtual_host.rails_env }};
+        root         {{ virtual_host.document_root }};
+
+        # redirect server error pages to the static page /50x.html
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+
+        gzip on;
+        gzip_disable "msie6";
+
+        gzip_vary on;
+        gzip_proxied any;
+        gzip_comp_level 6;
+        gzip_buffers 16 8k;
+        gzip_http_version 1.1;
+        gzip_types text/plain text/css application/json application/javascript application/x-javascript text/xml application/xml application/xml+rss text/javascript;
+
+        # this method doesn't work with cloudfront
+        #location ~ ^/(assets)/  {
+        #    gzip_static on; # to serve pre-gzipped version
+        #    expires max;
+        #    add_header Cache-Control public;
+        #}
+
+        location ~ ^/assets/ {
+            expires 1y;
+            add_header Cache-Control public;
+
+            add_header ETag "";
+            break;
+        }
+}
