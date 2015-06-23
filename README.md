@@ -62,6 +62,34 @@ Restart apache2 service
 ansible-playbook -i plugins/inventory/ec2.py --user=ubuntu services.yml --private-key=~/.ssh/yourkey.pem -e 'env=dev role=app service=apache2 state=restarted'
 ```
 
+## Playbooks
+
+Example PHP playbook
+```
+---
+- hosts: all
+  sudo: true
+  roles:
+    - common
+    - php
+    - { role: apache, apache_sites_enabled: ['app', 'stc'] }
+    - mysql
+    - bashprompt
+```
+
+Example Rails playbook
+```
+---
+- hosts: all
+  sudo: true
+  roles:
+    - common
+    - ruby
+    - { role: nginx, nginx_sites_enabled: ['app'] }
+    - mysql
+    - bashprompt
+```
+
 ## Role Configuration
 The following configuration values can be set in group_vars files and will override the defaults listed below.
 
