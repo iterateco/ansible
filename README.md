@@ -72,8 +72,10 @@ The following configuration values can be set in group_vars files and will overr
 - [elasticache](#role-elasticache)
 - [jenkins](#role-jenkins)
 - [mysql](#role-mysql)
+- [nginx](#role-nginx)
 - [nodejs](#role-nodejs)
 - [php](#role-php)
+- [ruby](#role-ruby)
 
 <a name="role-apache"></a>
 ### apache
@@ -196,6 +198,19 @@ jenkins_plugins:
 
 ```
 
+<a name="role-nginx"></a>
+### nginx
+````
+nginx_apt_packages:
+  - nginx-full
+  - passenger
+nginx_sites_available:
+  app:
+    host: "{{env}}.{{app_domain_name}}"
+    rails_env: development
+    document_root: /var/www/current/public
+```
+
 <a name="role-nodejs"></a>
 ### nodejs
 ```
@@ -226,5 +241,36 @@ php_apt_packages:
   - php5-memcached
 ```
 
+<a name="role-ruby"></a>
+### ruby
+```
+ruby_home: /home/ubuntu
+ruby_path: /usr/local/bin/ruby
+ruby_version: 2.2.2
+ruby_apt_packages:
+  - curl
+  - zlib1g-dev
+  - build-essential
+  - libssl-dev
+  - libreadline-dev
+  - libyaml-dev
+  - libsqlite3-dev
+  - sqlite3
+  - libxml2-dev
+  - libxslt1-dev
+  - libcurl4-openssl-dev
+  - python-software-properties
+  - libffi-dev
+  - libmysqlclient-dev
+```
 
+The following packages might be needed for rails as without them passenger was throwing a "execJs: 'Could not find a JavaScript runtime'" error.
+
+- gem 'execjs'
+- gem 'therubyracer'
+
+Please note that some people suggest using nodejs-legacy apt package
+nodejs-legacy # needed for rails
+
+http://stackoverflow.com/questions/9202324/execjs-could-not-find-a-javascript-runtime-but-execjs-and-therubyracer-are-in
 
