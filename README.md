@@ -63,8 +63,9 @@ ansible-playbook -i plugins/inventory/ec2.py --user=ubuntu services.yml --privat
 ```
 
 ## Playbooks
+See examples in /examples.
 
-Example PHP playbook
+Example PHP playbook. ```apache_sites_enabled``` most be defined in group_vars.
 ```
 ---
 - hosts: all
@@ -77,7 +78,7 @@ Example PHP playbook
     - bashprompt
 ```
 
-Example Rails playbook
+Example Rails playbook. ```nginx_sites_enabled``` most be defined in group_vars.
 ```
 ---
 - hosts: all
