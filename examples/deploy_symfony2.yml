@@ -1,0 +1,54 @@
+# Deploys code to servers (e.g. to dev or prod)
+---
+- hosts: "&{{ env | expand('tag_Env_') }}:{{ roles | expand('tag_Roles_') }}"
+  sudo: True
+  #accelerate: true
+  vars_files:
+    - group_vars/{{ env }}.yml
+  vars:
+    deploy_dir_prefix: /var/www
+    deploy_dir_parent: releases
+    
+    deploy_site: SymfonyFolder
+    deploy_path: ~/sites
+
+    deploy_src: "{{ deploy_path }}/{{ deploy_site }}"
+    deploy_dest: "{{ deploy_dir_prefix }}/{{ deploy_dir_parent }}/{{ build_id }}"
+    deploy_secrets_src: "{{ deploy_src }}/app/config/parameters_{{ env }}.yml"
+    deploy_secrets_dest: "{{ deploy_dest }}/{{ deploy_site }}/app/config/parameters.yml"
+    deploy_exclude_path: "{{ deploy_src }}/rsync_exclude_{{ env }}"
+
+  tasks:
+    - name: Create release directory
+      file: dest={{ deploy_dest }} mode=755 owner=ubuntu group=ubuntu state=directory
+
+    - name: Rsync
+      synchronize: src={{ deploy_src }} dest={{ deploy_dest }} delete=yes rsync_opts="--exclude-from={{ deploy_exclude_path }}"
+
+    - name: Permission release directory
+      file: path={{ deploy_dest }} owner=ubuntu group=ubuntu state=directory recurse=yes
+
+    - name: Create app/cache app/logs
+      file: dest={{ item }} state=directory owner=www-data group=www-data
+      with_items:
+        - "{{ deploy_dest }}/{{ deploy_site }}/app/cache"
+        - "{{ deploy_dest }}/{{ deploy_site }}/app/logs"
+
+    - name: Set app/cache app/logs permissions
+      command: setfacl -R -m u:www-data:rwX -m u:ubuntu:rwX {{ item }} & setfacl -dR -m u:www-data:rwX -m u:ubuntu:rwX {{ item }}
+      with_items:
+        - "{{ deploy_dest }}/{{ deploy_site }}/app/cache"
+        - "{{ deploy_dest }}/{{ deploy_site }}/app/logs"
+
+    - name: Copy credentials
+      copy: src={{ deploy_secrets_src }} dest={{ deploy_secrets_dest }} owner=ubuntu group=ubuntu
+
+    - name: Warm up cache
+      remote_user: ubuntu
+      command: php {{ deploy_dest }}/{{ deploy_site }}/app/console cache:clear --env=dev --no-debug
+
+    - name: Create symlink
+      file: dest={{ deploy_dir_prefix }}/current src={{ deploy_dest }} state=link
+
+    - name: Delete all previous release, except the one we just created
+      shell: "find '{{ deploy_dir_prefix }}/{{ deploy_dir_parent }}' -maxdepth 1 ! -name '{{ deploy_dir_parent }}' ! -name '{{ build_id }}' | xargs rm -rf"
