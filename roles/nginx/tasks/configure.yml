@@ -6,6 +6,7 @@
   template: src=nginx.vhost.conf.j2  dest=/etc/nginx/sites-available/{{ nginx_sites_available[item].host }}
   with_items:
     - "{{ nginx_sites_enabled }}"
+  when: nginx_sites_enabled is defined
     
 - name: Disable default
   file: path=/etc/nginx/sites-enabled/default state=absent
@@ -14,6 +15,7 @@
   file: src=/etc/nginx/sites-available/{{ nginx_sites_available[item].host }} dest=/etc/nginx/sites-enabled/{{ nginx_sites_available[item].host }} state=link
   with_items:
     - "{{ nginx_sites_enabled }}"
+  when: nginx_sites_enabled is defined
 
 - name: Reload nginx
   service: name=nginx state=reloaded

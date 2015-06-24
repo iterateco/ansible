@@ -17,7 +17,15 @@
     - mysql
     - bashprompt
 
+# example with no virtual host
+  # roles:
+  #   - common
+  #   - php
+  #   - apache
+  #   - mysql
+  #   - bashprompt
 
+# example for ruby/nginx setup
   # roles:
   #   - common
   #   - ruby
