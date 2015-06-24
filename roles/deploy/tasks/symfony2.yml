@@ -1,17 +1,24 @@
 ---
+# -e 'deploy_src=/path/to/local deploy_secrets_src=/path/to/local/secrets/file deploy_exclude_path=/path/to/exclude/file deploy_build_id=XXXX' --tags=symfony2
+- name: Set deploy_dir_prefix
+  set_fact: deploy_dir_prefix="/var/www"
 
-    # deploy_dir_prefix: /var/www
-    # deploy_dir_parent: releases
-    
-    # deploy_site: SymfonyFolder
-    # deploy_path: ~/sites
+- name: Set deploy_dir_parent
+  set_fact: deploy_dir_parent="releases"
 
-    # deploy_src: "{{ deploy_path }}/{{ deploy_site }}"
-    # deploy_dest: "{{ deploy_dir_prefix }}/{{ deploy_dir_parent }}/{{ deploy_build_id }}"
-    # deploy_secrets_src: "{{ deploy_src }}/app/config/parameters_{{ env }}.yml"
-    # deploy_secrets_dest: "{{ deploy_dest }}/{{ deploy_site }}/app/config/parameters.yml"
-    # deploy_exclude_path: "{{ deploy_src }}/rsync_exclude_{{ env }}"
-    
+- name: Set deploy_dest
+  set_fact: deploy_dest={{ deploy_dir_prefix }}/{{ deploy_dir_parent }}/{{ deploy_build_id }}
+
+- name: Set deploy_src
+  shell: "basename '{{ deploy_src }}'"
+  register: site
+
+- name: Set deploy_site variable
+  set_fact: deploy_site={{ site.stdout }}
+
+- name: Set deploy_secrets_dest
+  set_fact: deploy_secrets_dest={{ deploy_dest }}/{{ deploy_site }}/app/config/parameters.yml
+
 - name: Create release directory
   file: dest={{ deploy_dest }} mode=755 owner=ubuntu group=ubuntu state=directory
 
@@ -33,7 +40,7 @@
     - "{{ deploy_dest }}/{{ deploy_site }}/app/cache"
     - "{{ deploy_dest }}/{{ deploy_site }}/app/logs"
 
-- name: Copy credentials
+- name: Copy secrets
   copy: src={{ deploy_secrets_src }} dest={{ deploy_secrets_dest }} owner=ubuntu group=ubuntu
 
 - name: Warm up cache
@@ -43,5 +50,6 @@
 - name: Create symlink
   file: dest={{ deploy_dir_prefix }}/current src={{ deploy_dest }} state=link
 
+# this will now work if custom deploy_dest is used
 - name: Delete all previous release, except the one we just created
   shell: "find '{{ deploy_dir_prefix }}/{{ deploy_dir_parent }}' -maxdepth 1 ! -name '{{ deploy_dir_parent }}' ! -name '{{ deploy_build_id }}' | xargs rm -rf"
