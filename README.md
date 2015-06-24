@@ -98,6 +98,7 @@ The following configuration values can be set in group_vars files and will overr
 - [bashprompt](#role-bashprompt)
 - [common](#role-common)
 - [crontab](#role-crontab)
+- [deploy](#role-deploy)
 - [elasticache](#role-elasticache)
 - [jenkins](#role-jenkins)
 - [mysql](#role-mysql)
@@ -197,6 +198,30 @@ common_npm_packages:
 ```
 crontab_list:
   - "*/1 * * * * root JOB_COMMAND --env={{ env }}"
+```
+
+<a name="role-deploy"></a>
+### deploy
+deploy a nodejs project
+```
+ansible-playbook -i ec2.py deploy.yml -u ubuntu --private-key=~/key.pem --tags=nodejs
+-e 'env=prod roles=app deploy_src=site deploy_secrets_src=secrets.json deploy_exclude_path=rsync_exclude deploy_build_id=myBuildId'
+```
+
+deploy a symfony2 project
+```
+ansible-playbook -i ec2.py deploy.yml -u ubuntu --private-key=~/key.pem --tags=symfony2
+-e 'env=prod roles=app deploy_src=site deploy_secrets_src=secrets.json deploy_exclude_path=rsync_exclude deploy_build_id=myBuildId'
+```
+
+All options are as follows
+```
+deploy_src: "/path/to/my/site"
+deploy_secrets_src: "/path/to/local/secrets.json"
+deploy_secrets_dest: "/path/to/remote/secrets.json" #optional
+deploy_exclude_path: "/path/to/rsync_exclude"
+deploy_dest: "/path/to/deploy/directory" #optional
+deploy_build_id: "myBuildId" 
 ```
 
 <a name="role-elasticache"></a>
