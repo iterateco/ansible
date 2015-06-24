@@ -1,0 +1,6 @@
+---
+- name: Deploy nodejs
+  include: nodejs.yml tags=nodejs
+
+- name: Deploy symfony2
+  include: symfony2.yml tags=symfony2

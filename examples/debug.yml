@@ -2,5 +2,21 @@
 ---
 - hosts: all
   tasks:
+    - name: "deploy src"
+      shell: "basename '{{ deploy_src }}'"
+      register: deploy_site
+
+    - name: Set release_dir variable path
+      set_fact: deploy_site_value={{ deploy_site.stdout }}
+      
+    - name: Set deploy_dir_prefix variable path
+      set_fact: deploy_dir_prefix="/tmp"
+
+    - name: Set release_dir variable path
+      set_fact: deploy_dir_parent="releases"
+
+    - name: Set set_fact
+      set_fact: deploy_tmp_dir={{ deploy_dir_prefix }}/{{ deploy_dir_parent }}/{{ deploy_build_id }}
+
     - name: Dump all vars
-      action: template src=templates/debug.j2 dest=/tmp/ansible.all
+      action: template src=../templates/debug.j2 dest=/tmp/ansible.all
