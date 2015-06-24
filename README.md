@@ -204,16 +204,23 @@ crontab_list:
 ### deploy
 deploy a nodejs project
 ```
-ansible-playbook -i ec2.py examples/deploy.yml -u ubuntu --private-key=~/key.pem --tags=nodejs \
--e 'env=prod roles=app deploy_src=/path/to/my/site deploy_secrets_src=secrets.json \ deploy_exclude_path=rsync_exclude deploy_build_id=myBuildId'
+ansible-playbook -i ec2.py deploy.yml -u ubuntu --private-key=~/key.pem --tags=nodejs
+-e 'env=prod roles=app deploy_src=site deploy_secrets_src=secrets.json deploy_exclude_path=rsync_exclude deploy_build_id=myBuildId'
 ```
+
+deploy a symfony2 project
+```
+ansible-playbook -i ec2.py deploy.yml -u ubuntu --private-key=~/key.pem --tags=symfony2
+-e 'env=prod roles=app deploy_src=site deploy_secrets_src=secrets.json deploy_exclude_path=rsync_exclude deploy_build_id=myBuildId'
+```
+
 All options are as follows
 ```
 deploy_src: "/path/to/my/site"
 deploy_secrets_src: "/path/to/local/secrets.json"
-deploy_secrets_dest: "/path/to/remote/secrets.json" # optional defaults to /home/nodejs/sites/mysite/config/secrets.json
+deploy_secrets_dest: "/path/to/remote/secrets.json" #optional
 deploy_exclude_path: "/path/to/rsync_exclude"
-deploy_dest: "/path/to/deploy/directory"  # optional defaults to /home/nodejs/sites
+deploy_dest: "/path/to/deploy/directory" #optional
 deploy_build_id: "myBuildId" 
 ```
 
