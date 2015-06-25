@@ -66,7 +66,7 @@ ansible-playbook -i plugins/inventory/ec2.py --user=ubuntu services.yml --privat
 See examples in /examples.
 
 Example PHP playbook. ```apache_sites_enabled``` most be defined in group_vars.
-```
+```yml
 ---
 - hosts: all
   sudo: true
@@ -79,7 +79,7 @@ Example PHP playbook. ```apache_sites_enabled``` most be defined in group_vars.
 ```
 
 Example Rails playbook. ```nginx_sites_enabled``` most be defined in group_vars.
-```
+```yml
 ---
 - hosts: all
   sudo: true
@@ -109,7 +109,7 @@ The following configuration values can be set in group_vars files and will overr
 
 <a name="role-apache"></a>
 ### apache
-````
+```yml
 apache_ports: [80, 443]
 apache_health_check_file: health.html
 apache_ssl_path: /etc/apache2/certs
@@ -161,7 +161,7 @@ bashprompt_home: /home/ubuntu
 
 <a name="role-common"></a>
 ### common
-```
+```yml
 common_apt_packages:
   - acl
   - git
@@ -195,7 +195,7 @@ common_npm_packages:
 
 <a name="role-crontab"></a>
 ### crontab
-```
+```yml
 crontab_list:
   - "*/1 * * * * root JOB_COMMAND --env={{ env }}"
 ```
@@ -209,13 +209,13 @@ ansible-playbook -i ec2.py deploy.yml -u ubuntu --private-key=~/key.pem --tags=n
 ```
 
 deploy a symfony2 project
-```
+```yml
 ansible-playbook -i ec2.py deploy.yml -u ubuntu --private-key=~/key.pem --tags=symfony2
 -e 'env=prod roles=app deploy_src=site deploy_secrets_src=secrets.json deploy_exclude_path=rsync_exclude deploy_build_id=myBuildId'
 ```
 
 All options are as follows
-```
+```yml
 deploy_src: "/path/to/my/site"
 deploy_secrets_src: "/path/to/local/secrets.json"
 deploy_secrets_dest: "/path/to/remote/secrets.json" #optional
@@ -231,7 +231,7 @@ deploy_build_id: "myBuildId"
 <a name="role-mysql"></a>
 ### mysql
 
-```
+```yml
 mysql_root_password: localpass
 mysql_database_name: localdb
 mysql_apt_packages:
@@ -240,7 +240,7 @@ mysql_apt_packages:
 
 <a name="role-jenkins"></a>
 ### jenkins
-```
+```yml
 jenkins_url: localhost
 jenkins_port: 8080
 jenkins_cli_dest: /usr/local/bin/jenkins-cli.jar
@@ -254,7 +254,7 @@ jenkins_plugins:
 
 <a name="role-nginx"></a>
 ### nginx
-````
+```yml
 nginx_apt_packages:
   - nginx-full
   - passenger
@@ -267,14 +267,14 @@ nginx_sites_available:
 
 <a name="role-nodejs"></a>
 ### nodejs
-```
+```yml
 nodejs_apt_packages:
   - nodejs-legacy
 ```
 
 <a name="role-php"></a>
 ### php
-```
+```yml
 php_memory_limit: 256M
 php_upload_max_filesize: 250M
 php_max_file_uploads: 10
@@ -297,7 +297,7 @@ php_apt_packages:
 
 <a name="role-ruby"></a>
 ### ruby
-```
+```yml
 ruby_home: /home/ubuntu
 ruby_path: /usr/local/bin/ruby
 ruby_version: 2.2.2
