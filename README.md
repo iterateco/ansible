@@ -149,12 +149,12 @@ apache_sites_available:
 
 App, stc are sample names of sites.  This way they can be referenced when enabling sites.
 For example:  
-```
+```yml
 - { role: apache, apache_sites_enabled: ['app', 'stc'] }
 ```
 <a name="role-bashprompt"></a>
 ### bashprompt
-```
+```yml
 bashprompt_base: localhost
 bashprompt_home: /home/ubuntu
 ```
