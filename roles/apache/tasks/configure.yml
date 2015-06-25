@@ -14,7 +14,7 @@
     - ssl
 
 - name: Disable all virtual hosts
-  command: a2dissite *
+  command: 'a2dissite *'
 
 - name: Template copy; Configure apache2 ports
   template: src=ports.conf.j2 dest=/etc/apache2/ports.conf
