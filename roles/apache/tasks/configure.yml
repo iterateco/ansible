@@ -13,8 +13,9 @@
   with_items:
     - ssl
 
-- name: Disable all virtual hosts
-  command: "'a2dissite *'"
+- name: Disable all virtual hosts 
+  shell: a2dissite *
+  ignore_errors: yes # if no sites are enabled this comamnd will fail
 
 - name: Template copy; Configure apache2 ports
   template: src=ports.conf.j2 dest=/etc/apache2/ports.conf
