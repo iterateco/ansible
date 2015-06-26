@@ -106,6 +106,7 @@ The following configuration values can be set in group_vars files and will overr
 - [nodejs](#role-nodejs)
 - [php](#role-php)
 - [ruby](#role-ruby)
+- [ami](#role-ami)
 
 <a name="role-apache"></a>
 ### apache
@@ -328,3 +329,14 @@ nodejs-legacy # needed for rails
 
 http://stackoverflow.com/questions/9202324/execjs-could-not-find-a-javascript-runtime-but-execjs-and-therubyracer-are-in
 
+<a name="role-ami"></a>
+### ami
+```yml
+ami_keypair: mykeypair
+ami_name: myaminame
+ami_security_group: ami
+ami_instance_type: t2.micro
+ami_aws_region: us-east-1
+ami_vpc_subnet: subnet
+ami_base_image: ami-10389d78
+```

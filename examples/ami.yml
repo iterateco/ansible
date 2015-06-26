@@ -27,8 +27,6 @@
   user: ubuntu
   sudo: true
   gather_facts: true
-  vars:
-    ami: true
   roles:
     - common
     - { role: ami, action: 'configure' }
