@@ -6,7 +6,7 @@ Example commands
 ansible-playbook -i ec2.py --user=ubuntu --private-key=yourkey.pem configure.yml -e "env=prod roles=app" --tags=apache,crontab
 ansible-playbook -i ec2.py --user=ubuntu --private-key=yourkey.pem credentials.yml -e "env=prod roles=app,admin"
 ansible-playbook -i ec2.py --user=ubuntu --private-key=yourkey.pem deploy.yml -e "env=prod build_id=XXX"
-ansible-playbook -i ec2.py --user=ubuntu --private-key=yourkey.pem ami.yml
+ansible-playbook -i ec2.py --user=ubuntu --private-kesy=yourkey.pem ami.yml
 ```
 
 Target all EC2 machines with the tags env=prod and roles=app.
@@ -89,6 +89,25 @@ Example Rails playbook. ```nginx_sites_enabled``` most be defined in group_vars.
     - { role: nginx, nginx_sites_enabled: ['app'] }
     - mysql
     - bashprompt
+```
+
+Example ami playbook with json variables
+
+```
+ansible-playbook -i ec2.py exmaples/ami.yml -u ubuntu --private-key=~/key.pem -e '@myamivars.json'
+```
+
+Where myamivars.json contains.  *You can optional pass in variables via command line.*
+```json
+{
+  "ami_keypair": "mykeypair",
+  "ami_name": "myaminame",
+  "ami_security_group": "ami",
+  "ami_instance_type": "t2.micro",
+  "ami_aws_region": "us-east-1",
+  "ami_vpc_subnet": "subnet",
+  "ami_base_image": "ami-10389d78"
+}
 ```
 
 ## Role Configuration
@@ -222,7 +241,7 @@ ansible-playbook -i ec2.py deploy.yml -u ubuntu --private-key=~/key.pem --tags=n
 ```
 
 deploy a symfony2 project
-```yml
+```
 ansible-playbook -i ec2.py deploy.yml -u ubuntu --private-key=~/key.pem --tags=symfony2
 -e 'env=prod roles=app deploy_src=site deploy_secrets_src=secrets.json deploy_exclude_path=rsync_exclude deploy_build_id=myBuildId'
 ```
