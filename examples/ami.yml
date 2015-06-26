@@ -13,7 +13,7 @@
 # export AWS_SECRET_ACCESS_KEY='XXXX'
 # export EC2_OVERRIDE_DESTVAR='public'
 # Usage:
-# ansible-playbook -i /etc/ansible/plugins/inventory/ec2.py --user=ubuntu --private-key=~/path/yourkey.pem ami.yml
+# ansible-playbook -i /etc/ansible/inventory/ec2.py --user=ubuntu --private-key=~/path/yourkey.pem ami.yml
 ---
 - name: Create an instance
   hosts: localhost

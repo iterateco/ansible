@@ -1,7 +1,6 @@
 # Util playbook to modify services on machines
 # Usage:
-# ansible-playbook -i ansible/playbooks/plugins/inventory/ec2.py --user=ubuntu ansible/playbooks/services.yml
-#   --private-key=~/path/to/aws/key.pem -e 'env=dev role=app service=apache2 state=restarted'
+# ansible-playbook -i /etc/ansible/inventory/ec2.py services.yml --user=ubuntu --private-key=~/path/to/aws/key.pem -e 'env=dev role=app service=apache2 state=restarted'
 ---
 - hosts: "&{{ env | expand('tag_Env_') }}:{{ roles | expand('tag_Roles_') }}"
   sudo: true
