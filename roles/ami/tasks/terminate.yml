@@ -1,7 +1,7 @@
 # roles/ami/tasks/terminate.yml
 ---
 - name: Output instance ids
-  debug: var="{{ ec2_fact.instance_ids }}"
+  debug: var={{ ec2_fact.instance_ids }}
 
 - name: Register new ami
   ec2_ami:
