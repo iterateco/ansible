@@ -94,6 +94,7 @@ Example Rails playbook. ```nginx_sites_enabled``` most be defined in group_vars.
 ## Role Configuration
 The following configuration values can be set in group_vars files and will override the defaults listed below.
 
+- [ami](#role-ami)
 - [apache](#role-apache)
 - [bashprompt](#role-bashprompt)
 - [common](#role-common)
@@ -106,7 +107,18 @@ The following configuration values can be set in group_vars files and will overr
 - [nodejs](#role-nodejs)
 - [php](#role-php)
 - [ruby](#role-ruby)
-- [ami](#role-ami)
+
+<a name="role-ami"></a>
+### ami
+```yml
+ami_keypair: mykeypair
+ami_name: myaminame
+ami_security_group: ami
+ami_instance_type: t2.micro
+ami_aws_region: us-east-1
+ami_vpc_subnet: subnet
+ami_base_image: ami-10389d78
+```
 
 <a name="role-apache"></a>
 ### apache
@@ -328,15 +340,3 @@ Please note that some people suggest using nodejs-legacy apt package
 nodejs-legacy # needed for rails
 
 http://stackoverflow.com/questions/9202324/execjs-could-not-find-a-javascript-runtime-but-execjs-and-therubyracer-are-in
-
-<a name="role-ami"></a>
-### ami
-```yml
-ami_keypair: mykeypair
-ami_name: myaminame
-ami_security_group: ami
-ami_instance_type: t2.micro
-ami_aws_region: us-east-1
-ami_vpc_subnet: subnet
-ami_base_image: ami-10389d78
-```
