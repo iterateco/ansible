@@ -48,7 +48,7 @@
 
 - name: Warm up cache
   remote_user: ubuntu
-  command: php {{ deploy_dest }}/{{ deploy_site }}/app/console cache:clear --env=dev --no-debug
+  command: php {{ deploy_dest }}/{{ deploy_site }}/app/console cache:clear --env={{ env }} --no-debug
 
 - name: Create symlink
   file: dest={{ deploy_dir_prefix }}/current src={{ deploy_dest }} state=link
