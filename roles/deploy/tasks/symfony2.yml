@@ -41,7 +41,7 @@
     - "{{ deploy_dest }}/{{ deploy_site }}/app/logs"
 
 - name: Create secrets
-  shell: "$(dirname {{ deploy_secrets.dest }})"
+  shell: "$(dirname {{ item.dest }})"
   register: dir_to_create
   command: "mkdir -p {{ dir_to_create.stdout }}"
   copy: src={{ item.src }} dest={{ item.dest }} owner=www-data group=www-data
