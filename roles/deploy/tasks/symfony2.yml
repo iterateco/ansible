@@ -44,7 +44,7 @@
   shell: "mkdir -p $(dirname {{ deploy_secrets_dest }})"
 
 - name: Copy secrets
-  copy: src={{ deploy_secrets_src }} dest={{ deploy_secrets_dest }} owner=www-data group=www-data
+  copy: src={{ deploy_secrets_src }} dest={{ deploy_secrets_dest }} owner=ubuntu group=ubuntu
 
 - name: Warm up cache
   remote_user: ubuntu
