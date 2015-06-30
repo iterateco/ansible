@@ -40,8 +40,10 @@
     - "{{ deploy_dest }}/{{ deploy_site }}/app/cache"
     - "{{ deploy_dest }}/{{ deploy_site }}/app/logs"
 
-- name: Copy secrets
-  command: "mkdir -p {{ item.dest }}"
+- name: Create secrets
+  shell: "$(dirname {{ deploy_secrets.dest }})"
+  register: dir_to_create
+  command: "mkdir -p {{ dir_to_create.stdout }}"
   copy: src={{ item.src }} dest={{ item.dest }} owner=www-data group=www-data
   with_items:
     - "{{ deploy_secrets }}"
