@@ -34,6 +34,9 @@
 - name: Move node lib # using mv might create longer server interuptions
   command: rsync -a --delete {{ deploy_tmp_dir }}/ {{ deploy_dest }}/
 
+- name: Create secrets destination path
+  shell: "mkdir -p $(dirname {{ deploy_secrets_dest }})"
+  
 - name: Copy secrets
   copy: src={{ deploy_secrets_src }} dest={{ deploy_secrets_dest }} owner=nodejs group=nodejs
 

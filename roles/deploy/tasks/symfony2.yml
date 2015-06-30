@@ -40,17 +40,11 @@
     - "{{ deploy_dest }}/{{ deploy_site }}/app/cache"
     - "{{ deploy_dest }}/{{ deploy_site }}/app/logs"
 
-- name: Create secrets destination
-  shell: "mkdir -p $(dirname {{ item.dest }})"
-  with_items:
-    - "{{ deploy_secrets }}"
-  when: deploy_secrets is defined
+- name: Create secrets destination path
+  shell: "mkdir -p $(dirname {{ deploy_secrets_dest }})"
 
 - name: Copy secrets
-  copy: src={{ item.src }} dest={{ item.dest }} owner=www-data group=www-data
-  with_items:
-    - "{{ deploy_secrets }}"
-  when: deploy_secrets is defined
+  copy: src={{ deploy_secrets_src }} dest={{ deploy_secrets_dest }} owner=www-data group=www-data
 
 - name: Warm up cache
   remote_user: ubuntu
