@@ -240,7 +240,8 @@ deploy a nodejs project
 ansible-playbook -i ec2.py deploy.yml -u ubuntu --private-key=~/key.pem --tags=nodejs
 -e 'env=prod 
 roles=app 
-deploy_src=site deploy_secrets_src=secrets.json 
+deploy_src=site 
+deploy_secrets_src=secrets.json 
 deploy_exclude_path=rsync_exclude 
 deploy_build_id=myBuildId'
 ```
@@ -251,7 +252,7 @@ ansible-playbook -i ec2.py deploy.yml -u ubuntu --private-key=~/key.pem --tags=s
 -e 'env=prod 
 roles=app 
 deploy_src=site 
-deploy_secrets_src=secrets.json 
+deploy_secrets_src=parameters.yml
 deploy_exclude_path=rsync_exclude 
 deploy_build_id=myBuildId'
 ```
