@@ -10,7 +10,7 @@
   set_fact: ruby_build_dir=/tmp/ruby-{{ruby_version}}
 
 - name: Download ruby
-  get_url: url=http://ftp.ruby-lang.org/pub/ruby/2.2/ruby-{{ruby_version}}.tar.gz dest=/tmp/ruby-{{ruby_version}}.tar.gz
+  get_url: url=http://ftp.ruby-lang.org/pub/ruby/ruby-{{ruby_version}}.tar.gz dest=/tmp/ruby-{{ruby_version}}.tar.gz
 
 - name: Unarchive ruby
   command: tar -xzvf /tmp/ruby-{{ruby_version}}.tar.gz -C /tmp

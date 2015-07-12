@@ -30,6 +30,7 @@
   roles:
     - common
     - { role: ami, action: 'configure' }
+  # http://askubuntu.com/questions/138487/how-to-keep-apache-and-mysql-from-starting-automatically
   tasks:
     - name: Set init services to manual start
       shell: echo manual | sudo tee /etc/init/{{ item }}.override
