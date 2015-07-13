@@ -1,0 +1,21 @@
+---
+- name: start postgresql server
+  service: name=postgresql state=started
+
+- name: Create a new database if not exists
+  sudo_user: postgres
+  postgresql_db: name={{ postgresql_database_name }} state=present
+
+- name: Create a new database user
+  sudo_user: postgres
+  postgresql_user:
+    db: "{{ postgresql_database_name }}"
+    name: "{{ postgresql_database_user }}"
+    password: "{{ postgresql_database_password }}"
+    role_attr_flags: "{{ postgresql_database_user_roles }}"
+
+- name: Configure pg_hba
+  template: src=pg_hba.conf.j2 dest=/etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf
+
+- name: restart postgresql server
+  service: name=postgresql state=restarted

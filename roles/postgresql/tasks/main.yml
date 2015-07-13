@@ -1,0 +1,7 @@
+---
+- name: Install postgresql
+  include: install.yml tags=postgresql,install,install:postgresql
+
+- name: Configure postgresql
+  include: configure.yml tags=postgresql,configure,configure:postgresql
+
