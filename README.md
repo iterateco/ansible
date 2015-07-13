@@ -126,6 +126,7 @@ The following configuration values can be set in group_vars files and will overr
 - [nodejs](#role-nodejs)
 - [php](#role-php)
 - [ruby](#role-ruby)
+- [postgresql](#role-postgresql)
 
 <a name="role-ami"></a>
 ### ami
