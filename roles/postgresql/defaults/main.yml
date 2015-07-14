@@ -2,6 +2,11 @@
 postgresql_version: 9.4
 postgresql_apt_key_id: ACCC4CF8
 
+postgresql_apt_packages:
+  - "postgresql-{{ postgresql_version }}"
+  - python-psycopg2
+  - libpq-dev
+
 # http://docs.ansible.com/postgresql_user_module.html
 # echo "md5`echo -n "localpassansible" | md5`" md5 + password + username
 postgresql_database_name: ansible_local
