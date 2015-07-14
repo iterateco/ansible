@@ -1,0 +1,49 @@
+---
+- name: Set deploy_dir_prefix
+  set_fact: deploy_dir_prefix="/var/www"
+
+- name: Set deploy_dir_parent
+  set_fact: deploy_dir_parent="releases"
+
+- name: Set deploy_dest
+  set_fact: deploy_dest={{ deploy_dir_prefix }}/{{ deploy_dir_parent }}/{{ deploy_build_id }}
+
+- name: Set deploy_src
+  shell: "basename '{{ deploy_src }}'"
+  register: site
+
+- name: Set deploy_site variable
+  set_fact: deploy_site={{ site.stdout }}
+
+- name: Set deploy_secrets_dest
+  set_fact: deploy_secrets_dest={{ deploy_dest }}/{{ deploy_site }}/config/secrets.yml
+
+- name: Create release directory
+  file: dest={{ deploy_dest }} mode=755 owner=ubuntu group=ubuntu state=directory
+
+- name: Rsync
+  synchronize: src={{ deploy_src }} dest={{ deploy_dest }} delete=yes rsync_opts="--exclude-from={{ deploy_exclude_path }}"
+
+- name: Permission release directory
+  file: path={{ deploy_dest }} owner=ubuntu group=ubuntu state=directory recurse=yes
+
+- name: Create app/cache app/logs
+  file: dest={{ item }} state=directory owner=www-data group=www-data
+  with_items:
+    - "{{ deploy_dest }}/{{ deploy_site }}/log"
+
+- name: Create secrets destination path
+  shell: "mkdir -p $(dirname {{ deploy_secrets_dest }})"
+
+- name: Copy secrets
+  copy: src={{ deploy_secrets_src }} dest={{ deploy_secrets_dest }} owner=ubuntu group=ubuntu
+
+- name: Create symlink
+  file: dest={{ deploy_dir_prefix }}/current src={{ deploy_dest }} state=link
+
+# - name: Reload (restart) nginx webserver
+#   shell: "sudo nginx -s reload"
+
+- name: Delete all previous release, except the one we just created
+  shell: "find '{{ deploy_dir_prefix }}/{{ deploy_dir_parent }}' -maxdepth 1 ! -name '{{ deploy_dir_parent }}' ! -name '{{ deploy_build_id }}' | xargs rm -rf"
+

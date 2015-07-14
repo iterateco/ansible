@@ -4,3 +4,6 @@
 
 - name: Deploy symfony2
   include: symfony2.yml tags=symfony2
+
+- name: Deploy rails
+  include: rails.yml tags=rails
