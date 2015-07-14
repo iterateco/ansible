@@ -1,0 +1,15 @@
+---
+postgresql_version: 9.4
+postgresql_apt_key_id: ACCC4CF8
+
+postgresql_apt_packages:
+  - "postgresql-{{ postgresql_version }}"
+  - python-psycopg2
+  - libpq-dev
+
+# http://docs.ansible.com/postgresql_user_module.html
+# echo "md5`echo -n "localpassansible" | md5`" md5 + password + username
+postgresql_database_name: localdb
+postgresql_database_user: localuser
+postgresql_database_password: md507c949830d7ac12b8a1abec2b8ea4645 # localpass
+postgresql_database_user_roles: CREATEDB,NOSUPERUSER

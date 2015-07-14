@@ -125,6 +125,7 @@ The following configuration values can be set in group_vars files and will overr
 - [nginx](#role-nginx)
 - [nodejs](#role-nodejs)
 - [php](#role-php)
+- [postgresql](#role-postgresql)
 - [ruby](#role-ruby)
 
 <a name="role-ami"></a>
@@ -337,6 +338,30 @@ php_apt_packages:
   - php5-memcached
 ```
 
+<a name="role-postgresql"></a>
+### postgresql
+```yml
+postgresql_database_name: ansible_local
+postgresql_database_user: ansible
+postgresql_database_password: md5552773cdf433a60ae5d044b1cc2e95ef
+postgresql_database_user_roles: CREATEDB,NOSUPERUSER
+
+```
+
+Currently, using md5 for postgresql authentication. the password should be created in format
+```shell
+# http://docs.ansible.com/postgresql_user_module.html
+# md5 + (password) + username
+echo "md5`echo -n "localpassansible" | md5`" # md5552773cdf433a60ae5d044b1cc2e95ef
+```
+
+To connect with postgresql,
+```shell
+psql -d ansible_local -U ansible -W
+```
+
+with password `localpass`
+
 <a name="role-ruby"></a>
 ### ruby
 ```yml
@@ -369,3 +394,4 @@ Please note that some people suggest using nodejs-legacy apt package
 nodejs-legacy # needed for rails
 
 http://stackoverflow.com/questions/9202324/execjs-could-not-find-a-javascript-runtime-but-execjs-and-therubyracer-are-in
+

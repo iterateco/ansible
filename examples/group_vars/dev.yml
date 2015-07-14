@@ -17,7 +17,7 @@ apache_sites_available:
   stc:
     host: "{{env}}-stc.{{app_domain_name}}"
     ports: [80, 443]
-    directory_index: "app_{{env}}.php"
+    directory_index: "404.png"
     document_root: /var/www/current/Symfony/web
     ssl:
       port: 443
