@@ -27,7 +27,7 @@
 - name: Permission release directory
   file: path={{ deploy_dest }} owner=ubuntu group=ubuntu state=directory recurse=yes
 
-- name: Create app/cache app/logs
+- name: Create app/logs
   file: dest={{ item }} state=directory owner=www-data group=www-data
   with_items:
     - "{{ deploy_dest }}/{{ deploy_site }}/log"
