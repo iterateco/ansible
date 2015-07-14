@@ -41,9 +41,6 @@
 - name: Create symlink
   file: dest={{ deploy_dir_prefix }}/current src={{ deploy_dest }} state=link
 
-# - name: Reload (restart) nginx webserver
-#   shell: "sudo nginx -s reload"
-
 - name: Delete all previous release, except the one we just created
   shell: "find '{{ deploy_dir_prefix }}/{{ deploy_dir_parent }}' -maxdepth 1 ! -name '{{ deploy_dir_parent }}' ! -name '{{ deploy_build_id }}' | xargs rm -rf"
 
