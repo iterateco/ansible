@@ -369,3 +369,14 @@ Please note that some people suggest using nodejs-legacy apt package
 nodejs-legacy # needed for rails
 
 http://stackoverflow.com/questions/9202324/execjs-could-not-find-a-javascript-runtime-but-execjs-and-therubyracer-are-in
+
+## rails setup
+From project directory
+```
+echo "gem: --no-ri --no-rdoc" > ~/.gemrc
+sudo gem install bundler
+bundle install
+rake db:create
+rake db:migrate
+```
+Populate project/config/secrets.yml file with proper credentials
