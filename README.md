@@ -342,9 +342,9 @@ php_apt_packages:
 ### postgresql
 ```yml
 postgresql_database_name: localdb
-postgresql_database_user: localuser
-postgresql_database_password: md507c949830d7ac12b8a1abec2b8ea4645 # localpass
-postgresql_database_user_roles: CREATEDB,NOSUPERUSER
+postgresql_database_user: root
+postgresql_database_password: md535c31a9780a09cbaafba7817d2c33323 # localpass
+postgresql_database_user_roles: CREATEDB,CREATEROLE,SUPERUSER
 
 ```
 
