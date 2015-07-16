@@ -341,8 +341,8 @@ php_apt_packages:
 <a name="role-postgresql"></a>
 ### postgresql
 ```yml
-postgresql_database_name: ansible_local
-postgresql_database_user: ansible
+postgresql_database_name: localdb
+postgresql_database_user: localuser
 postgresql_database_password: md5552773cdf433a60ae5d044b1cc2e95ef
 postgresql_database_user_roles: CREATEDB,NOSUPERUSER
 
