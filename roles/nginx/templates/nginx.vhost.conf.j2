@@ -5,9 +5,15 @@ server {
         listen [::]:80 default_server ipv6only=on;
 
         server_name {{ virtual_host.host }};
-        passenger_enabled on;
 
+        {% if ruby_path is defined -%}
+        passenger_enabled on;
+        {%- endif %}
+
+        {% if virtual_host.rails_env is defined -%}
         rails_env    {{ virtual_host.rails_env }};
+        {%- endif %}
+
         root         {{ virtual_host.document_root }};
 
         # redirect server error pages to the static page /50x.html
