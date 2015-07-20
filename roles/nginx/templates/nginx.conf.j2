@@ -75,6 +75,12 @@ http {
     passenger_ruby {{ ruby_path }};
     {%- endif %}
 
+    {%if nginx_http_directives is defined -%}
+    {% for directive in nginx_http_directives -%}
+    {{ directive }}
+    {% endfor %}
+    {%- endif %}
+
     ##
     # Virtual Host Configs
     ##
