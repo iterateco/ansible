@@ -1,4 +1,5 @@
 ---
+nginx_main_directives: []
 nginx_apt_packages:
   - nginx-full
   - passenger

@@ -2,6 +2,12 @@ user www-data;
 worker_processes 4;
 pid /run/nginx.pid;
 
+{%if nginx_main_directives is defined -%}
+{% for directive in nginx_main_directives -%}
+{{ directive }}
+{% endfor %}
+{%- endif %}
+
 events {
     worker_connections 768;
     # multi_accept on;
