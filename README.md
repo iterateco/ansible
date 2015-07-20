@@ -298,6 +298,7 @@ jenkins_plugins:
 <a name="role-nginx"></a>
 ### nginx
 ```yml
+nginx_main_directives: []
 nginx_apt_packages:
   - nginx-full
   - passenger
