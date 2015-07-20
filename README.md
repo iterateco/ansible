@@ -299,6 +299,7 @@ jenkins_plugins:
 ### nginx
 ```yml
 nginx_main_directives: []
+nginx_http_directives: []
 nginx_apt_packages:
   - nginx-full
   - passenger
