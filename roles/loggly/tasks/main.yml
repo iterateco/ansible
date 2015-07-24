@@ -1,0 +1,6 @@
+---
+- name: Install Rsyslog
+  include: install.yml tags=loggly,install,install:loggly
+
+- name: Configure Loggly
+  include: configure.yml tags=loggly,configure,configure:loggly

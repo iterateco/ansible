@@ -1,0 +1,28 @@
+{% set inputs = loggly_events[item] %}
+
+$ModLoad imfile
+$InputFilePollInterval 10
+$PrivDropToGroup adm
+$WorkDirectory /var/spool/rsyslog
+ 
+$ActionQueueFileName fwdRule1     # unique name prefix for spool files
+$ActionQueueMaxDiskSpace 1g       # 1gb space limit (use as much as possible)
+$ActionQueueSaveOnShutdown on     # save messages to disk on shutdown
+$ActionQueueType LinkedList       # run asynchronously
+$ActionResumeRetryCount -1        # infinite retries if host is down
+
+{% for input in inputs %}
+
+$InputFileName {{ input.file }}
+$InputFileTag {{ input.tag }}
+$InputFileStateFile stat-{{ input.tag }} #this must be unique for each file being polled
+$InputFileSeverity {{ input.severity|default('info') }}
+$InputFilePersistStateInterval 20000
+$InputRunFileMonitor
+
+{% endfor %}
+
+$template LogglyFormat,"<%pri%>%protocol-version% %timestamp:::date-rfc3339% %HOSTNAME% %app-name% %procid% %msgid% [{{ loggly_token }}@41058 tag=\"{{ item }}\" tag=\"{{ env }}\"] %msg%n"
+
+if $programname == {{ item }} then @@logs-01.loggly.com:514;LogglyFormatFile
+if $programname == {{ item }} then ~

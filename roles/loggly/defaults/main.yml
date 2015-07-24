@@ -1,0 +1,14 @@
+---
+# Usage
+# =====
+#
+# loggly_events:
+#   apache:
+#     - { file: '/var/log/apache2/access.log', tag: 'apache-access' }
+#     - { file: '/var/log/apache2/error.log', tag: 'apache-error', severity: 'error' }
+# loggly_events_enabled: ['apache', 'apache2']
+
+loggly_token: 'token'
+
+loggly_events: []
+loggly_events_enabled: []

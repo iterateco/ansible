@@ -1,0 +1,10 @@
+---
+- name: Download install Script
+  get_url: url=https://www.loggly.com/install/configure-linux.sh dest=/tmp/configure-linux.sh
+
+- name: Add Loggly events rsyslog conf
+  template: src=21-event-loggly.conf.j2 dest=/etc/rsyslog.d/21-{{item}}-loggly.conf
+  with_items: loggly_events_enabled
+
+- name: Restart rsyslog service
+  service: name=rsyslog state=restarted
