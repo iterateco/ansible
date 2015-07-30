@@ -260,11 +260,11 @@ deploy_build_id=myBuildId'
 
 ```yml
 deploy_src: "/path/to/my/site"
-deploy_secrets_src: "/path/to/local/secrets.json"
-deploy_secrets_dest: "/path/to/remote/secrets.json" #optional
-deploy_exclude_path: "/path/to/rsync_exclude"
-deploy_dest: "/path/to/deploy/directory" #optional
 deploy_build_id: "myBuildId" 
+deploy_exclude_path: "/path/to/rsync_exclude" #optional
+deploy_secrets_src: "/path/to/local/secrets.json" #optional
+deploy_secrets_dest: "/path/to/remote/secrets.json" #optional
+deploy_dest: "/path/to/deploy/directory" #optional
 ```
 
 <a name="role-elasticache"></a>

@@ -39,6 +39,7 @@
   
 - name: Copy secrets
   copy: src={{ deploy_secrets_src }} dest={{ deploy_secrets_dest }} owner=nodejs group=nodejs
+  when: deploy_secrets_src is defined
 
 - name: Delete all previous release, except the one we just created
   shell: "find '{{ deploy_dir_prefix }}/{{ deploy_dir_parent }}' -maxdepth 1 ! -name '{{ deploy_dir_parent }}' ! -name '{{ deploy_build_id }}' | xargs rm -rf"
