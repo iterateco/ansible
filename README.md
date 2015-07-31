@@ -267,8 +267,17 @@ deploy_secrets_dest: "/path/to/remote/secrets.json" #optional
 deploy_dest: "/path/to/deploy/directory" #optional
 ```
 
-**A sample deploy might look like this**
+**A sample symfony2 deploy might look like this**
 ```
+# update packages
+php Symfony/composer.phar self-update
+php Symfony/composer.phar install -d Symfony
+php Symfony/app/console assetic:dump --env=local --no-debug
+php Symfony/app/console assets:install Symfony/web --env=local
+php Symfony/app/console doctrine:migrations:migrate --env=prod
+
+cd ansible
+# Copy files to production app and admin machines
 ansible-playbook -i /etc/ansible/inventory/ec2.py deploy.yml -e "env=prod roles=app,admin deploy_src=../Symfony deploy_exclude_path=rsync_exclude_prod deploy_build_id=${BUILD_ID}" --tags=symfony2 -u ubuntu --private-key=~/.ssh/key.pem
 
 # Configure PHP, Crontabs, and Bashprompt on production admin machines
@@ -277,6 +286,10 @@ ansible-playbook -i /etc/ansible/inventory/ec2.py configure.yml -e "env=prod rol
 # Configure PHP, Apache, and Bashprompt on production app machines
 ansible-playbook -i /etc/ansible/inventory/ec2.py configure.yml -e "env=prod roles=app" -u ubuntu --private-key=~/.ssh/key.pem --tags=configure:php,configure:apache,configure:bashprompt
 ```
+
+**Important**
+
+These examples assume that you've copied secrets files like parameters.yml, jwt public.pem and private.pem files to the jenkins workspace and that they're not excluded in the rsync_exclude file during deploy
 
 <a name="role-elasticache"></a>
 ### elasticache
