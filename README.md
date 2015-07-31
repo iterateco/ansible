@@ -274,7 +274,7 @@ ansible-playbook -i /etc/ansible/inventory/ec2.py deploy.yml -e "env=prod roles=
 # Configure PHP, Crontabs, and Bashprompt on production admin machines
 ansible-playbook -i /etc/ansible/inventory/ec2.py configure.yml -e "env=prod roles=admin" -u ubuntu --private-key=~/.ssh/key.pem --tags=configure:php,configure:crontab,configure:bashprompt
 
-# Configure PHP, Crontabs, and Bashprompt on production app machines
+# Configure PHP, Apache, and Bashprompt on production app machines
 ansible-playbook -i /etc/ansible/inventory/ec2.py configure.yml -e "env=prod roles=app" -u ubuntu --private-key=~/.ssh/key.pem --tags=configure:php,configure:apache,configure:bashprompt
 ```
 
