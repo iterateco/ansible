@@ -267,6 +267,17 @@ deploy_secrets_dest: "/path/to/remote/secrets.json" #optional
 deploy_dest: "/path/to/deploy/directory" #optional
 ```
 
+** A sample deploy might look like this **
+```
+ansible-playbook -i /etc/ansible/inventory/ec2.py deploy.yml -e "env=prod roles=app,admin deploy_src=../Symfony deploy_exclude_path=rsync_exclude_prod deploy_build_id=${BUILD_ID}" --tags=symfony2 -u ubuntu --private-key=~/.ssh/key.pem
+
+# Configure PHP, Crontabs, and Bashprompt on production admin machines
+ansible-playbook -i /etc/ansible/inventory/ec2.py configure.yml -e "env=prod roles=admin" -u ubuntu --private-key=~/.ssh/key.pem --tags=configure:php,configure:crontab,configure:bashprompt
+
+# Configure PHP, Crontabs, and Bashprompt on production app machines
+ansible-playbook -i /etc/ansible/inventory/ec2.py configure.yml -e "env=prod roles=app" -u ubuntu --private-key=~/.ssh/key.pem --tags=configure:php,configure:apache,configure:bashprompt
+```
+
 <a name="role-elasticache"></a>
 ### elasticache
 *no configuration variables*
