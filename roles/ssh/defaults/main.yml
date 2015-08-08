@@ -1,0 +1,2 @@
+---
+ssh_identity_file:  /home/{{ ssh_user }}/.ssh/{{ app_name }}.pem
