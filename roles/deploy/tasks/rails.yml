@@ -37,6 +37,7 @@
 
 - name: Copy secrets
   copy: src={{ deploy_secrets_src }} dest={{ deploy_secrets_dest }} owner=ubuntu group=ubuntu
+  when: deploy_secrets_src is defined
 
 - name: Create symlink
   file: dest={{ deploy_dir_prefix }}/current src={{ deploy_dest }} state=link

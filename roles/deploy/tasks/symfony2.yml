@@ -45,6 +45,7 @@
 
 - name: Copy secrets
   copy: src={{ deploy_secrets_src }} dest={{ deploy_secrets_dest }} owner=ubuntu group=ubuntu
+  when: deploy_secrets_src is defined
 
 - name: Warm up cache
   remote_user: ubuntu

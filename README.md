@@ -6,7 +6,7 @@ Example commands
 ansible-playbook -i ec2.py --user=ubuntu --private-key=yourkey.pem configure.yml -e "env=prod roles=app" --tags=apache,crontab
 ansible-playbook -i ec2.py --user=ubuntu --private-key=yourkey.pem credentials.yml -e "env=prod roles=app,admin"
 ansible-playbook -i ec2.py --user=ubuntu --private-key=yourkey.pem deploy.yml -e "env=prod build_id=XXX"
-ansible-playbook -i ec2.py --user=ubuntu --private-kesy=yourkey.pem ami.yml
+ansible-playbook -i ec2.py --user=ubuntu --private-key=yourkey.pem ami.yml
 ```
 
 Target all EC2 machines with the tags env=prod and roles=app.
@@ -239,33 +239,57 @@ crontab_list:
 deploy a nodejs project
 ```
 ansible-playbook -i ec2.py deploy.yml -u ubuntu --private-key=~/key.pem --tags=nodejs
--e 'env=prod 
+-e "env=prod 
 roles=app 
 deploy_src=site 
 deploy_secrets_src=secrets.json 
 deploy_exclude_path=rsync_exclude 
-deploy_build_id=myBuildId'
+deploy_build_id=myBuildId"
 ```
 
 deploy a symfony2 project
 ```
 ansible-playbook -i ec2.py deploy.yml -u ubuntu --private-key=~/key.pem --tags=symfony2
--e 'env=prod 
+-e "env=prod 
 roles=app 
 deploy_src=site 
 deploy_secrets_src=parameters.yml
 deploy_exclude_path=rsync_exclude 
-deploy_build_id=myBuildId'
+deploy_build_id=myBuildId"
 ```
 
 ```yml
 deploy_src: "/path/to/my/site"
-deploy_secrets_src: "/path/to/local/secrets.json"
-deploy_secrets_dest: "/path/to/remote/secrets.json" #optional
-deploy_exclude_path: "/path/to/rsync_exclude"
-deploy_dest: "/path/to/deploy/directory" #optional
 deploy_build_id: "myBuildId" 
+deploy_exclude_path: "/path/to/rsync_exclude" #optional
+deploy_secrets_src: "/path/to/local/secrets.json" #optional
+deploy_secrets_dest: "/path/to/remote/secrets.json" #optional
+deploy_dest: "/path/to/deploy/directory" #optional
 ```
+
+**A sample symfony2 deploy might look like this**
+```
+# update packages
+php Symfony/composer.phar self-update
+php Symfony/composer.phar install -d Symfony
+php Symfony/app/console assetic:dump --env=local --no-debug
+php Symfony/app/console assets:install Symfony/web --env=local
+php Symfony/app/console doctrine:migrations:migrate --env=prod
+
+cd ansible
+# Copy files to production app and admin machines
+ansible-playbook -i /etc/ansible/inventory/ec2.py deploy.yml -e "env=prod roles=app,admin deploy_src=../Symfony deploy_exclude_path=rsync_exclude_prod deploy_build_id=${BUILD_ID}" --tags=symfony2 -u ubuntu --private-key=~/.ssh/key.pem
+
+# Configure PHP, Crontabs, and Bashprompt on production admin machines
+ansible-playbook -i /etc/ansible/inventory/ec2.py configure.yml -e "env=prod roles=admin" -u ubuntu --private-key=~/.ssh/key.pem --tags=configure:php,configure:crontab,configure:bashprompt
+
+# Configure PHP, Apache, and Bashprompt on production app machines
+ansible-playbook -i /etc/ansible/inventory/ec2.py configure.yml -e "env=prod roles=app" -u ubuntu --private-key=~/.ssh/key.pem --tags=configure:php,configure:apache,configure:bashprompt
+```
+
+**Important**
+
+These examples assume that you've copied secrets files like parameters.yml, jwt public.pem and private.pem files to the jenkins workspace and that they're not excluded in the rsync_exclude file during deploy
 
 <a name="role-elasticache"></a>
 ### elasticache

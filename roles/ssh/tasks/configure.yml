@@ -1,0 +1,7 @@
+---
+# - name: Copy .pem file
+#   copy: src={{ ssh_identity_src }} dest={{ ssh_identity_dest }} mode=600 owner={{ ssh_user }} group={{ ssh_user }}
+#   when: ssh_identity_src
+
+- name: Configure ssh config shortcuts
+  template: src=config.j2 dest=/home/{{ ssh_user }}/.ssh/config owner={{ ssh_user }} group={{ ssh_user }}

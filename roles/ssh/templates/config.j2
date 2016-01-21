@@ -1,0 +1,12 @@
+Host *
+    User {{ ssh_user }}
+    IdentityFile {{ ssh_identity_file }}
+
+{% for instance in lookup('ec2_instances') | from_json %}
+{% if instance.tags.has_key('Name') %}
+Host {{ instance.tags['Name'] }}
+    Hostname {{ instance.private_ip_address }}
+{% endif %}
+
+{% endfor %}
+
