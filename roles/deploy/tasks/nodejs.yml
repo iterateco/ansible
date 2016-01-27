@@ -25,7 +25,11 @@
 - name: Create release directory
   file: dest={{ deploy_tmp_dir }} mode=755 owner=nodejs group=nodejs state=directory
 
+- name: Grant permission over release directory to ansible_ssh_user
+  acl: name={{ deploy_tmp_dir }} etype=user entity={{ ansible_ssh_user }} permissions=rwx state=present
+
 - name: Rsync
+  become: false
   synchronize: src={{ deploy_src }} dest={{ deploy_tmp_dir }} delete=yes rsync_opts="--exclude-from={{ deploy_exclude_path }}"
 
 - name: Permission node lib

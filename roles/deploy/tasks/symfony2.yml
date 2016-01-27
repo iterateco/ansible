@@ -23,7 +23,7 @@
   file: dest={{ deploy_dest }} mode=755 owner=ubuntu group=ubuntu state=directory
 
 - name: Rsync
-  sudo: False
+  become: false
   synchronize: src={{ deploy_src }} dest={{ deploy_dest }} delete=yes rsync_opts="--exclude-from={{ deploy_exclude_path }}"
 
 - name: Permission release directory
