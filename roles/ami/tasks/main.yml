@@ -1,13 +1,22 @@
 # roles/ami/tasks/main.yml
 ---
 - name: "Create an AMI instance"
-  include: launch.yml tags=ami,launch
+  include: launch.yml
   when: action == 'launch'
+  tags:
+    - launch
+    - ami
 
 - name: "Configure an AMI instance"
-  include: configure.yml tags=ami,configure
+  include: configure.yml
   when: action == 'configure'
+  tags:
+    - configure
+    - ami
 
 - name: "Delete an AMI instance"
-  include: terminate.yml tags=ami,terminate
+  include: terminate.yml
   when: action == 'terminate'
+  tags:
+    - terminate
+    - ami

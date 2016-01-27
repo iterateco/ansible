@@ -1,6 +1,14 @@
 ---
 - name: Install mysql
-  include: install.yml tags=mysql,install,install:mysql
+  include: install.yml
+  tags:
+    - install
+    - mysql
+    - install:mysql
 
 - name: Configure mysql
-  include: configure.yml tags=mysql,configure,configure:mysql
+  include: configure.yml
+  tags:
+    - configure 
+    - mysql
+    - configure:mysql

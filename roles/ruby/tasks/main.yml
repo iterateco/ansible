@@ -3,8 +3,16 @@
   register: ruby_installed
 
 - name: Install ruby
-  include: install.yml tags=ruby,install,install:ruby
+  include: install.yml
   when: ruby_installed.stat.exists == False
+  tags:
+    - install
+    - ruby
+    - install:ruby
 
 # - name: Configure ruby
-#   include: configure.yml tags=ruby,configure,configure:ruby
+#   include: configure.yml
+#   tags:
+#     - configure
+#     - ruby
+#     - configure:ruby

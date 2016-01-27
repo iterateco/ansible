@@ -1,6 +1,14 @@
 ---
 - name: Install jenkins
-  include: install.yml tags=jenkins,install,install:jenkins
+  include: install.yml
+  tags:
+    - install
+    - jekins
+    - install:jenkins
 
 - name: Configure jenkins
-  include: configure.yml tags=jenkins,configure,configure:jenkins
+  include: configure.yml
+  tags:
+    - configure
+    - jenkins
+    - configure:jenkins

@@ -1,6 +1,14 @@
 ---
 - name: Install nodejs
-  include: install.yml tags=nodejs,install,install:nodejs
+  include: install.yml
+  tags:
+    - install
+    - nodejs
+    - install:nodejs
 
 - name: Configure nodejs
-  include: configure.yml tags=nodejs,configure,configure:nodejs
+  include: configure.yml
+  tags:
+    - configure
+    - nodejs
+    - configure:nodejs

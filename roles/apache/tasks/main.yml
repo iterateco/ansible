@@ -1,6 +1,14 @@
 ---
 - name: Install apache
-  include: install.yml tags=apache,install,install:apache
+  include: install.yml
+  tags:
+    - install
+    - apache
+    - install:apache
 
 - name: Configure apache
-  include: configure.yml tags=apache,configure,configure:apache
+  include: configure.yml
+  tags:
+    - configure
+    - apache
+    - configure:apache

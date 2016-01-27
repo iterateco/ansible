@@ -1,3 +1,7 @@
 ---
 - name: Configure ssh
-  include: configure.yml tags=ssh,configure,configure:ssh
+  include: configure.yml
+  tags:
+    - configure
+    - ssh
+    - configure:ssh
