@@ -1,6 +1,6 @@
 ---
-- name: Curl https://deb.nodesource.com/setup_5.x
-  shell: curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
+# - name: Curl https://deb.nodesource.com/setup_5.x
+#   shell: curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
 
 - name: Update apt
   apt: update_cache=yes cache_valid_time=600 upgrade=full
