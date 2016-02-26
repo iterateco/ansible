@@ -1,0 +1,60 @@
+{% set virtual_host = apache_sites_available[item] %}
+
+{% for port in virtual_host.ports %}
+<VirtualHost *:{{ port }}>
+
+  {% if virtual_host.ssl is defined and virtual_host.ssl.port is defined and port == virtual_host.ssl.port -%}
+  SetEnv HTTPS 'on'
+  {% else -%}
+  SetEnv HTTPS 'off'
+  {%- endif %}
+
+  DirectoryIndex {{ virtual_host.directory_index }}
+  DocumentRoot {{ virtual_host.document_root }}
+  ServerName {{ virtual_host.host }}
+
+  {%if virtual_host.directives is defined -%}
+  {% for directive in virtual_host.directives -%}
+  {{ directive }}
+  {% endfor %}
+  {%- endif %}
+
+  <Directory "{{ virtual_host.document_root }}">
+    AllowOverride All
+    Allow from All
+    Options FollowSymLinks ExecCGI
+
+    {% if virtual_host.basic_auth is defined -%}
+    AuthUserFile {{ apache_htpasswd_path }}
+    AuthName "{{ virtual_host.basic_auth.authname }}"
+    AuthType Basic
+    Require valid-user
+
+    # allows access to health check from LB if basic_auth is defined
+    <Files "{{apache_health_check_file}}">
+      Allow from all
+      Satisfy any
+    </Files>
+    {%- endif %}
+
+    RewriteEngine On
+    {% if virtual_host.ssl is defined and virtual_host.ssl.port is defined and virtual_host.ssl.required is defined -%}
+      {% if port != virtual_host.ssl.port and virtual_host.ssl.required -%}
+    RewriteCond %{SERVER_PORT} !^{{ virtual_host.ssl.port }}$
+    RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R,L]
+      {%- endif %}
+    {%- endif %}
+
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteRule ^(.*)$ {{ virtual_host.directory_index }} [QSA,L]
+  </Directory>
+
+  {% if virtual_host.ssl is defined and virtual_host.ssl.port is defined and port == virtual_host.ssl.port and virtual_host.ssl.engine_enabled is defined and virtual_host.ssl.engine_enabled -%}
+  SSLEngine on
+  SSLCertificateFile {{ apache_ssl_path }}/cert.crt
+  SSLCertificateKeyFile {{ apache_ssl_path }}/cert.key
+  SSLCertificateChainFile {{ apache_ssl_path }}/chain.crt
+  {%- endif %}
+
+</VirtualHost>
+{% endfor %}

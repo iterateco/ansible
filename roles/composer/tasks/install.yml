@@ -1,3 +1,13 @@
 ---
+- name: Update apt
+  apt: update_cache=yes cache_valid_time=600 upgrade=full
+
+- name: Install apt packages
+  apt: pkg={{ item }} state=installed
+  with_items:
+    - curl 
+    - php5-cli 
+    - git
+
 - name: Install composer
-  command: curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer
+  shell: "curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer"
