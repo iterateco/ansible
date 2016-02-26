@@ -1,7 +1,0 @@
----
-- name: Install code-deploy
-  include: install.yml
-  tags:
-    - install
-    - code-deploy
-    - install:code-deploy

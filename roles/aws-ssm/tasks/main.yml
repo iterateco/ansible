@@ -1,0 +1,7 @@
+---
+- name: Install aws-ssm
+  include: install.yml
+  tags:
+    - install
+    - aws-ssm
+    - install:aws-ssm
