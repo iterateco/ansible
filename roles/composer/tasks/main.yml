@@ -1,0 +1,7 @@
+---
+- name: Install composer
+  include: install.yml
+  tags:
+    - install
+    - composer
+    - install:composer
