@@ -1,18 +1,6 @@
 ---
-- name: Update apt
-  apt: update_cache=yes cache_valid_time=600 upgrade=full
-
-- name: Install apt packages
-  apt: pkg={{ item }} state=installed
-  with_items:
-    - curl
+- name: Download aws-ssm
+  get_url: url=https://amazon-ssm-{{lookup('env','AWS_REGION')}}.s3.amazonaws.com/latest/debian_amd64/amazon-ssm-agent.deb dest=/tmp/amazon-ssm-agent.deb
 
 - name: Download aws-ssm
-  command: "curl https://amazon-ssm-{{lookup('env','AWS_REGION')}}.s3.amazonaws.com/latest/debian_amd64/amazon-ssm-agent.deb -o amazon-ssm-agent.deb"
-  args:
-    chdir: /tmp
-
-- name: Download aws-ssm
-  command: "dpkg -i amazon-ssm-agent.deb"
-  args:
-    chdir: /tmp
+  command: "dpkg -i /tmp/amazon-ssm-agent.deb"

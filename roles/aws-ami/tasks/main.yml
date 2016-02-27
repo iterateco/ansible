@@ -5,18 +5,18 @@
   when: action == 'launch'
   tags:
     - launch
-    - ami
+    - aws-ami
 
 - name: "Configure an AMI instance"
   include: configure.yml
   when: action == 'configure'
   tags:
     - configure
-    - ami
+    - aws-ami
 
 - name: "Delete an AMI instance"
   include: terminate.yml
   when: action == 'terminate'
   tags:
     - terminate
-    - ami
+    - aws-ami

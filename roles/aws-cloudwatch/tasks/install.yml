@@ -1,0 +1,9 @@
+---
+- name: Template copy; Configure awslogs
+  template: src=awslogs.conf.j2 dest=/tmp/awslogs.conf
+
+- name: Download s3 install
+  get_url: url=https://s3.amazonaws.com/aws-cloudwatch/downloads/latest/awslogs-agent-setup.py dest=/tmp/awslogs-agent-setup.py
+
+- name: Execute python install
+  command: "python /tmp/awslogs-agent-setup.py --region {{lookup('env','AWS_REGION')}} --non-interactive --configfile=/tmp/awslogs.conf"

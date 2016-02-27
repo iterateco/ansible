@@ -12,10 +12,10 @@
   command: pip install awscli
 
 - name: Download s3 install
-  command: "aws s3 cp s3://aws-codedeploy-{{lookup('env','AWS_REGION')}}/latest/install /home/ubuntu --region {{lookup('env','AWS_REGION')}}"
+  command: "aws s3 cp s3://aws-codedeploy-{{lookup('env','AWS_REGION')}}/latest/install /tmp --region {{lookup('env','AWS_REGION')}}"
 
 - name: Add execute permission 
-  command: "chmod +x /home/ubuntu/install"
+  command: "chmod +x /tmp/install"
 
 - name: Build aws cli
-  command: "/home/ubuntu/install auto"
+  command: "/tmp/install auto"

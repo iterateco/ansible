@@ -1,7 +1,0 @@
----
-- name: Install aws-code-deploy
-  include: install.yml
-  tags:
-    - install
-    - aws-code-deploy
-    - install:aws-code-deploy
