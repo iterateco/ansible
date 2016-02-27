@@ -1,0 +1,9 @@
+---
+- name: Install redis
+  include: install.yml
+  tags:
+    - install
+    - redis
+    - install:redis
+
+

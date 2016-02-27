@@ -3,3 +3,4 @@ mysql_root_password: localpass
 mysql_database_name: localdb
 mysql_apt_packages:
   - mysql-server-5.6
+  - mysql-client-5.6

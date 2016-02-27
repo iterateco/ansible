@@ -1,10 +1,10 @@
 ---
-- name: Install nodejs
-  include: install.yml
-  tags:
-    - install
-    - nodejs
-    - install:nodejs
+# - name: Install nodejs
+#   include: install.yml
+#   tags:
+#     - install
+#     - nodejs
+#     - install:nodejs
 
 - name: Configure nodejs
   include: configure.yml

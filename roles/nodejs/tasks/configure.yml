@@ -5,8 +5,26 @@
 - name: Create nodejs user
   shell: adduser --system --home /home/nodejs --shell /bin/bash --ingroup nodejs --gecos NodeJs,,, nodejs
 
-- name: Create ssh directory
-  file: dest=/home/nodejs/.ssh mode=700 owner=nodejs group=nodejs state=directory
-
 - name: Create log directory
-  file: dest=/home/nodejs/log mode=755 owner=nodejs group=nodejs state=directory
+  file: dest=/var/log/nodejs state=directory
+
+- name: Create pid directory
+  file: dest=/var/run/nodejs state=directory
+
+- name: Template copy; Configure nodejs applications
+  template: src=forever.j2 dest=/etc/init.d/{{ item }}
+  with_items:
+    - "{{ nodejs_services_enabled }}"
+  when: nodejs_services_enabled is defined
+
+- name: Permission upstart; Configure nodejs applications
+  command: chmod a+x /etc/init.d/{{ item }}
+  with_items:
+    - "{{ nodejs_services_enabled }}"
+  when: nodejs_services_enabled is defined
+
+- name: Update-rc.d; Configure nodejs applications
+  command: update-rc.d {{ item }} defaults
+  with_items:
+    - "{{ nodejs_services_enabled }}"
+  when: nodejs_services_enabled is defined

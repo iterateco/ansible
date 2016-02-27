@@ -1,0 +1,9 @@
+---
+- name: Install memcached
+  include: install.yml
+  tags:
+    - install
+    - memcached
+    - install:memcached
+
+

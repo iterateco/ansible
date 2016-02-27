@@ -17,3 +17,4 @@ php_apt_packages:
   - php5-gd
   - php5-mcrypt
   - php5-memcached
+  - php5-redis
