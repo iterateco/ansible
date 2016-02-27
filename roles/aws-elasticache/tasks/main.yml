@@ -1,0 +1,14 @@
+---
+- name: Install aws-elasticache
+  include: install.yml
+  tags:
+    - install
+    - aws-elasticache
+    - install:aws-elasticache
+
+- name: Configure aws-elasticache
+  include: configure.yml
+  tags:
+    - configure
+    - aws-elasticache
+    - configure:aws-elasticache
