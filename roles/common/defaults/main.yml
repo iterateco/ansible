@@ -6,23 +6,22 @@ common_apt_packages:
   - curl
   - ntp
   - rsync
+  - git
+  - npm
+  - build-essential
+  - libssl-dev
+  - libexpat1-dev
+  - python-keyczar
+  - python-setuptools
+  - python-dev
+  - python-pip
 
-#   - git
-#   - npm
-#   - build-essential
-#   - libssl-dev
-#   - libexpat1-dev
-#   - python-keyczar
-#   - python-setuptools
-#   - python-dev
-#   - python-pip
+common_pip_packages:
+  - ansible
+  - jinja2
+  - boto
 
-# common_pip_packages:
-#   - ansible
-#   - jinja2
-#   - boto
-
-# common_npm_packages:
-#   - uglify-js
-#   - uglifycss
-#   - forever
+common_npm_packages:
+  - uglify-js
+  - uglifycss
+  - forever
