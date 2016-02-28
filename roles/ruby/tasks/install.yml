@@ -1,19 +1,30 @@
 ---
-- name: Update apt
-  apt: update_cache=yes cache_valid_time=600 upgrade=full
-
 - name: Install apt packages
   apt: pkg={{ item }} state=installed
-  with_items: ruby_apt_packages
+  with_items:
+    - curl
+    - zlib1g-dev
+    - build-essential
+    - libssl-dev
+    - libreadline-dev
+    - libyaml-dev
+    - libsqlite3-dev
+    - sqlite3
+    - libxml2-dev
+    - libxslt1-dev
+    - libcurl4-openssl-dev
+    - python-software-properties
+    - libffi-dev
+    - libmysqlclient-dev # needed for mysql gem
 
 - name: Set release_dir variable path
-  set_fact: ruby_build_dir=/tmp/ruby-{{ruby_version}}
+  set_fact: ruby_build_dir=/tmp/ruby-{{ ruby_version }}
 
 - name: Download ruby
-  get_url: url=http://ftp.ruby-lang.org/pub/ruby/ruby-{{ruby_version}}.tar.gz dest=/tmp/ruby-{{ruby_version}}.tar.gz
+  get_url: url=http://ftp.ruby-lang.org/pub/ruby/ruby-{{ ruby_version }}.tar.gz dest=/tmp/ruby-{{ ruby_version }}.tar.gz
 
 - name: Unarchive ruby
-  command: tar -xzvf /tmp/ruby-{{ruby_version}}.tar.gz -C /tmp
+  command: tar -xzvf /tmp/ruby-{{ ruby_version }}.tar.gz -C /tmp
 
 - name: Configure ruby
   command: './configure chdir={{ ruby_build_dir }}'

@@ -2,9 +2,12 @@
 # - name: Curl https://deb.nodesource.com/setup_5.x
 #   shell: curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
 
-- name: Update apt
-  apt: update_cache=yes cache_valid_time=600 upgrade=full
-
 - name: Install apt packages
   apt: pkg={{ item }} state=installed
-  with_items: nodejs_apt_packages                         
+  with_items:
+    - nodejs-legacy
+
+- name: Install npm packages
+  npm: name={{ item }} global=yes
+  with_items:
+    - pm2

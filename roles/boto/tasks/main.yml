@@ -1,0 +1,7 @@
+---
+- name: Install boto
+  include: install.yml
+  tags:
+    - install
+    - boto
+    - install:boto

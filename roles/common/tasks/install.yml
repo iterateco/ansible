@@ -1,0 +1,10 @@
+---
+- name: Install common apt packages
+  apt: pkg={{ item }} state=installed
+  with_items:
+    - acl
+    - vim
+    - zip
+    - curl
+    - ntp
+    - rsync

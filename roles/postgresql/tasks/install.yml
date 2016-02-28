@@ -5,9 +5,9 @@
 - name: Add PostgreSQL official APT repository
   apt_repository: repo="deb http://apt.postgresql.org/pub/repos/apt/ {{ansible_distribution_release}}-pgdg main"
 
-- name: Update apt
-  apt: update_cache=yes cache_valid_time=600 upgrade=full
-
 - name: Install apt packages
   apt: pkg={{ item }} state=installed
-  with_items: postgresql_apt_packages
+  with_items:
+    - "postgresql-{{ postgresql_version }}"
+    - python-psycopg2
+    - libpq-dev

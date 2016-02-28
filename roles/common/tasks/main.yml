@@ -1,28 +1,7 @@
-# This script is used to install the core set of software
-# that's used by all machines, for all environments
 ---
-- name: Update apt
-  apt: update_cache=yes cache_valid_time=600 upgrade=full
-
-- name: Install apt packages
-  apt: pkg={{ item }} state=installed
-  with_items: common_apt_packages
-  when: common_apt_packages is defined
-
-- name: Update pip 
-  command: pip install -U pip
-
-- name: Install pip packages
-  pip: name={{ item }} state=latest
-  with_items: common_pip_packages
-  when: common_pip_packages is defined
-
-- name: Install npm packages
-  npm: name={{ item }} global=yes
-  with_items: common_npm_packages
-  when: common_npm_packages is defined
-
-- name: Install gem packages
-  gem: name={{ item }} state=latest user_install=no
-  with_items: common_gem_packages
-  when: common_gem_packages is defined
+- name: Install common
+  include: install.yml
+  tags:
+    - install
+    - common
+    - install:common

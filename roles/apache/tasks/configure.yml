@@ -16,6 +16,8 @@
 - name: Disable all virtual hosts 
   shell: a2dissite *
   ignore_errors: yes # if no sites are enabled this comamnd will fail
+  args:
+    chdir: /etc/apache2/sites-available # a2dissite * will through all subdirectors in current directory
 
 - name: Template copy; Configure apache2 ports
   template: src=ports.conf.j2 dest=/etc/apache2/ports.conf
@@ -25,7 +27,7 @@
   with_items:
     - "{{ apache_sites_enabled }}"
   when: apache_sites_enabled is defined
-  
+
 - name: Configure apache to not return version information in response headers (1/2)
   lineinfile: dest=/etc/apache2/conf-enabled/security.conf regexp="^ServerTokens " line="ServerTokens Prod" state=present
 

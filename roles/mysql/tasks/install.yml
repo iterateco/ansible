@@ -1,7 +1,7 @@
 ---
-- name: Update apt
-  apt: update_cache=yes cache_valid_time=600 upgrade=full
-
 - name: Install apt packages
   apt: pkg={{ item }} state=installed
-  with_items: mysql_apt_packages
+  with_items:
+    - python-mysqldb # needed for ansible module
+    - mysql-server-5.6
+    - mysql-client-5.6

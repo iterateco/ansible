@@ -1,6 +1,10 @@
 ---
+- stat: path=/usr/local/bin/composer
+  register: composer_installed
+
 - name: Install composer
   include: install.yml
+  when: composer_installed.stat.exists == False
   tags:
     - install
     - composer

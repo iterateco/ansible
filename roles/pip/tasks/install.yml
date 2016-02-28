@@ -2,6 +2,7 @@
 - name: Install apt packages
   apt: pkg={{ item }} state=installed
   with_items:
-    - apache2-utils
-    - apache2
-    - libapache2-mod-php5
+    - python-pip
+
+- name: Update pip 
+  command: pip install -U pip

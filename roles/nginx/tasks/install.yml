@@ -5,9 +5,8 @@
 - name: Add apt repositories
   apt_repository: 'state=present repo="deb https://oss-binaries.phusionpassenger.com/apt/passenger trusty main"'
 
-- name: Update apt
-  apt: update_cache=yes cache_valid_time=600 upgrade=full
-
 - name: Install apt packages
   apt: pkg={{ item }} state=installed
-  with_items: nginx_apt_packages
+  with_items:
+    - nginx-full
+    - passenger

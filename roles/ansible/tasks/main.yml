@@ -1,0 +1,7 @@
+---
+- name: Install ansible
+  include: install.yml
+  tags:
+    - install
+    - ansible
+    - install:ansible

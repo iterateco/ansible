@@ -1,0 +1,7 @@
+---
+- name: Install pip
+  include: install.yml
+  tags:
+    - install
+    - pip
+    - install:pip

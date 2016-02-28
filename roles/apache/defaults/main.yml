@@ -4,7 +4,3 @@ apache_health_check_file: health.html
 apache_ssl_path: /etc/apache2/certs
 apache_htpasswd_path: /etc/apache2/.htpasswd
 apache_sites_enabled: []
-apache_apt_packages:
-  - apache2-utils
-  - apache2
-  - libapache2-mod-php5
