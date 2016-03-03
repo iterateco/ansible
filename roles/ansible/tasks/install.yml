@@ -1,4 +1,9 @@
 ---
+- name: Install apt packages
+  apt: pkg={{ item }} state=installed
+  with_items:
+    - python-dev
+
 - name: Install pip packages
   pip: name={{ item }} state=latest
   with_items:
