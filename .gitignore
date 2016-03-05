@@ -6,3 +6,5 @@ Vagrantfile
 Symfony/
 .vagrant/
 iterate
+workstation.yml
+group_vars

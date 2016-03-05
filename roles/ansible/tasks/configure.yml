@@ -1,0 +1,3 @@
+---
+- name: Configure ansible
+  shell: "./roles/ansible/files/configure.sh -p/home/vagrant"

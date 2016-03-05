@@ -1,0 +1,3 @@
+---
+- name: Install ansible
+  shell: "./roles/ansible/files/install.sh"
