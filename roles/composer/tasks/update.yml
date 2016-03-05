@@ -3,5 +3,5 @@
   shell: composer self-update
 
 - name: Composer config
-  shell: composer config -g github-oauth.github.com {{ composer.github_token }}
+  shell: composer config -g github-oauth.github.com {{ composer_github_token }}
   when: composer.github_token is defined
