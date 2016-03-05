@@ -2,6 +2,4 @@
 - name: Composer update
   shell: composer self-update
 
-- name: Composer config
-  shell: composer config -g github-oauth.github.com {{ composer_github_token }}
-  when: composer.github_token is defined
+- include: config.yml
