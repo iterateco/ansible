@@ -1,10 +1,3 @@
 ---
-- name: Composer update
-  shell: composer self-update
-
-- name: Composer config
-  shell: composer config -g github-oauth.github.com {{ symfony2.composer.github_token }}
-  when: symfony2.composer.github_token is defined
-
 - name: Composer install
   shell: composer install -d {{ symfony2.src }} --prefer-dist --no-interaction --optimize-autoloader

@@ -2,4 +2,3 @@
 dependencies:
   - php
   - composer
-  - apache

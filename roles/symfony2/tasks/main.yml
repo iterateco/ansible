@@ -3,16 +3,19 @@
   include: composer.yml
   tags:
     - symfony2
-    - composer:symfony2
+    - composer-install
+    - deploy
 
 - name: Migrate symfony2
   include: migrate.yml
   tags:
     - symfony2
-    - migrate:symfony2
+    - migrate
+    - deploy
 
-- name: Deploy symfony2
-  include: deploy.yml
+- name: Copy symfony2
+  include: copy.yml
   tags:
     - symfony2
-    - deploy:symfony2
+    - copy
+    - deploy
