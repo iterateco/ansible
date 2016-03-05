@@ -6,4 +6,4 @@
   get_url: url=https://s3.amazonaws.com/aws-cloudwatch/downloads/latest/awslogs-agent-setup.py dest=/tmp/awslogs-agent-setup.py
 
 - name: Execute python install
-  command: "python /tmp/awslogs-agent-setup.py --region {{lookup('env','AWS_REGION')}} --non-interactive --configfile=/tmp/awslogs.conf"
+  shell: "python /tmp/awslogs-agent-setup.py --region {{lookup('env','AWS_REGION')}} --non-interactive --configfile=/tmp/awslogs.conf"
