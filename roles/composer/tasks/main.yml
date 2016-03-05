@@ -8,4 +8,9 @@
   tags:
     - install
     - composer
-    - install:composer
+
+- name: Update composer
+  include: update.yml
+  tags:
+    - update
+    - composer

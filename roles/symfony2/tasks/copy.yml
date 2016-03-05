@@ -1,0 +1,50 @@
+---
+- debug: var=symfony2
+
+- name: Download parameters.yml
+  s3: bucket={{ symfony2.s3.bucket }} object={{ symfony2.s3.key }} dest={{ symfony2.src }}/app/config/parameters.yml mode=get
+  when: symfony2.s3 is defined
+
+- name: Permission release directory
+  file: path={{ symfony2.src }} owner=ubuntu group=ubuntu state=directory recurse=yes
+
+- name: Remove ignore files
+  file: dest={{ symfony2.src }}/{{ item }} state=absent
+  with_items:
+    - "{{ symfony2.ignore }}"
+  when: symfony2.ignore is defined
+
+- name: Create app/cache app/logs
+  file: dest={{ item }} state=directory owner=ubuntu group=ubuntu
+  with_items:
+    - "{{ symfony2.src }}/app/cache"
+    - "{{ symfony2.src }}/app/logs"
+
+- name: Set app/cache app/logs permissions
+  command: setfacl -R -m u:www-data:rwX -m u:ubuntu:rwX {{ item }} & setfacl -dR -m u:www-data:rwX -m u:ubuntu:rwX {{ item }}
+  with_items:
+    - "{{ symfony2.src }}/app/cache"
+    - "{{ symfony2.src }}/app/logs"
+
+- name: Warm up cache
+  remote_user: ubuntu
+  command: php {{ symfony2.src }}/app/console cache:clear --env={{ env }} --no-debug
+
+# test performance of mv versus symlink style
+# - name: mv src to dest
+#   command: mv {{ symfony2.src }} {{ symfony2.dest }}
+
+# symlink style
+- name: Set deploy_dest
+  command: dirname {{ symfony2.dest }}
+  register: deploy_dest
+  ignore_errors: yes
+
+- name: Set deploy_dest variable
+  set_fact: deploy_dest={{ deploy_dest.stdout }}
+
+- name: Create destination directory
+  file: path={{ deploy_dest }} state=directory owner=ubuntu group=ubuntu
+
+- name: Create symlink
+  file: dest={{ symfony2.dest }} src={{ symfony2.src }} state=link

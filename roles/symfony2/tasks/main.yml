@@ -1,0 +1,21 @@
+---
+- name: Composer update
+  include: composer.yml
+  tags:
+    - symfony2
+    - composer-install
+    - deploy
+
+- name: Migrate symfony2
+  include: migrate.yml
+  tags:
+    - symfony2
+    - migrate
+    - deploy
+
+- name: Copy symfony2
+  include: copy.yml
+  tags:
+    - symfony2
+    - copy
+    - deploy
