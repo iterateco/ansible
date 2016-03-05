@@ -1,10 +1,6 @@
 ---
 - debug: var=symfony2
 
-- name: Download parameters.yml
-  s3: bucket={{ symfony2.s3.bucket }} object={{ symfony2.s3.key }} dest={{ symfony2.src }}/app/config/parameters.yml mode=get
-  when: symfony2.s3 is defined
-
 - name: Permission release directory
   file: path={{ symfony2.src }} owner=ubuntu group=ubuntu state=directory recurse=yes
 

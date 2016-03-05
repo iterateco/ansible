@@ -1,4 +1,11 @@
 ---
+- name: Download parameters
+  include: secrets.yml
+  tags:
+    - symfony2
+    - parameters
+    - deploy
+
 - name: Composer update
   include: composer.yml
   tags:
