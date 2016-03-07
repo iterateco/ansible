@@ -117,36 +117,9 @@ state_file = /var/awslogs/state/agent-state
 #  %c           Locale's appropriate date and time representation.                                      Tue Aug 16 21:30:00 1988 (en_US)
 # ----------------------------------------------------------------------------------------------------------------------
 
-
-[/var/log/apache2/prod.encycle.io.log]
-datetime_format = %b %d %H:%M:%S
-file = /var/log/apache2/prod.encycle.io.log
-buffer_duration = 5000
-log_stream_name = {instance_id}
-initial_position = start_of_file
-log_group_name = /var/log/apache2/prod.encycle.io.log
-
-[/var/log/apache2/error.log]
-datetime_format = %b %d %H:%M:%S
-file = /var/log/apache2/error.log
-buffer_duration = 5000
-log_stream_name = {instance_id}
-initial_position = start_of_file
-log_group_name = /var/log/apache2/error.log
-
-[/var/www/current/Symfony/app/logs/prod.log]
-datetime_format = %b %d %H:%M:%S
-file = /var/www/current/Symfony/app/logs/prod.log
-buffer_duration = 5000
-log_stream_name = {instance_id}
-initial_position = start_of_file
-log_group_name = /var/www/current/Symfony/app/logs/prod.log
-
-[/var/log/syslog]
-datetime_format = %b %d %H:%M:%S
-file = /var/log/syslog
-buffer_duration = 5000
-log_stream_name = {instance_id}
-initial_position = start_of_file
-log_group_name = /var/log/syslog
-
+{% for logstream, entries in aws_cloudwatch_logs.iteritems() %}
+[{{ logstream }}]
+{% for k,v in entries.iteritems() %}
+{{ k }} = {{ v }}
+{% endfor %}
+{% endfor %}
