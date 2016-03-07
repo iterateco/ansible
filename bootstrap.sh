@@ -49,7 +49,7 @@ filter_plugins = $INSTALL_DIR/ansible-$INSTALL_VERSION/filter_plugins
 EOL
 
 if [ ! -z $ANSIBLE_PLAYBOOK ]; then
-  ansible-playbook -i "localhost," -c local $ANSIBLE_PLAYBOOK --extra-vars="env=local"
+  ansible-playbook $ANSIBLE_PLAYBOOK
 else
   echo "no playbook"
 fi

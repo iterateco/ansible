@@ -1,4 +1,4 @@
 ---
 dependencies:
-  - php
-  - composer
+  - {role: php, tags: ['install']}
+  - {role: composer, tags: ['install']}

@@ -1,3 +1,3 @@
 ---
 - name: Migrate database
-  shell: php {{ symfony2.src }}/app/console doctrine:migrations:migrate --env={{ env }}
+  shell: php {{ symfony2.src }}/app/console doctrine:migrations:migrate --env={{ env }} --no-interaction

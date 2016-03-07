@@ -1,6 +1,6 @@
 ---
 - name: Download parameters
-  include: secrets.yml
+  include: parameters.yml
   tags:
     - symfony2
     - parameters
@@ -10,7 +10,7 @@
   include: composer.yml
   tags:
     - symfony2
-    - composer-install
+    - dependencies
     - deploy
 
 - name: Migrate symfony2
@@ -20,9 +20,9 @@
     - migrate
     - deploy
 
-- name: Copy symfony2
-  include: copy.yml
+- name: Release symfony2
+  include: release.yml
   tags:
     - symfony2
-    - copy
+    - release
     - deploy

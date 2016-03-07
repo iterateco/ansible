@@ -10,6 +10,13 @@
     - composer
     - install:composer
 
+- name: Configure composer
+  include: configure.yml
+  tags:
+    - configure
+    - composer
+    - configure:composer
+
 - name: Update composer
   include: update.yml
   tags:
