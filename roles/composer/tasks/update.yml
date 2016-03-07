@@ -1,3 +1,0 @@
----
-- name: Composer update
-  shell: composer self-update

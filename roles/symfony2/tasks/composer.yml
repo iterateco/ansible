@@ -1,3 +1,6 @@
 ---
-- name: Composer install
-  shell: composer install -d {{ symfony2.src }} --prefer-dist --no-interaction --optimize-autoloader
+- name: Composer update
+  shell: composer self-update
+
+- name: Composer install dependencies
+  shell: composer install -d {{ symfony2_deploy_src }} --prefer-dist --no-interaction --optimize-autoloader
