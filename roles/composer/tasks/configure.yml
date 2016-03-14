@@ -1,4 +1,5 @@
 ---
 - name: Composer config
   shell: composer config -g github-oauth.github.com {{ composer_github_token }}
+  become: false
   when: composer_github_token is defined

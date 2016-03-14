@@ -2,27 +2,27 @@
 - name: Download parameters
   include: parameters.yml
   tags:
-    - symfony2
     - parameters
-    - deploy
+    - symfony2
+    - parameters:symfony2
 
 - name: Composer update
   include: composer.yml
   tags:
-    - symfony2
     - dependencies
-    - deploy
+    - symfony2
+    - dependencies:symfony2
 
 - name: Migrate symfony2
   include: migrate.yml
   tags:
-    - symfony2
     - migrate
-    - deploy
-
-- name: Release symfony2
-  include: release.yml
-  tags:
     - symfony2
-    - release
+    - migrate:symfony2
+
+- name: Deploy symfony2
+  include: deploy.yml
+  tags:
     - deploy
+    - symfony2
+    - deploy:symfony2

@@ -1,6 +1,8 @@
 ---
 - name: Composer update
-  shell: composer self-update
+  shell: sudo -H composer self-update
+  become: false
 
 - name: Composer install dependencies
   shell: composer install -d {{ symfony2_deploy_src }} --prefer-dist --no-interaction --optimize-autoloader
+  become: false
