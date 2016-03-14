@@ -2,9 +2,9 @@
 # this script allows developers to run different versions of ansible playbooks roles per project
 # and installs ansible on VM so developers need minimal packages on host machine
 
-while getopts "p:v:" opt; do
+while getopts "c:v:" opt; do
   case $opt in
-    p) ANSIBLE_PLAYBOOK="$OPTARG"
+    c) COMMAND="$OPTARG"
     ;;
     v) INSTALL_VERSION="$OPTARG"
     ;;
@@ -48,8 +48,5 @@ roles_path = $INSTALL_DIR/ansible-$INSTALL_VERSION/roles
 filter_plugins = $INSTALL_DIR/ansible-$INSTALL_VERSION/filter_plugins
 EOL
 
-if [ ! -z $ANSIBLE_PLAYBOOK ]; then
-  ansible-playbook $ANSIBLE_PLAYBOOK
-else
-  echo "no playbook"
-fi
+echo "executing: $COMMAND"
+eval $COMMAND
