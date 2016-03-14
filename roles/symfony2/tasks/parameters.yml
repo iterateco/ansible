@@ -1,4 +1,4 @@
 ---
 - name: Download parameters.yml
-  s3: bucket={{ symfony2_deploy_s3_bucket }} object={{ symfony2_deploy_s3_key }} dest={{ symfony2_deploy_src }}/app/config/parameters.yml mode=get
-  when: symfony2_deploy_s3_bucket is defined and symfony2_deploy_s3_key is defined
+  s3: bucket={{ site.deploy.parameters.s3.bucket }} object={{ site.deploy.parameters.s3.key }} dest={{ site.deploy.src }}/app/config/parameters.yml mode=get
+  when: site.deploy.parameters is defined and site.deploy.parameters.s3 is defined

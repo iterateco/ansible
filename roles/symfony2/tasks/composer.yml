@@ -1,8 +1,11 @@
 ---
+- name: Deubg
+  debug: var=site
+
 - name: Composer update
   shell: sudo -H composer self-update
   become: false
 
 - name: Composer install dependencies
-  shell: composer install -d {{ symfony2_deploy_src }} --prefer-dist --no-interaction --optimize-autoloader
+  shell: composer install -d {{ site.deploy.src }} --prefer-dist --no-interaction --optimize-autoloader
   become: false

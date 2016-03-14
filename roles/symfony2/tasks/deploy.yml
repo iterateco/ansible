@@ -1,31 +1,34 @@
 ---
+- name: Deubg
+  debug: var=site
+
 - name: Permission release directory
-  file: path={{ symfony2_deploy_src }} owner=ubuntu group=ubuntu state=directory recurse=yes
+  file: path={{ site.deploy.src }} owner=ubuntu group=ubuntu state=directory recurse=yes
 
 - name: Remove ignore files
-  file: dest={{ symfony2_deploy_src }}/{{ item }} state=absent
+  file: dest={{ site.deploy.src }}/{{ item }} state=absent
   with_items:
-    - "{{ symfony2_deploy_ignore }}"
-  when: symfony2_deploy_ignore is defined
+    - "{{ site.deploy.ignore }}"
+  when: site.deploy.ignore is defined
 
 - name: Create app/cache app/logs
   file: dest={{ item }} state=directory owner=ubuntu group=ubuntu
   with_items:
-    - "{{ symfony2_deploy_src }}/app/cache"
-    - "{{ symfony2_deploy_src }}/app/logs"
+    - "{{ site.deploy.src }}/app/cache"
+    - "{{ site.deploy.src }}/app/logs"
 
 - name: Set app/cache app/logs permissions
   command: setfacl -R -m u:www-data:rwX -m u:ubuntu:rwX {{ item }} & setfacl -dR -m u:www-data:rwX -m u:ubuntu:rwX {{ item }}
   with_items:
-    - "{{ symfony2_deploy_src }}/app/cache"
-    - "{{ symfony2_deploy_src }}/app/logs"
+    - "{{ site.deploy.src }}/app/cache"
+    - "{{ site.deploy.src }}/app/logs"
 
 - name: Warm up cache
   # this also warms up the cache
-  command: php {{ symfony2_deploy_src }}/app/console cache:clear --env={{ env }} --no-debug
+  command: php {{ site.deploy.src }}/app/console cache:clear --env={{ env }} --no-debug
 
 - name: Set deploy_dest
-  command: dirname {{ symfony2_deploy_dest }}
+  command: dirname {{ site.deploy.dest }}
   register: deploy_dest
   ignore_errors: yes
 
@@ -36,4 +39,4 @@
   file: path={{ deploy_dest }} state=directory owner=ubuntu group=ubuntu
 
 - name: Create symlink
-  file: dest={{ symfony2_deploy_dest }} src={{ symfony2_deploy_src }} state=link
+  file: dest={{ site.deploy.dest }} src={{ site.deploy.src }} state=link
