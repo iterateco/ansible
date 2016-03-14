@@ -1,6 +1,10 @@
 ---
 - stat: path=/usr/local/bin/composer
   register: composer_installed
+  tags:
+    - install
+    - composer
+    - install:composer
 
 - name: Install composer
   include: install.yml

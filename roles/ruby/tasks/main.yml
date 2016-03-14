@@ -1,6 +1,10 @@
 ---
 - stat: path={{ ruby_path }}
   register: ruby_installed
+  tags:
+    - install
+    - ruby
+    - install:ruby
 
 - name: Install ruby
   include: install.yml
