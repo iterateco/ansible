@@ -1,4 +1,9 @@
 ---
+- name: Symfony2 site
+  debug: var=site
+  tags:
+    - always
+
 - name: Download parameters
   include: parameters.yml
   tags:

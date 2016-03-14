@@ -1,7 +1,4 @@
 ---
-- name: Deubg
-  debug: var=site
-
 - name: Permission release directory
   file: path={{ site.deploy.src }} owner=ubuntu group=ubuntu state=directory recurse=yes
 
