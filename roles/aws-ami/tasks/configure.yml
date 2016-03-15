@@ -1,7 +1,0 @@
-# roles/ami/tasks/configure.yml
----
-- name: Remove SSH keys before bundle
-  command: sudo rm {{ item }}
-  with_items:
-    - /home/ubuntu/.ssh/authorized_keys
-    - /root/.ssh/authorized_keys
