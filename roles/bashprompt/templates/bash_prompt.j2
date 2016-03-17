@@ -1,1 +1,1 @@
-PS1='\[\033[0;32m\]\u@\[\033[0;97m\]{{ bashprompt_base }}.{% if ec2_tag_Name is defined %}{{ ec2_tag_Name }}{% else %}workstation{% endif %}\[\033[0m\] \[\033[0;34m\]\[\033[00m\]\[\033[0;33m\][$PWD]$\[\033[0m\] '
+PS1='\[\033[38;5;2m\]\u@\[$(tput sgr0)\]\[\033[38;5;15m\]{{ bashprompt_base }}.\h \[$(tput sgr0)\]\[\033[38;5;3m\][$PWD]:~$\[$(tput sgr0)\] '

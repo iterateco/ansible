@@ -3,11 +3,15 @@
 - name: Template copy; copy over updated bash prompt
   template:
     src: bash_prompt.j2
-    dest: "{{ bashprompt_home }}/.bash_prompt"
+    dest: "{{ item }}/.bash_prompt"
+  with_items:
+    - "{{ bashprompt_paths }}"
 
 - name: Update bashrc to load in our bash prompt
   lineinfile:
-    dest: "{{ bashprompt_home }}/.bashrc"
+    dest: "{{ item }}/.bashrc"
     regexp: "^source .bash_prompt"
     state: present
     line: "source .bash_prompt"
+  with_items:
+    - "{{ bashprompt_paths }}"

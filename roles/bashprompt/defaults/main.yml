@@ -1,6 +1,5 @@
 ---
 bashprompt_base: "{{ app_name }}"
-bashprompt_home: "/home/{{ ssh_user }}"
-
-#bashprompt_base: localhost
-#bashprompt_home: /home/ubuntu
+bashprompt_paths:
+  - /root
+  - "/home/{{ ssh_user }}"
