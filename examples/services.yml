@@ -3,8 +3,9 @@
 # ansible-playbook -i /etc/ansible/inventory/ec2.py services.yml --user=ubuntu --private-key=~/path/to/aws/key.pem -e 'env=dev role=app service=apache2 state=restarted'
 ---
 - hosts: "&{{ env | expand('tag_Env_') }}:{{ roles | expand('tag_Roles_') }}"
-  sudo: true
+  become: true
   tasks:
   - name: Modify {{ service }}
     service: name={{ service }} state={{ state }}
-    tags: services
+    tags: 
+      - services

@@ -1,2 +1,2 @@
 ---
-aws_cloudwatch_logs: []
+aws_cloudwatch_logs: {}

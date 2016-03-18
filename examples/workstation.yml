@@ -1,34 +1,21 @@
-# This is used to setup local Vagrant image to be run by developers
-# Usage:
-# vagrant up
-# or:
-# ansible-playbook -i "host," workstation.yml -u vagrant --private-key=~/.vagrant.d/insecure_private_key -e 'env=local'
 ---
-- hosts: all
-  sudo: true
+- name: Setup workstation
+  hosts: localhost
+  connection: local
+  become: true
 
   vars_files:
     - group_vars/local.yml
 
+  pre_tasks:
+    - name: Update apt
+      apt: update_cache=yes cache_valid_time=600
+
   roles:
     - common
-    - php
-    - { role: apache, apache_sites_enabled: ['app', 'stc'] }
+    - memcached
     - mysql
-    - bashprompt
-
-# example with no virtual host
-  # roles:
-  #   - common
-  #   - php
-  #   - apache
-  #   - mysql
-  #   - bashprompt
-
-# example for ruby/nginx setup
-  # roles:
-  #   - common
-  #   - ruby
-  #   - { role: nginx, nginx_sites_enabled: ['app'] }
-  #   - mysql
-  #   - bashprompt
+    - nodejs
+    - php
+    - composer
+    - { role: apache, apache_sites_enabled: ['app', 'stc'] }
