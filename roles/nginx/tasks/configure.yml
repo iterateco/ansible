@@ -7,9 +7,9 @@
   with_items:
     - "{{ nginx_sites_enabled }}"
   when: nginx_sites_enabled is defined
-    
+
 - name: Disable default
-  shell: rm /etc/nginx/sites-enabled/*
+  shell: rm -f /etc/nginx/sites-enabled/*
 
 - name: Enable virtual host
   file: src=/etc/nginx/sites-available/{{ nginx_sites_available[item].host }} dest=/etc/nginx/sites-enabled/{{ nginx_sites_available[item].host }} state=link

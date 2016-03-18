@@ -1,3 +1,4 @@
 ---
 nginx_main_directives: []
 nginx_http_directives: []
+nginx_sites_enabled: []
