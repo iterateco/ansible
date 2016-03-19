@@ -165,7 +165,7 @@ bashprompt_paths:
 <a name="role-common"></a>
 ### common
 ```yml
-defaults:
+packages:
   - acl
   - vim
   - zip
