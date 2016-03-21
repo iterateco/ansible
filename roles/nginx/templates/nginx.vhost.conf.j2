@@ -42,7 +42,7 @@ server {
         location ~ ^/assets/ {
             expires 1y;
             add_header Cache-Control public;
-
+            add_header Access-Control-Allow-Origin *;
             add_header ETag "";
             break;
         }
