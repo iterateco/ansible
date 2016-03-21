@@ -4,9 +4,8 @@ Example commands
 
 ```
 ansible-playbook -i ec2.py --user=ubuntu --private-key=yourkey.pem configure.yml -e "env=prod roles=app" --tags=apache,crontab
-ansible-playbook -i ec2.py --user=ubuntu --private-key=yourkey.pem credentials.yml -e "env=prod roles=app,admin"
 ansible-playbook -i ec2.py --user=ubuntu --private-key=yourkey.pem deploy.yml -e "env=prod build_id=XXX"
-ansible-playbook -i ec2.py --user=ubuntu --private-key=yourkey.pem ami.yml
+ansible-playbook --user=ubuntu --private-key=yourkey.pem ami.yml
 ```
 
 Target all EC2 machines with the tags env=prod and roles=app.
@@ -91,24 +90,6 @@ Example Rails playbook. ```nginx_sites_enabled``` most be defined in group_vars.
     - bashprompt
 ```
 
-Example ami playbook with json variables
-
-```
-ansible-playbook -i ec2.py exmaples/ami.yml -u ubuntu --private-key=~/key.pem -e '@myamivars.json'
-```
-
-Where myamivars.json contains.  *You can optional pass in variables via command line.*
-```json
-{
-  "ami_keypair": "mykeypair",
-  "ami_name": "myaminame",
-  "ami_security_group": "ami",
-  "ami_instance_type": "t2.micro",
-  "ami_aws_region": "us-east-1",
-  "ami_vpc_subnet": "subnet",
-  "ami_base_image": "ami-10389d78"
-}
-```
 
 ## Role Configuration
 The following configuration values can be set in group_vars files and will override the defaults listed below.
@@ -118,7 +99,6 @@ The following configuration values can be set in group_vars files and will overr
 - [bashprompt](#role-bashprompt)
 - [common](#role-common)
 - [crontab](#role-crontab)
-- [deploy](#role-deploy)
 - [elasticache](#role-elasticache)
 - [jenkins](#role-jenkins)
 - [mysql](#role-mysql)
@@ -127,18 +107,6 @@ The following configuration values can be set in group_vars files and will overr
 - [php](#role-php)
 - [postgresql](#role-postgresql)
 - [ruby](#role-ruby)
-
-<a name="role-ami"></a>
-### ami
-```yml
-ami_keypair: mykeypair
-ami_name: myaminame
-ami_security_group: ami
-ami_instance_type: t2.micro
-ami_aws_region: us-east-1
-ami_vpc_subnet: subnet
-ami_base_image: ami-10389d78
-```
 
 <a name="role-apache"></a>
 ### apache
@@ -188,42 +156,22 @@ For example:
 <a name="role-bashprompt"></a>
 ### bashprompt
 ```yml
-bashprompt_base: localhost
-bashprompt_home: /home/ubuntu
+bashprompt_base: "{{ app_name }}."
+bashprompt_paths:
+  - /root
+  - "/home/{{ ssh_user }}"
 ```
 
 <a name="role-common"></a>
 ### common
 ```yml
-common_apt_packages:
+packages:
   - acl
-  - git
   - vim
   - zip
-  - mysql-client-5.6
   - curl
   - ntp
-  - npm
-  - build-essential
-  - libssl-dev
-  - libexpat1-dev
   - rsync
-  - memcached
-  - python-mysqldb
-  - python-keyczar
-  - python-setuptools
-  - python-dev
-  - python-pip
-
-common_pip_packages:
-  - ansible
-  - jinja2
-  - boto
-
-common_npm_packages:
-  - uglify-js
-  - uglifycss
-  - forever
 ```
 
 <a name="role-crontab"></a>
@@ -232,64 +180,6 @@ common_npm_packages:
 crontab_list:
   - "*/1 * * * * root JOB_COMMAND --env={{ env }}"
 ```
-
-<a name="role-deploy"></a>
-### deploy
-
-deploy a nodejs project
-```
-ansible-playbook -i ec2.py deploy.yml -u ubuntu --private-key=~/key.pem --tags=nodejs
--e "env=prod 
-roles=app 
-deploy_src=site 
-deploy_secrets_src=secrets.json 
-deploy_exclude_path=rsync_exclude 
-deploy_build_id=myBuildId"
-```
-
-deploy a symfony2 project
-```
-ansible-playbook -i ec2.py deploy.yml -u ubuntu --private-key=~/key.pem --tags=symfony2
--e "env=prod 
-roles=app 
-deploy_src=site 
-deploy_secrets_src=parameters.yml
-deploy_exclude_path=rsync_exclude 
-deploy_build_id=myBuildId"
-```
-
-```yml
-deploy_src: "/path/to/my/site"
-deploy_build_id: "myBuildId" 
-deploy_exclude_path: "/path/to/rsync_exclude" #optional
-deploy_secrets_src: "/path/to/local/secrets.json" #optional
-deploy_secrets_dest: "/path/to/remote/secrets.json" #optional
-deploy_dest: "/path/to/deploy/directory" #optional
-```
-
-**A sample symfony2 deploy might look like this**
-```
-# update packages
-php Symfony/composer.phar self-update
-php Symfony/composer.phar install -d Symfony
-php Symfony/app/console assetic:dump --env=local --no-debug
-php Symfony/app/console assets:install Symfony/web --env=local
-php Symfony/app/console doctrine:migrations:migrate --env=prod
-
-cd ansible
-# Copy files to production app and admin machines
-ansible-playbook -i /etc/ansible/inventory/ec2.py deploy.yml -e "env=prod roles=app,admin deploy_src=../Symfony deploy_exclude_path=rsync_exclude_prod deploy_build_id=${BUILD_ID}" --tags=symfony2 -u ubuntu --private-key=~/.ssh/key.pem
-
-# Configure PHP, Crontabs, and Bashprompt on production admin machines
-ansible-playbook -i /etc/ansible/inventory/ec2.py configure.yml -e "env=prod roles=admin" -u ubuntu --private-key=~/.ssh/key.pem --tags=configure:php,configure:crontab,configure:bashprompt
-
-# Configure PHP, Apache, and Bashprompt on production app machines
-ansible-playbook -i /etc/ansible/inventory/ec2.py configure.yml -e "env=prod roles=app" -u ubuntu --private-key=~/.ssh/key.pem --tags=configure:php,configure:apache,configure:bashprompt
-```
-
-**Important**
-
-These examples assume that you've copied secrets files like parameters.yml, jwt public.pem and private.pem files to the jenkins workspace and that they're not excluded in the rsync_exclude file during deploy
 
 <a name="role-elasticache"></a>
 ### elasticache
@@ -301,8 +191,6 @@ These examples assume that you've copied secrets files like parameters.yml, jwt 
 ```yml
 mysql_root_password: localpass
 mysql_database_name: localdb
-mysql_apt_packages:
-  - mysql-server-5.6
 ```
 
 <a name="role-jenkins"></a>
@@ -336,10 +224,6 @@ nginx_sites_available:
 
 <a name="role-nodejs"></a>
 ### nodejs
-```yml
-nodejs_apt_packages:
-  - nodejs-legacy
-```
 
 <a name="role-php"></a>
 ### php
@@ -350,7 +234,7 @@ php_max_file_uploads: 10
 php_max_execution_time: 120
 php_display_errors: Off
 php_display_startup_errors: Off
-php_apt_packages:
+packages:
   - php5
   - php-apc
   - php-soap
@@ -394,7 +278,7 @@ with password `localpass`
 ruby_home: /home/ubuntu
 ruby_path: /usr/local/bin/ruby
 ruby_version: 2.2.2
-ruby_apt_packages:
+packages:
   - curl
   - zlib1g-dev
   - build-essential
