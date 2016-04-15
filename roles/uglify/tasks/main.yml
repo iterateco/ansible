@@ -1,0 +1,7 @@
+---
+- name: Install uglify
+  include: install.yml
+  tags:
+    - install
+    - uglify
+    - install:uglify

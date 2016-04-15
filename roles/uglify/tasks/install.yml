@@ -1,0 +1,6 @@
+---
+- name: Install uglify
+  npm: name={{ item }} global=yes
+  with_items:
+    - uglifycss
+    - uglify-js
