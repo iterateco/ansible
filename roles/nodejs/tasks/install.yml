@@ -1,11 +1,11 @@
 ---
-# - name: Curl https://deb.nodesource.com/setup_5.x
-#   shell: curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
+- name: Curl https://deb.nodesource.com/setup_5.x
+  shell: curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
 
 - name: Install apt packages
   apt: pkg={{ item }} state=installed
   with_items:
-    - nodejs-legacy
+    - build-essential
 
 - name: Install npm packages
   npm: name={{ item }} global=yes
