@@ -5,6 +5,7 @@
 - name: Install apt packages
   apt: pkg={{ item }} state=installed
   with_items:
+    - nodejs
     - build-essential
 
 - name: Install npm packages
