@@ -1,12 +1,17 @@
 ---
+- stat: path=/usr/bin/nodejs
+  register: nodejs_installed
+
 - name: Curl https://deb.nodesource.com/setup_5.x
   shell: curl -sL https://deb.nodesource.com/setup_5.x | sudo -E bash -
+  when: nodejs_installed.stat.exists == False
 
 - name: Install apt packages
   apt: pkg={{ item }} state=installed
   with_items:
     - nodejs
     - build-essential
+  when: nodejs_installed.stat.exists == False
 
 - name: Install npm packages
   npm: name={{ item }} global=yes
