@@ -19,10 +19,21 @@ if command -v ansible 2>/dev/null; then
   echo "ansible already installed"
 else
   echo "installing ansible"
+  # install via pip. ansible 2.0.2.0
+  # http://stackoverflow.com/questions/29134512/insecureplatformwarning-a-true-sslcontext-object-is-not-available-this-prevent
+  # these packages are required to prevent urllib3 from configuring SSL appropriately apt [libffi-dev libssl-dev], pip [pyopenssl ndg-httpsclient pyasn1]
+  # sudo apt-get update
+  # sudo apt-get install -y python-pip python-dev libffi-dev libssl-dev
+  # sudo -H pip install pyopenssl ndg-httpsclient pyasn1
+  # sudo -H pip install -U pip
+  # sudo -H pip install ansible
+  # sudo -H pip install --upgrade setuptools
+
+  # install apt-get
+  sudo apt-get install -y software-properties-common
+  sudo apt-add-repository -y ppa:ansible/ansible
   sudo apt-get update
-  sudo apt-get install -y python-pip python-dev
-  sudo pip install -U pip
-  sudo pip install ansible
+  sudo apt-get install -y ansible
 fi
 
 # install ansible roles if not already installed
