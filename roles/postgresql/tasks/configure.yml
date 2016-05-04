@@ -3,14 +3,14 @@
   service: name=postgresql state=started
 
 - name: Create a new database if not exists
-  sudo_user: postgres
+  become_user: postgres
   postgresql_db: name={{ postgresql_database_name }} state=present
 
 - name: Configure pg_hba
   template: src=pg_hba.conf.j2 dest=/etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf
 
 - name: Create a new database user
-  sudo_user: postgres
+  become_user: postgres
   postgresql_user:
     db: "{{ postgresql_database_name }}"
     name: "{{ postgresql_database_user }}"
