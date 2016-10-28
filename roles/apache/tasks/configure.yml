@@ -6,7 +6,6 @@
     - cache
     - rewrite
     - expires
-    - php5
 
 - name: Configure apache2 disable mods. # will be turned on later if need be
   command: a2dismod {{ item }}
