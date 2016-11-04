@@ -1,12 +1,4 @@
 ---
-# - name: Version php
-#   command: "php -r '$version = explode(\".\", phpversion()); echo isset($version[0]) ? $version[0] : \"\";'"
-#   register: php_major_version_info
-
-- set_fact:
-    
-    # php_cli_path: "/etc/php{{ php_major_version }}/cli/php.ini"
-
 - set_fact:
     php_package_prefix: php5
     php_apache2_path: /etc/php5/apache2/php.ini
