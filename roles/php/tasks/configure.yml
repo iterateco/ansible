@@ -1,11 +1,8 @@
 ---
 - name: Check if apache2 exists
-  stat: path=/etc/php5/apache2/php.ini
-  register: check_path
+  stat: path={{ php_apache2_path }}
+  register: php_apache2_path_check
 
-- name: Configure apache php settings for all machines
-  template: src="php.ini.j2" dest="/etc/php5/apache2/php.ini" owner=ubuntu group=ubuntu
-  when: check_path.stat.exists
-
-- name: Configure cli php settings for all machines
-  template: src="php_cli.ini.j2" dest="/etc/php5/cli/php.ini" owner=ubuntu group=ubuntu
+- name: Configure php for apache2
+  include: configure_apache.yml
+  when: php_apache2_path_check.stat.exists

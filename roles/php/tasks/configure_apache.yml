@@ -1,0 +1,18 @@
+---
+- name: Configure display_errors
+  lineinfile: dest={{ php_apache2_path }} regexp="^expose_php "  line="expose_php = Off"
+
+- name: Configure html_errors
+  lineinfile: dest={{ php_apache2_path }} regexp="^html_errors "  line="html_errors = Off"
+
+- name: Configure memory_limit
+  lineinfile: dest={{ php_apache2_path }} regexp="^memory_limit "  line="memory_limit = {{ php_apache2_memory_limit }}"
+
+- name: Configure max_execution_time
+  lineinfile: dest={{ php_apache2_path }} regexp="^max_execution_time "  line="max_execution_time = {{ php_apache2_max_execution_time }}"
+
+- name: Configure upload_max_filesize
+  lineinfile: dest={{ php_apache2_path }} regexp="^upload_max_filesize "  line="upload_max_filesize = {{ php_apache2_upload_max_filesize }} "
+
+- name: Configure post_max_size
+  lineinfile: dest={{ php_apache2_path }} regexp="^post_max_size "  line="post_max_size = {{ php_apache2_upload_max_filesize }}"
