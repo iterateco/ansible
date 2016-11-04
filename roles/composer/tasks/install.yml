@@ -2,8 +2,7 @@
 - name: Install apt packages
   apt: pkg={{ item }} state=installed
   with_items:
-    - curl 
-    - php5-cli 
+    - curl
     - git
 
 - name: Install composer
