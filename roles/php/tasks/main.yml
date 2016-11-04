@@ -4,8 +4,10 @@
 #   register: php_major_version_info
 
 - set_fact:
+    php_package_prefix: "php{{ php_major_version }}"
     php_apache2_path: "/etc/php{{ php_major_version }}/apache2/php.ini"
     # php_cli_path: "/etc/php{{ php_major_version }}/cli/php.ini"
+    
 
 - name: Install php
   include: install.yml

@@ -28,7 +28,7 @@
   with_items:
     - php-memcached
     - php-redis
-  when: php_major_version == 7
+  when: php_major_version == 7.0
 
 # apache2 configuration
 - stat: path=/usr/sbin/apache2
