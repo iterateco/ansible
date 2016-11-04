@@ -1,0 +1,12 @@
+---
+- name: Download AmazonElasticCacheClient
+  get_url: url=https://s3.amazonaws.com/elasticache-downloads/ClusterClient/PHP-7.0/latest-64bit dest=/tmp/cacheClient.zip
+
+- name: Unarchive AmazonElasticCacheClient
+  unarchive: src=/tmp/cacheClient.zip dest=/tmp
+
+- name: Copy AmazonElasticCacheClient Binary
+  command: cp /tmp/artifact/amazon-elasticache-cluster-client.so /usr/lib/php/20151012
+
+- name: Permission AmazonElasticCacheClient Binary
+  file: path=/usr/lib/php/20151012/amazon-elasticache-cluster-client.so mode=0644

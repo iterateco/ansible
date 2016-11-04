@@ -1,9 +1,3 @@
 ---
-- name: Add PHP elasticache.ini
-  template: src=elasticache.ini.j2 dest=/etc/php5/mods-available/elasticache.ini
-
-- name: Enable the elasticache.ini
-  command: php5enmod elasticache
-
-- name: Disable built-in memcached
-  command: php5dismod memcached
+- name: Configure aws-elasticache for php
+  include: "php/{{ php_major_version }}/configure.yml"

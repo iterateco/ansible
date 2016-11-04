@@ -1,0 +1,9 @@
+---
+- name: Add PHP elasticache.ini
+  template: src=elasticache.ini.j2 dest={{ php_mods_path }}/elasticache.ini
+
+- name: Enable the elasticache.ini
+  command: phpenmod elasticache
+
+- name: Disable memcached
+  command: phpdismod memcached

@@ -1,3 +1,4 @@
+# currently only supports php
 ---
 - name: Install aws-elasticache
   include: install.yml

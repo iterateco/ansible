@@ -1,14 +1,20 @@
 ---
+- debug: 
+    msg: "php_major_version: {{ php_major_version }}"
+
 - set_fact:
     php_package_prefix: php5
-    php_apache2_path: /etc/php5/apache2/php.ini
-    when: php_major_version == 5
+    php_ini_path: /etc/php5
+  when: php_major_version == 5
 
 - set_fact:
     php_package_prefix: php7.0
-    php_apache2_path: /etc/php/7.0/apache2/php.ini
-    when: php_major_version == 7
+    php_ini_path: /etc/php/7.0 
+  when: php_major_version == 7
 
+- set_fact:
+    php_apache2_path: "{{ php_ini_path }}/apache2/php.ini"
+    php_mods_path: "{{ php_ini_path }}/mods-available"
 
 - name: Install php
   include: install.yml
