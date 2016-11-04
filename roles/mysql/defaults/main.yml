@@ -1,3 +1,4 @@
 ---
 mysql_root_password: localpass
 mysql_database_name: localdb
+mysql_version: 5.7
