@@ -1,6 +1,6 @@
 ---
-# 5 or 7.0 are the options for this
-php_major_version: 7.0
+# 5 or 7 are the options for this
+php_major_version: 7
 php_apache2_memory_limit: 256M
 php_apache2_upload_max_filesize: 250M
 php_apache2_max_execution_time: 120
