@@ -3,16 +3,24 @@
   apt: pkg={{ item }} state=installed
   with_items:
     - python-pip
-    - ruby2.0
 
 - name: Install pip awscli 
   command: pip install awscli
 
 - name: Download s3 install
-  shell: "aws s3 cp s3://aws-codedeploy-{{lookup('env','AWS_REGION')}}/latest/install /tmp --region {{lookup('env','AWS_REGION')}}"
+  get_url:
+    url: https://aws-codedeploy-us-east-1.s3.amazonaws.com/latest/install
+    dest: /tmp/install
 
 - name: Add execute permission 
-  shell: "chmod +x /tmp/install"
+  file: 
+    path: /tmp/install 
+    mode: 0755
 
 - name: Build aws cli
-  shell: "/tmp/install auto"
+  command: "sudo /tmp/install auto"
+  # [WARNING]: Consider using 'become', 'become_method', and 'become_user' rather than running sudo
+  # tried this and doesn't work
+  # become: true
+  # become_method: sudo
+  # become_user: root
