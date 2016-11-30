@@ -1,9 +1,4 @@
 ---
-- name: Install apt packages
-  apt: pkg={{ item }} state=installed
-  with_items:
-    - python-pip
-
 - name: Install pip awscli 
   command: pip install awscli
 
@@ -20,7 +15,7 @@
 - name: Build aws cli
   command: "sudo /tmp/install auto"
   # [WARNING]: Consider using 'become', 'become_method', and 'become_user' rather than running sudo
-  # tried this and doesn't work
+  # tried the following and non of them work
   # become: true
   # become_method: sudo
   # become_user: root
