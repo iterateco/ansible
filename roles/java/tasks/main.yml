@@ -1,0 +1,7 @@
+---
+- name: Install java
+  include: install.yml
+  tags:
+    - install
+    - java
+    - install:java
