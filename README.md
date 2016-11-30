@@ -1,3 +1,5 @@
+# THIS README IS OUTDATED AND WILL BE MODFIED SOON
+
 # ansible
 
 Example commands
