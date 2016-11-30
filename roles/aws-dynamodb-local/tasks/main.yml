@@ -1,0 +1,7 @@
+---
+- name: Install aws-dynamodb-local
+  include: install.yml
+  tags:
+    - install
+    - aws-dynamodb-local
+    - install:aws-dynamodb-local

@@ -1,0 +1,21 @@
+---
+- set_fact:
+    dynamodb_install_dir: /home/ubuntu/dynamodb
+
+- name: Install apt packages
+  apt: pkg={{ item }} state=installed
+  with_items:
+    - default-jre
+
+- name: Creates DynamoDb directory
+  file: path={{ dynamodb_install_dir }} state=directory
+
+
+- name: Check if DynamoDb exists
+  stat: path={{ dynamodb_install_dir }}/DynamoDBLocal.jar
+  register: dynamodb_path_check
+
+- name: Download DynamoDb-local
+  unarchive: src=http://dynamodb-local.s3-website-us-west-2.amazonaws.com/dynamodb_local_latest.tar.gz dest={{ dynamodb_install_dir }} remote_src=yes
+  when: dynamodb_path_check.stat.exists == False
+
