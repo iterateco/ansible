@@ -1,0 +1,139 @@
+
+# This script runs on it's own. It's used to generate AMI images with
+# whatever software is necessary already pre-installed.
+#
+# export AWS_ACCESS_KEY_ID='XXXX'
+# export AWS_SECRET_ACCESS_KEY='XXXX'
+# export AWS_REGION='XXXX'
+# Usage:
+# ansible-playbook --user=ubuntu --private-key=~/path/yourkey.pem ami.yml
+---
+- name: Create an instance
+  hosts: localhost
+  connection: local
+  vars:
+    - ami:
+        keypair: iterate
+        security_group: ami
+        instance_type: t2.small
+        base_image: ami-fce3c696
+        aws_region: us-east-1
+        vpc_subnet: subnet-f32d3ddb
+        name: iterate
+
+  tasks:
+    - name: Debug ec2
+      debug: var=ami
+
+    - set_fact:
+        ami: "{{ ami }}"
+
+    - name: Launch Instance
+      ec2:
+        keypair: "{{ ami.keypair }}"
+        group: "{{ ami.security_group }}"
+        instance_type: "{{ ami.instance_type }}"
+        image: "{{ ami.base_image }}"
+        region: "{{ ami.aws_region }}"
+        vpc_subnet_id: "{{ ami.vpc_subnet }}"
+        assign_public_ip: true
+        instance_tags: '{"Name":"ami-{{ ansible_date_time.epoch }}"}'
+        count: 1
+        wait: true
+      register: ec2
+
+    - name: Add new instance to host group
+      add_host: hostname={{ item.public_ip }} groupname=launched
+      with_items: 
+        - "{{ ec2.instances }}"
+
+    - name: Wait for SSH to come up
+      wait_for: host={{ item.public_ip }} port=22 delay=10 timeout=320 state=started
+      with_items:
+        - "{{ ec2.instances }}"
+
+- name: Provision an instance
+  hosts: launched
+  become: true
+  gather_facts: true
+  pre_tasks:
+    - name: Update apt
+      apt: update_cache=yes cache_valid_time=600
+
+    # install ansible
+    - name: Download ansible bootstrap.sh
+      get_url: url="https://raw.githubusercontent.com/iterateco/ansible/ecbf0a504d3cf65a3fdb9d5a67248dfeef3249cb/bootstrap.sh" dest=/tmp/boostrap.sh mode=0755
+
+    - name: Install boostrap.sh
+      shell: /tmp/boostrap.sh -v0.3.4
+
+  roles:
+    - common
+    - boto
+    - php
+    - nodejs
+    - composer
+    - apache
+    - uglify
+    - bashprompt
+    - aws-cloudwatch
+    - aws-codedeploy
+    - aws-elasticache
+    - aws-ssm
+
+  post_tasks:
+    - name: Remove SSH keys before bundle
+      command: shred -u /etc/ssh/*_key /etc/ssh/*_key.pub
+      ignore_errors: yes
+
+    - name: Disable local root access
+      command: passwd -l root
+
+    - name: Shred history
+      command: shred -u {{ item }}
+      ignore_errors: yes
+      with_items:
+        - /home/ubuntu/.*history
+        - /root/.*history
+
+    - name: Remove authorized_keys before bundle
+      command: shred -u {{ item }}
+      ignore_errors: yes
+      with_items:
+        - /home/ubuntu/.ssh/authorized_keys
+        - /root/.ssh/authorized_keys
+
+  environment:
+    AWS_ACCESS_KEY_ID: "{{ lookup('env', 'AWS_ACCESS_KEY_ID') }}"
+    AWS_SECRET_ACCESS_KEY: "{{ lookup('env', 'AWS_SECRET_ACCESS_KEY') }}"
+    AWS_REGION: "{{ lookup('env', 'AWS_REGION') }}"
+
+- name: Create an AMI and Terminate instance
+  hosts: localhost
+  connection: local
+  gather_facts: false
+  tasks:
+    - name: Debug ami
+      debug: var=ami
+
+    - name: Debug ec2
+      debug: var=ec2
+
+    - name: Register new ami
+      ec2_ami:
+        aws_access_key: "{{ lookup('env','AWS_ACCESS_KEY_ID') }}"
+        aws_secret_key: "{{ lookup('env','AWS_SECRET_ACCESS_KEY') }}"
+        region: "{{ ami.aws_region }}"
+        instance_id: "{{ item }}"
+        wait: yes
+        name: "{{ ami.name }}-{{ ansible_date_time.epoch }}"
+      with_items: 
+        - "{{ ec2.instance_ids }}"
+
+    - name: Terminate instances that were previously launched
+      ec2:
+        state: absent
+        instance_ids: "{{ item }}"
+        region: "{{ ami.aws_region }}"
+      with_items: 
+        - "{{ ec2.instance_ids }}"
