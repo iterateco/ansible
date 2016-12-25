@@ -60,7 +60,7 @@
     - name: Update apt
       apt: update_cache=yes cache_valid_time=600
 
-    # install ansible
+    # install ansible, if desired on remote machine
     - name: Download ansible bootstrap.sh
       get_url: url="https://raw.githubusercontent.com/iterateco/ansible/ecbf0a504d3cf65a3fdb9d5a67248dfeef3249cb/bootstrap.sh" dest=/tmp/boostrap.sh mode=0755
 
