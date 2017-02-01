@@ -12,6 +12,7 @@
     - "{{ php_package_prefix }}-mcrypt"
     - php-soap
     - php-pear
+    - php-mbstring
 
 # php 5 packages
 - name: Install apt packages
