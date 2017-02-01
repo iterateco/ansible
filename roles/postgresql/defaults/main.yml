@@ -1,10 +1,3 @@
 ---
-postgresql_version: 9.5
+postgresql_version: 9.6
 postgresql_apt_key_id: ACCC4CF8
-
-# http://docs.ansible.com/postgresql_user_module.html
-# echo "md5`echo -n "localpassansible" | md5`" md5 + password + username
-postgresql_database_name: localdb
-postgresql_database_user: root
-postgresql_database_password: md535c31a9780a09cbaafba7817d2c33323 # localpass
-postgresql_database_user_roles: CREATEDB,CREATEROLE,SUPERUSER
