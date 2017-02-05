@@ -1,0 +1,29 @@
+---
+- name: Creates directory
+  file: 
+    path: "{{ ami.cache_path }}"
+    state: directory
+# Set ami value from cache if we have file on disk. This prevents having to relaunch ec2 instance in case of failure
+# to override run job with -e "cache=0"
+- name: Load cache from previous run if file exist
+  include_vars: 
+    file: "{{ ami.cache_path }}/cache.json"
+    name: ami
+  ignore_errors: yes
+  when: (cache is undefined) or (cache|bool)
+
+- name: Launch aws-ami
+  include: launch.yml
+  when: ami_action == "launch"
+  tags:
+    - launch
+    - aws-ami
+    - launch:aws-ami
+
+- name: Register aws-ami
+  include: register.yml
+  when: ami_action == "register"
+  tags:
+    - register
+    - aws-ami
+    - register:aws-ami

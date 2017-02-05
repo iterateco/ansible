@@ -1,0 +1,12 @@
+---
+ami:
+  # user defined parameters
+  instance_type: "{{ instance_type|default('m3.medium') }}" # use an instance with no VPC requirment
+  source: "{{ source }}"
+  name: "{{ name }}"
+  description: "{{ description|default('') }}"
+
+  # parameters used in tasks
+  security_group: "ami-{{ name|hash('sha1') }}"
+  keypair: "ami-{{ name|hash('sha1') }}"
+  cache_path: "/tmp/ami/{{ name|hash('sha1') }}"

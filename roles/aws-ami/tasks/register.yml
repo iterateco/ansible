@@ -1,0 +1,61 @@
+---
+- name: Debug ami
+  debug:
+    var: ami
+
+- name: Remove SSH keys and history before bundle
+  command: "{{ item }}"
+  with_items:
+    - shred -u /home/ubuntu/.ssh/authorized_keys
+    - shred -u /home/ubuntu/.*history
+    - shred -u /root/.ssh/authorized_keys
+    - shred -u /root/.*history
+    - shred -u /etc/ssh/*_key 
+    - shred -u /etc/ssh/*_key.pub
+    - passwd -l root
+  ignore_errors: yes
+
+# - ec2_ami_find:
+#     name: "{{ ami.name }}"
+#   register: ami_find
+
+# https://bonovoxly.github.io/2016-02-21-automating-AMIs-with-ansible
+# - name: "Testing if ami with name: {{ ami.name }} already exists"
+#   fail:
+#     msg: "The ami with name: {{ ami.name }} already exists. Please use another name or deregister the existing AMI"
+#   when: ((ami_find.results|length)|int) == 1
+
+# prevent duplicate names by appending date as name is global across all of AWS
+- name: Register new ami
+  ec2_ami:
+    instance_id: "{{ ami.instance.id }}"
+    wait: yes
+    name: "{{ ami.name }}-{{ ansible_date_time.epoch }}"
+    description: "{{ ami.description }}"
+    delete_snapshot: yes
+
+- name: Terminate instances that were previously launched
+  ec2:
+    state: absent
+    instance_id: "{{ ami.instance.id }}"
+    wait: yes
+  ignore_errors: yes
+
+- name: Remove ssh key
+  ec2_key:
+    name: "{{ ami.keypair }}"
+    state: absent
+  ignore_errors: yes
+
+- name: Remove security group
+  ec2_group:
+    name: "{{ ami.security_group }}"
+    description: ""
+    state: absent
+  ignore_errors: yes
+
+- name: Remove cache from local disk
+  file:
+    path: "{{ ami.cache_path }}"
+    state: absent
+  ignore_errors: yes

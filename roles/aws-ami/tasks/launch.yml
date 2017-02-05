@@ -1,0 +1,77 @@
+---
+- name: Create ssh key
+  ec2_key:
+    name: "{{ ami.keypair }}"
+    state: present
+  register: ami_key_contents
+
+- name: Write ssh key to file
+  copy: 
+    content: "{{ ami_key_contents.key.private_key }}" 
+    dest: "{{ ami.cache_path }}/keypair.pem"
+    mode: 0400
+  when: ami_key_contents.changed
+
+
+- name: Create security group
+  ec2_group:
+    name: "{{ ami.security_group }}"
+    description: A temporary security group for creating an AMI 
+    rules:
+      - proto: tcp
+        from_port: 22
+        to_port: 22
+        cidr_ip: 0.0.0.0/0
+    state: present
+
+- block:
+  - name: Launch instance
+    ec2:
+      keypair: "{{ ami.keypair }}"
+      group: "{{ ami.security_group}}"
+      instance_type: "{{ ami.instance_type }}"
+      image: "{{ ami.source }}"
+      instance_tags:
+        Name: "ami-{{ ami.name }}"
+      count: 1
+      wait: true
+    register: ami_result_ec2_instance
+
+  - name: Storing ec2 facts
+    set_fact:
+      ami: "{{ ami|combine({'instance': ami_result_ec2_instance.instances|first}) }}"
+  when: ami.instance is undefined
+
+- name: Testing for public_ip
+  fail:
+    msg: "The ec2 instance returned an empty value for public_ip.  Try running rm {{ ami.cache_path}}/cache.json and executing again."
+  when: ami.instance is defined and (ami.instance.public_ip == "" or ami.instance.public_ip == None)
+
+- name: Cache ami properties to file
+  copy: 
+    content: "{{ ami }}" 
+    dest: "{{ ami.cache_path }}/cache.json"
+    mode: 0600
+
+- name: Add new instance to host group
+  add_host: 
+    name: "{{ ami.instance.public_ip }}" 
+    groups: ami_host
+    ansible_ssh_private_key_file: "{{ ami.cache_path }}/keypair.pem"
+    ansible_user: ubuntu
+    ansible_ssh_host: "{{ ami.instance.public_ip }}" # do this to be safe. see https://github.com/ansible/ansible/issues/20068
+
+- name: Wait for SSH to come up
+  wait_for: 
+    host: "{{ ami.instance.public_ip }}" 
+    port: 22
+    state: started
+
+- name: Install python if required
+  delegate_to: "{{ ami.instance.public_ip }}" 
+  raw: test -e /usr/bin/python || (sudo apt -y update && sudo apt install -y python)
+
+- name: Debug ami
+  debug: 
+    var: ami
+
