@@ -5,8 +5,10 @@
 
   {% if virtual_host.ssl is defined and virtual_host.ssl.port is defined and port == virtual_host.ssl.port -%}
   SetEnv HTTPS 'on'
+  RequestHeader set X-Forwarded-Proto "https"
   {% else -%}
   SetEnv HTTPS 'off'
+  RequestHeader set X-Forwarded-Proto "http"
   {%- endif %}
 
   DirectoryIndex {{ virtual_host.directory_index }}
@@ -40,7 +42,7 @@
     RewriteEngine On
     {% if virtual_host.ssl is defined and virtual_host.ssl.port is defined and virtual_host.ssl.required is defined -%}
       {% if port != virtual_host.ssl.port and virtual_host.ssl.required -%}
-    RewriteCond %{SERVER_PORT} !^{{ virtual_host.ssl.port }}$
+    RewriteCond %{HTTP:X-Forwarded-Proto} =http
     RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
       {%- endif %}
     {%- endif %}
