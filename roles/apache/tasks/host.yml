@@ -1,0 +1,52 @@
+# apache_host_id is the name of the key 
+# in the below example "app" is the apache_host_id 
+# apache_sites_available:
+#   app: ~
+- set_fact:
+    apache_host_id: "{{ item }}"
+
+# custom conf file
+- name: Configure app virtual host
+  copy: 
+    content: "{{ apache_sites_available[apache_host_id].conf }}"
+    dest: "/etc/apache2/sites-available/{{ apache_sites_available[apache_host_id].host }}.conf"
+  when: apache_sites_available[apache_host_id].conf is defined
+
+# otherwise use template
+- name: Template copy; Configure app virtual host
+  template: 
+    src: vhost.conf.j2 
+    dest: "/etc/apache2/sites-available/{{ apache_sites_available[apache_host_id].host }}.conf"
+  when: apache_sites_available[apache_host_id].conf is undefined
+
+- name: Enable app virtual host
+  command: a2ensite {{ apache_sites_available[apache_host_id].host }}.conf
+
+- name: Enable app virtual host
+  command: a2ensite {{ apache_sites_available[apache_host_id].host }}.conf
+
+- name: Insert htpasswd values
+  command: htpasswd -bc {{ apache_htpasswd_path }} {{ apache_sites_available[apache_host_id].basic_auth.username }} {{ apache_sites_available[apache_host_id].basic_auth.password }}
+  when: apache_sites_available[apache_host_id].basic_auth is defined
+
+- block:
+  - name: Configure apache2 ssl mod
+    command: a2enmod ssl
+
+  - name: Make ssl certs directory
+    file: 
+      path: "{{ apache_ssl_path }}"
+      state: directory
+
+  - name: Copy ssl certifcate files
+    copy: 
+      src: "{{ apache_sites_available[apache_host_id].ssl.cert_src_path }}/{{ certs }}" 
+      dest: "{{ apache_ssl_path }}/{{ apache_host_id }}" 
+      mode: 644
+    with_items:
+      - cert.crt
+      - cert.key
+      - chain.crt
+    loop_control:
+      loop_var: certs
+  when: apache_sites_available[apache_host_id].ssl.engine_enabled is defined and apache_sites_available[apache_host_id].ssl.engine_enabled
