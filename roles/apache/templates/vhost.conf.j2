@@ -42,7 +42,7 @@
     RewriteEngine On
     {% if virtual_host.ssl is defined and virtual_host.ssl.port is defined and virtual_host.ssl.required is defined -%}
       {% if port != virtual_host.ssl.port and virtual_host.ssl.required -%}
-    RewriteCond %{HTTP:X-Forwarded-Proto} =http
+    RewriteCond %{HTTP:X-Forwarded-Proto} !https
     RewriteRule ^(.*)$ https://%{HTTP_HOST}/$1 [R=301,L]
       {%- endif %}
     {%- endif %}
