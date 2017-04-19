@@ -6,3 +6,6 @@
   apt: pkg={{ item }} state=installed
   with_items:
     - "ruby{{ ruby_version }}"
+    # Rails installation dependencies
+    - "ruby{{ ruby_version }}-dev"
+    - zlib1g-dev
