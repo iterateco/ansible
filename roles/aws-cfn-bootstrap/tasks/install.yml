@@ -1,0 +1,4 @@
+---
+- name: Install aws-cfn-bootstrap
+  pip:
+    name: "{{ aws_cfn_bootstrap_url }}"

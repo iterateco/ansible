@@ -1,0 +1,4 @@
+---
+aws_cfn_bootstrap_url: https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-latest.tar.gz
+aws_cfn_hup_service_path: /lib/systemd/system/cfn-hup.service
+aws_cfn_hup_service_interval: 5min
