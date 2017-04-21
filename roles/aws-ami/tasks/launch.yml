@@ -16,13 +16,17 @@
 - name: Create security group
   ec2_group:
     name: "{{ ami.security_group }}"
-    description: A temporary security group for creating an AMI 
+    description: A temporary security group for creating an AMI
     rules:
       - proto: tcp
         from_port: 22
         to_port: 22
         cidr_ip: 0.0.0.0/0
-    state: present
+    rules_egress:
+      - proto: tcp
+        from_port: 0
+        to_port: 65535
+        cidr_ip: 0.0.0.0/0
 
 - block:
   - name: Launch instance
