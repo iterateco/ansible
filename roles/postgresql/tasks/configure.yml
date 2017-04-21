@@ -1,9 +1,3 @@
 ---
-- name: start postgresql server
-  service: name=postgresql state=started
-
-- name: Configure pg_hba
-  template: src=pg_hba.conf.j2 dest=/etc/postgresql/{{ postgresql_version }}/main/pg_hba.conf
-
 - name: restart postgresql server
   service: name=postgresql state=restarted
