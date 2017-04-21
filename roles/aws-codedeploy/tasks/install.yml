@@ -1,4 +1,13 @@
 ---
+- name: Add repository
+  apt_repository: 
+    repo: ppa:brightbox/ruby-ng
+
+- name: Install apt packages
+  apt: 
+    pkg: ruby2.3 
+    state: installed
+
 - name: Install pip awscli 
   command: pip install awscli
 
