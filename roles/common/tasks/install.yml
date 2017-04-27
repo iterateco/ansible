@@ -8,3 +8,4 @@
     - curl
     - ntp
     - rsync
+    - jq
