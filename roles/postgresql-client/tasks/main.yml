@@ -1,0 +1,7 @@
+---
+- name: Install postgresql-client
+  include: install.yml
+  tags:
+    - install
+    - postgresql
+    - install:postgresql-client

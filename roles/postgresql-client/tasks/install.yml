@@ -1,0 +1,13 @@
+---
+- name: Adding APT repository key
+  apt_key: id={{ postgresql_apt_key_id }} url=https://www.postgresql.org/media/keys/{{ postgresql_apt_key_id}}.asc
+
+- name: Add PostgreSQL official APT repository
+  apt_repository: repo="deb http://apt.postgresql.org/pub/repos/apt/ {{ansible_distribution_release}}-pgdg main"
+
+- name: Install apt packages
+  apt: pkg={{ item }} state=installed
+  with_items:
+    - "postgresql-client-{{ postgresql_version }}"
+    - python-psycopg2
+    - libpq-dev
