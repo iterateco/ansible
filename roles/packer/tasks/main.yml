@@ -1,0 +1,7 @@
+---
+- name: Install packer
+  include: install.yml
+  tags:
+    - install
+    - packer
+    - install:packer
