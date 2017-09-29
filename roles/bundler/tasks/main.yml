@@ -1,0 +1,7 @@
+---
+- name: Install bundler
+  include: install.yml
+  tags:
+    - install
+    - bundler
+    - install:bundler

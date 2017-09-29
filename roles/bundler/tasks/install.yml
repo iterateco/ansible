@@ -1,0 +1,7 @@
+---
+- name: Install bundler
+  command: "gem install bundler"
+  # using the following syntax does not add the binary to the path
+  # gem:
+  #   name: bundler
+  #   state: latest
