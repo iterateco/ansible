@@ -3,5 +3,5 @@
   include: install.yml
   tags:
     - install
-    - postgresql
+    - postgresql-client
     - install:postgresql-client
