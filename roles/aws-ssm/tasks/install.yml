@@ -2,5 +2,5 @@
 - name: Download aws-ssm
   get_url: url=https://amazon-ssm-us-east-1.s3.amazonaws.com/latest/debian_amd64/amazon-ssm-agent.deb dest=/tmp/amazon-ssm-agent.deb
 
-- name: Download aws-ssm
+- name: Install aws-ssm
   command: "dpkg -i /tmp/amazon-ssm-agent.deb"
