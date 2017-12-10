@@ -41,7 +41,7 @@
   - name: Copy ssl certifcate files
     copy: 
       src: "{{ apache_sites_available[apache_host_id].ssl.cert_src_path }}/{{ certs }}" 
-      dest: "{{ apache_ssl_path }}/{{ apache_host_id }}" 
+      dest: "{{ apache_ssl_path }}/{{ certs }}" 
       mode: 644
     with_items:
       - cert.crt
@@ -49,4 +49,4 @@
       - chain.crt
     loop_control:
       loop_var: certs
-  when: apache_sites_available[apache_host_id].ssl.engine_enabled is defined and apache_sites_available[apache_host_id].ssl.engine_enabled
+  when: apache_sites_available[apache_host_id].ssl is defined and apache_sites_available[apache_host_id].ssl.engine_enabled is defined and apache_sites_available[apache_host_id].ssl.engine_enabled
