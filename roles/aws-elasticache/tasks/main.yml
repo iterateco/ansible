@@ -1,14 +1,14 @@
 # currently only supports php
 ---
 - name: Install aws-elasticache
-  include: install.yml
+  include_tasks: install.yml
   tags:
     - install
     - aws-elasticache
     - install:aws-elasticache
 
 - name: Configure aws-elasticache
-  include: configure.yml
+  include_tasks: configure.yml
   tags:
     - configure
     - aws-elasticache

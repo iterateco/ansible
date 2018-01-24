@@ -1,6 +1,6 @@
 ---
 - name: Install packer
-  include: install.yml
+  include_tasks: install.yml
   tags:
     - install
     - packer

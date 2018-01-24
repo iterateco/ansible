@@ -1,6 +1,6 @@
 ---
 - name: Install boto
-  include: install.yml
+  include_tasks: install.yml
   tags:
     - install
     - boto

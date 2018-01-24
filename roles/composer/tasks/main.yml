@@ -7,7 +7,7 @@
     - install:composer
 
 - name: Install composer
-  include: install.yml
+  include_tasks: install.yml
   when: composer_installed.stat.exists == False
   tags:
     - install
@@ -15,7 +15,7 @@
     - install:composer
 
 - name: Configure composer
-  include: configure.yml
+  include_tasks: configure.yml
   tags:
     - configure
     - composer

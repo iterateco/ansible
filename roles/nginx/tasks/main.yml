@@ -1,13 +1,13 @@
 ---
 - name: Install nginx
-  include: install.yml
+  include_tasks: install.yml
   tags:
     - install
     - nginx
     - install:nginx
 
 - name: Configure nginx
-  include: configure.yml
+  include_tasks: configure.yml
   tags:
     - configure
     - nginx

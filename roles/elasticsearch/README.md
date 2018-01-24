@@ -20,7 +20,7 @@ The port to listen for HTTP connections on.
     elasticsearch_script_inline: true
     elasticsearch_script_indexed: true
 
-Whether to allow inline scripting against ElasticSearch. You should read the following link as there are possible security implications for enabling these options: [Enable Dynamic Scripting](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-scripting.html#enable-dynamic-scripting). Available options include: `true`, `false`, and `sandbox`.
+Whether to allow inline scripting against ElasticSearch. You should read the following link as there are possible security implications for enabling these options: [Enable Dynamic Scripting](https://www.elastic.co/guide/en/elasticsearch/reference/current/modules-scripting.html#enable-dynamic-scripting). Available options include_tasks: `true`, `false`, and `sandbox`.
 
 ## Dependencies
 

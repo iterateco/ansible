@@ -1,6 +1,6 @@
 ---
 - name: Configure crontab
-  include: configure.yml
+  include_tasks: configure.yml
   tags:
     - configure
     - crontab

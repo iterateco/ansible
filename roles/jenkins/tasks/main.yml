@@ -1,13 +1,13 @@
 ---
 - name: Install jenkins
-  include: install.yml
+  include_tasks: install.yml
   tags:
     - install
     - jekins
     - install:jenkins
 
 - name: Configure jenkins
-  include: configure.yml
+  include_tasks: configure.yml
   tags:
     - configure
     - jenkins

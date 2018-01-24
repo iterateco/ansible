@@ -4,5 +4,5 @@
   register: php_apache2_path_check
 
 - name: Configure php for apache2
-  include: configure_apache.yml
+  include_tasks: configure_apache.yml
   when: php_apache2_path_check.stat.exists == True

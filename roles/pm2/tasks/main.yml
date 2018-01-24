@@ -1,13 +1,13 @@
 ---
 - name: Install pm2
-  include: install.yml
+  include_tasks: install.yml
   tags:
     - install
     - pm2
     - install:pm2
 
 - name: Configure pm2
-  include: configure.yml
+  include_tasks: configure.yml
   tags:
     - configure
     - pm2

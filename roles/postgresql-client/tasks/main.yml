@@ -1,6 +1,6 @@
 ---
 - name: Install postgresql-client
-  include: install.yml
+  include_tasks: install.yml
   tags:
     - install
     - postgresql-client

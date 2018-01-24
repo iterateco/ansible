@@ -1,6 +1,6 @@
 ---
 - name: Install ruby
-  include: install.yml
+  include_tasks: install.yml
   tags:
     - install
     - ruby

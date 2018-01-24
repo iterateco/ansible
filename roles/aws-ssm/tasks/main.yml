@@ -1,6 +1,6 @@
 ---
 - name: Install aws-ssm
-  include: install.yml
+  include_tasks: install.yml
   tags:
     - install
     - aws-ssm

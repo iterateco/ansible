@@ -38,7 +38,7 @@
     state: present
 
 - name: Configure host
-  include: host.yml
+  include_tasks: host.yml
   with_items: "{{ apache_sites_enabled }}"
   when: apache_sites_enabled is defined
 

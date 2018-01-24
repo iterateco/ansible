@@ -1,13 +1,13 @@
 ---
 - name: Install postgresql
-  include: install.yml
+  include_tasks: install.yml
   tags:
     - install
     - postgresql
     - install:postgresql
 
 - name: Configure postgresql
-  include: configure.yml
+  include_tasks: configure.yml
   tags:
     - configure
     - postgresql

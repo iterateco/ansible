@@ -5,28 +5,28 @@
     - always
 
 - name: Download parameters
-  include: parameters.yml
+  include_tasks: parameters.yml
   tags:
     - parameters
     - symfony2
     - parameters:symfony2
 
 - name: Composer update
-  include: composer.yml
+  include_tasks: composer.yml
   tags:
     - dependencies
     - symfony2
     - dependencies:symfony2
 
 - name: Migrate symfony2
-  include: migrate.yml
+  include_tasks: migrate.yml
   tags:
     - migrate
     - symfony2
     - migrate:symfony2
 
 - name: Deploy symfony2
-  include: deploy.yml
+  include_tasks: deploy.yml
   tags:
     - deploy
     - symfony2

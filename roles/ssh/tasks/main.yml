@@ -1,6 +1,6 @@
 ---
 - name: Configure ssh
-  include: configure.yml
+  include_tasks: configure.yml
   tags:
     - configure
     - ssh

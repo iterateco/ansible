@@ -1,13 +1,13 @@
 ---
 - name: Install aws-cloudwatch
-  include: install.yml
+  include_tasks: install.yml
   tags:
     - install
     - aws-cloudwatch
     - install:aws-cloudwatch
 
 - name: Configure aws-cloudwatch
-  include: configure.yml
+  include_tasks: configure.yml
   tags:
     - configure
     - aws-cloudwatch

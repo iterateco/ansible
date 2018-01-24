@@ -13,7 +13,7 @@
   when: (cache is undefined) or (cache|bool)
 
 - name: Launch aws-ami
-  include: launch.yml
+  include_tasks: launch.yml
   when: ami_action == "launch"
   tags:
     - launch
@@ -21,7 +21,7 @@
     - launch:aws-ami
 
 - name: Register aws-ami
-  include: register.yml
+  include_tasks: register.yml
   when: ami_action == "register"
   tags:
     - register

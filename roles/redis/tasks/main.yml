@@ -1,6 +1,6 @@
 ---
 - name: Install redis
-  include: install.yml
+  include_tasks: install.yml
   tags:
     - install
     - redis

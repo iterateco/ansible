@@ -25,14 +25,14 @@
     - always
 
 - name: Install php
-  include: install.yml
+  include_tasks: install.yml
   tags:
     - install
     - php
     - install:php
 
 - name: Configure php
-  include: configure.yml
+  include_tasks: configure.yml
   tags:
     - configure
     - php
