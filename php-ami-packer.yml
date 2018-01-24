@@ -16,7 +16,6 @@
     - composer
     - apache
     - uglify
-    - bashprompt
     - aws-cloudwatch
     - aws-codedeploy
     - aws-elasticache
