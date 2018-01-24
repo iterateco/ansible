@@ -1,0 +1,38 @@
+# packer build php-ami-packer.yml
+
+# export AWS_ACCESS_KEY_ID='XXXX'
+# export AWS_SECRET_ACCESS_KEY='XXXX'
+# export AWS_REGION='XXXX'
+---
+- name: Provision an instance
+  hosts: all
+  become: true
+
+  roles:
+    - common
+    - boto
+    - php
+    - nodejs
+    - composer
+    - apache
+    - uglify
+    - bashprompt
+    - aws-cloudwatch
+    - aws-codedeploy
+    - aws-elasticache
+    - aws-ssm
+    - aws-monitoring
+
+  # http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/building-shared-amis.html
+  post_tasks:
+    - name: Remove SSH keys and history before bundle
+      command: "{{ item }}"
+      with_items:
+        - shred -u /home/ubuntu/.ssh/authorized_keys
+        - shred -u /home/ubuntu/.*history
+        - shred -u /root/.ssh/authorized_keys
+        - shred -u /root/.*history
+        - shred -u /etc/ssh/*_key
+        - shred -u /etc/ssh/*_key.pub
+        - passwd -l root
+      ignore_errors: yes

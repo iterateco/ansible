@@ -1,0 +1,25 @@
+{
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "instance_type": "m3.medium",
+      "source_ami": "ami-41e0b93b",
+      "ami_name": "iterate-php-16.04-{{timestamp}}",
+      "ssh_username": "ubuntu"
+    }
+  ],
+  "provisioners": [
+    {
+      "type": "shell",
+      "inline": [
+        "sudo apt-get update",
+        "sudo dpkg --configure -a",
+        "sudo apt install -y python"
+      ]
+    },
+    {
+      "type": "ansible",
+      "playbook_file": "./php-ami-packer.yml"
+    }
+  ]
+}

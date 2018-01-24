@@ -1,0 +1,6 @@
+---
+- cron:
+    name: aws-monitoring
+    minute: "*/5"
+    user: ubuntu
+    job: "/home/ubuntu/aws-scripts-mon/mon-put-instance-data.pl --mem-used-incl-cache-buff --mem-util --mem-used --mem-avail --disk-space-avail --disk-space-util --disk-path=/ --aws-iam-role={{ aws_monitoring_iam_role }} --from-cron"

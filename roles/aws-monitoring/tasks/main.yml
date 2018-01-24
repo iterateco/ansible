@@ -1,0 +1,14 @@
+---
+- name: Install aws-monitoring
+  include: install.yml
+  tags:
+    - install
+    - aws-monitoring
+    - install:aws-monitoring
+
+- name: Configure aws-monitoring
+  include: configure.yml
+  tags:
+    - configure
+    - aws-monitoring
+    - configure:aws-monitoring
