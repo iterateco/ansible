@@ -11,16 +11,17 @@
   roles:
     - common
     - boto
-    - php
     - nodejs
-    - composer
     - apache
+    - php # apache needs to be installed first or otherwise mod_php will not be installed
+    - composer
     - uglify
+    - aws-cfn-bootstrap
     - aws-cloudwatch
     - aws-codedeploy
     - aws-elasticache
-    - aws-ssm
     - aws-monitoring
+    - aws-ssm
 
   # http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/building-shared-amis.html
   post_tasks:

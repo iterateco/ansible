@@ -1,7 +1,9 @@
 ---
 # php packages
 - name: Install apt packages
-  apt: pkg={{ item }} state=installed
+  apt: 
+    pkg: "{{ item }}" 
+    state: installed
   with_items:
     - "{{ php_package_prefix }}"
     - "{{ php_package_prefix }}-cli"
@@ -16,7 +18,9 @@
 
 # php 5 packages
 - name: Install apt packages
-  apt: pkg={{ item }} state=installed
+  apt: 
+    pkg: "{{ item }}" 
+    state: installed
   with_items:
     - php5-memcached
     - php5-redis
@@ -25,21 +29,33 @@
 
 # php 7 packages
 - name: Install apt packages
-  apt: pkg={{ item }} state=installed
+  apt: 
+    pkg: "{{ item }}" 
+    state: installed
   with_items:
     - php-memcached
     - php-redis
   when: php_major_version == 7
 
 # apache2 configuration
-- stat: path=/usr/sbin/apache2
+
+- stat: 
+    path: /usr/sbin/apache2
   register: apache2_installed
 
+- debug: 
+    msg: "apache2_installed: {{ apache2_installed }}"
+  tags:
+    - always
+    
 - name: Install mod php
-  apt: pkg=libapache2-mod-{{ php_package_prefix }} state=installed
+  apt: 
+    pkg: libapache2-mod-{{ php_package_prefix }} 
+    state: installed
   when: apache2_installed.stat.exists == True
 
-- stat: path=/usr/sbin/a2enmod
+- stat: 
+    path: /usr/sbin/a2enmod
   register: a2enmod_installed
 
 - name: Enable mod php

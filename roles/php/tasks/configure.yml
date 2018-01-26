@@ -1,6 +1,7 @@
 ---
 - name: Check if apache2 exists
-  stat: path={{ php_apache2_path }}
+  stat:
+    path: "{{ php_apache2_path }}"
   register: php_apache2_path_check
 
 - name: Configure php for apache2
