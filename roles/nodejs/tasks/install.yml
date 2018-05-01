@@ -1,14 +1,14 @@
 ---
-- stat: path=/usr/bin/nodejs
-  register: nodejs_installed
+- shell: "node -v 2>/dev/null || true"
+  register: nodejs_version
 
-- name: Curl https://deb.nodesource.com
-  shell: "curl -sL https://deb.nodesource.com/setup_{{ node_version }} | sudo -E bash -"
-  when: nodejs_installed.stat.exists == False
+- block:
+    - name: Curl https://deb.nodesource.com
+      shell: "curl -sL https://deb.nodesource.com/setup_{{ node_version }} | sudo -E bash -"
 
-- name: Install apt packages
-  apt: pkg={{ item }} state=installed
-  with_items:
-    - nodejs
-    - build-essential
-  when: nodejs_installed.stat.exists == False
+    - name: Install apt packages
+      apt: pkg={{ item }} state=installed
+      with_items:
+        - nodejs
+        - build-essential
+  when: "nodejs_version.stdout.find(node_version.split('.')[0]) != 1"
