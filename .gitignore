@@ -2,11 +2,11 @@
 *.pyc
 *.DS_STORE
 ansible.cfg
-Vagrantfile
+#Vagrantfile
 Symfony/
 .vagrant/
 iterate
-workstation.yml
+#workstation.yml
 group_vars
 ubuntu-xenial-16.04-cloudimg-console.log
 *.retry
