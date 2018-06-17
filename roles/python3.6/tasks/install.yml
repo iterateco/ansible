@@ -1,0 +1,24 @@
+---
+- name: Install apt packages
+  apt: 
+    pkg: "{{ item }}"
+    state: present
+  with_items:
+    - software-properties-common
+    - python-software-properties
+
+- name: Add PostgreSQL official APT repository
+  apt_repository:
+    repo: 'ppa:jonathonf/python-3.6'
+
+- name: Install Python 3.6
+  apt:
+    pkg: python3.6 
+    state: present
+
+- name: Download pip for Python 3.6
+  get_url:
+    url: https://bootstrap.pypa.io/get-pip.py
+    dest: /tmp/get-pip.py
+- name: Install pip for Python 3.6
+  command: python3.6 /tmp/get-pip.py

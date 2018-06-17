@@ -1,0 +1,7 @@
+---
+- name: Install python3.6
+  include_tasks: install.yml
+  tags:
+    - install
+    - python3.6
+    - install:python3.6
