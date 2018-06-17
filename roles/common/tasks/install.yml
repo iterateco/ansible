@@ -1,7 +1,7 @@
 ---
 - name: Install common apt packages
   apt: 
-    pkg: {{ item }} 
+    pkg: "{{ item }}"
     state: present
   with_items:
     - acl
