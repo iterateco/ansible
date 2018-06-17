@@ -7,7 +7,9 @@
       shell: "curl -sL https://deb.nodesource.com/setup_{{ node_version }} | sudo -E bash -"
 
     - name: Install apt packages
-      apt: pkg={{ item }} state=installed
+      apt: 
+        pkg: "{{ item }}" 
+        state: present
       with_items:
         - nodejs
         - build-essential

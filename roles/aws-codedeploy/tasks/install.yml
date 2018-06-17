@@ -6,7 +6,7 @@
 - name: Install apt packages
   apt: 
     pkg: ruby2.3 
-    state: installed
+    state: present
 
 - name: Install pip awscli 
   command: pip install awscli

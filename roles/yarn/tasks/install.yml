@@ -38,7 +38,9 @@
   when: yarn_installed.stat.exists == False
 
 - name: Install apt packages
-  apt: pkg={{ item }} state=installed
+  apt: 
+    pkg: "{{ item }}" 
+    state: present
   with_items:
     - yarn
   when: yarn_installed.stat.exists == False

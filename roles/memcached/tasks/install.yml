@@ -1,5 +1,7 @@
 ---
 - name: Install apt packages
-  apt: pkg={{ item }} state=installed
+  apt: 
+    pkg: "{{ item }}" 
+    state: present
   with_items:
     - memcached
