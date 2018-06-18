@@ -21,7 +21,7 @@
   apt_repository:
     repo: ppa:ubuntugis/ubuntugis-unstable
     state: present
-- name: Install postgresql-9.6-postgis-2.3
+- name: Install postgresql-{{ postgresql_version }}-postgis-2.3
   apt:
-    pkg: postgresql-9.6-postgis-2.3 
+    pkg: postgresql-{{ postgresql_version }}-postgis-2.3 
     state: present
