@@ -30,9 +30,10 @@ else
   # sudo -H pip install --upgrade setuptools
 
   # install apt-get
+  sudo apt-get -y update
   sudo apt-get install -y software-properties-common
   sudo apt-add-repository -y ppa:ansible/ansible
-  sudo apt-get update
+  sudo apt-get -y update
   sudo apt-get install -y ansible
 fi
 
