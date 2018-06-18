@@ -11,3 +11,5 @@
     - ntp
     - rsync
     - jq
+    - wget
+    - sudo
