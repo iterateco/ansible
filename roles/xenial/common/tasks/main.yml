@@ -1,0 +1,7 @@
+---
+- name: Install common
+  include_tasks: install.yml
+  tags:
+    - install
+    - common
+    - install:common
