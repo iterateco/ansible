@@ -1,0 +1,67 @@
+---
+# Note: we only go through all these configuration tasks if we haven't
+# done them before (if directory already exists, skip everything)
+- stat: 
+    path: "{{ geth_devchain_path }}"
+  register: geth_installed
+
+- block:
+  - name: Create dev geth directory
+    file:
+      path: "{{ geth_devchain_path }}"
+      state: directory
+
+  - name: Template copy; configure genesis.json
+    template:
+      src: devchain_genesis.json.j2
+      dest: "{{ geth_devchain_path }}/genesis.json"
+
+  - name: Initialize geth dev chain
+    command: geth --datadir "{{ geth_devchain_path }}/datadir" init "{{ geth_devchain_path }}/genesis.json"
+
+  - name: Temporarily place password file
+    template:
+      src: password.j2
+      dest: "{{ geth_devchain_path }}/password"
+
+  - name: Temporarily create private key files
+    shell: echo {{ item }} > "{{ geth_devchain_path }}/{{ item }}"
+    with_items: "{{ geth_devkeys }}"
+
+  - name: Create preset accounts
+    command: geth --datadir "{{ geth_devchain_path }}/datadir" --password "{{ geth_devchain_path }}/password" account import "{{ geth_devchain_path }}/{{ item }}"
+    with_items: "{{ geth_devkeys }}"
+
+  - name: Clean up temporary keys
+    file:
+      path: "{{ geth_devchain_path }}/{{ item }}"
+      state: absent
+    with_items: "{{ geth_devkeys }}"
+
+  - name: Clean up password file
+    file:
+      path: "{{ geth_devchain_path }}/password"
+      state: absent
+
+  - name: Copy over util scripts
+    template:
+      src: "{{ item }}.j2"
+      dest: "{{ geth_devchain_path }}/{{ item }}"
+      mode: 0755
+    with_items:
+      - mine-on-demand.sh
+      - start_geth.sh
+      - start_geth_unattended.sh
+      - start_geth_log_unattended.sh
+      - stop_geth_unattended.sh
+      - geth_resetchain.sh
+      - geth_console.sh
+      - start_geth_unattended_pm2.sh
+      - pm2_start_geth.sh
+
+  - name: copy unlock passwords
+    template:
+      src: unlock_passwords.j2
+      dest: "{{ geth_devchain_path }}/unlock_passwords"
+
+  when: geth_devaccounts|length > 0 and geth_installed.stat.exists == False

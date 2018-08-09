@@ -3,45 +3,35 @@
     path: /usr/bin/yarn
   register: yarn_installed
 
-- name: "Yarn | GPG"
-  become: yes
-  become_user: root
-  apt_key:
-    url: https://dl.yarnpkg.com/debian/pubkey.gpg
-    state: present
-  when: yarn_installed.stat.exists == False
+- block:
+  - name: "Yarn | GPG"
+    apt_key:
+      url: https://dl.yarnpkg.com/debian/pubkey.gpg
+      state: present
 
-- name: "Yarn | Ensure Debian sources list file exists"
-  become: yes
-  become_user: root
-  file:
-    path: /etc/apt/sources.list.d/yarn.list
-    owner: root
-    mode: 0644
-    state: touch
-  when: yarn_installed.stat.exists == False
+  - name: "Yarn | Ensure Debian sources list file exists"
+    file:
+      path: /etc/apt/sources.list.d/yarn.list
+      owner: root
+      mode: 0644
+      state: touch
 
-- name: "Yarn | Ensure Debian package is in sources list"
-  become: yes
-  become_user: root
-  lineinfile:
-    dest: /etc/apt/sources.list.d/yarn.list
-    regexp: 'deb http://dl.yarnpkg.com/debian/ stable main'
-    line: 'deb http://dl.yarnpkg.com/debian/ stable main'
-    state: present
-  when: yarn_installed.stat.exists == False
+  - name: "Yarn | Ensure Debian package is in sources list"
+    lineinfile:
+      dest: /etc/apt/sources.list.d/yarn.list
+      regexp: 'deb http://dl.yarnpkg.com/debian/ stable main'
+      line: 'deb http://dl.yarnpkg.com/debian/ stable main'
+      state: present
 
-- name: "Yarn | Update APT cache"
-  become: yes
-  become_user: root
-  apt:
-    update_cache: yes
-  when: yarn_installed.stat.exists == False
+  - name: "Yarn | Update APT cache"
+    apt:
+      update_cache: yes
 
-- name: Install apt packages
-  apt: 
-    pkg: "{{ item }}" 
-    state: present
-  with_items:
-    - yarn
+  - name: Install apt packages
+    apt: 
+      pkg: "{{ item }}" 
+      state: present
+    with_items:
+      - yarn
+
   when: yarn_installed.stat.exists == False

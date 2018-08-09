@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# Intended to be called by another script: pm2_start_geth.sh
+# You shouldn't need to call this script directly.
+geth --datadir "{{ geth_devchain_path }}/datadir" \
+    --networkid {{ geth_devchain_id }} \
+    --mine \
+    --minerthreads=1 \
+    --etherbase={{ geth_devaccounts[0] }} \
+    --rpc \
+    --rpcport "{{ geth_devrpc_port }}" \
+    --rpcaddr "{{ geth_devrpc_ip }}" \
+    --rpccorsdomain "{{ geth_devrpc_cors }}" \
+    --rpcapi="db,eth,net,web3" \
+    --gcmode=archive \
+    --targetgaslimit="{{ geth_devchain_gaslimit }}"

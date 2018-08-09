@@ -1,0 +1,7 @@
+---
+- name: Install truffle et al
+  include_tasks: install.yml
+  tags:
+    - install
+    - truffle
+    - install:truffle

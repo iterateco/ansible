@@ -1,0 +1,19 @@
+---
+geth_devchain_path: /usr/local/bin/geth/dev
+geth_devchain_id: 888
+geth_devrpc_port: 8545
+geth_devrpc_ip: 0.0.0.0
+geth_devrpc_cors: "*"
+geth_devchain_gaslimit: 6700034
+# geth_devchain_gaslimit: 4712388
+# geth_devchain_difficulty: 200000000 # Default difficulty; it's too high for vm usage however
+geth_devchain_difficulty: 0x100
+geth_eth_mine_version: 1.1.6
+
+# Note: geth_devaccounts and geth_devkeys are tied together.
+# If an account is changed, you must also update the corresponding
+# private key, and vice-versa.
+# these values are required
+geth_devchain_account_password: ~
+geth_devaccounts: []
+geth_devkeys: []

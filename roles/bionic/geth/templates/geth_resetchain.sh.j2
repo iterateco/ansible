@@ -1,0 +1,5 @@
+#!/bin/bash
+
+echo "This wipes the entire blockchain data. Make sure you know what you're doing."
+geth --datadir "{{ geth_devchain_path }}/datadir" removedb
+geth --datadir "{{ geth_devchain_path }}/datadir" init "{{ geth_devchain_path }}/genesis.json"

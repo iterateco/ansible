@@ -1,0 +1,7 @@
+---
+- name: Install truffle packages
+  npm: 
+    name: "{{ item }}" 
+    global: yes
+  with_items:
+    - "truffle@{{ truffle_version }}"

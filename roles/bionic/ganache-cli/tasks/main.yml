@@ -1,0 +1,7 @@
+---
+- name: Install ganache-cli
+  include_tasks: install.yml
+  tags:
+    - install
+    - ganache-cli
+    - install:ganache-cli

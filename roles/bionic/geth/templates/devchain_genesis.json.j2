@@ -1,0 +1,16 @@
+{
+    "config": {
+        "chainId": {{ geth_devchain_id }},
+        "homesteadBlock": 0,
+        "eip155Block": 0,
+        "eip158Block": 0,
+        "byzantiumBlock": 0
+    },
+    "difficulty": "{{ geth_devchain_difficulty }}",
+    "gasLimit": "{{ geth_devchain_gaslimit }}",
+    "alloc": {
+        {% for account in geth_devaccounts %}
+        "{{ account }}": { "balance": "9999000000000000000000000000000" }{{ "," if not loop.last else '' }}
+        {% endfor %}
+    }
+}

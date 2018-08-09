@@ -1,14 +1,14 @@
 ---
-- name: Install ipfs
+- name: Install geth
   include_tasks: install.yml
   tags:
     - install
-    - ipfs
-    - install:ipfs
-
-- name: Configure ipfs
+    - geth
+    - install:geth
+    
+- name: Configure geth
   include_tasks: configure.yml
   tags:
     - configure
-    - ipfs
-    - configure:ipfs
+    - geth
+    - configure:geth

@@ -1,10 +1,4 @@
 ---
-# - name: Create nodejs group
-#   shell: addgroup --system nodejs
-
-# - name: Create nodejs user
-#   shell: adduser --system --home /home/nodejs --shell /bin/bash --ingroup nodejs --gecos NodeJs,,, nodejs
-
 - name: Register pm2 path
   command: which pm2
   register: which_pm2_path
@@ -23,6 +17,8 @@
 
 - name: Permission upstart; Configure pm2
   command: chmod a+x /etc/init.d/pm2
+  args:
+    warn: no
 
 - name: Update-rc.d; Configure pm2
   command: update-rc.d pm2 defaults

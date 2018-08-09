@@ -1,0 +1,9 @@
+#!/bin/bash
+
+# Enables nodejs package that turns on mining if there are pending transactions and
+# then turns off mining when done.
+
+# arg 1: number of confrimations
+# arg 2: number of mining threads
+# arg 3: path to geth.ipc
+eth-mine-when-need 6 1 "{{ geth_devchain_path }}/datadir/geth.ipc" > /dev/null 2>&1 &

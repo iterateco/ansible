@@ -1,0 +1,13 @@
+#!/bin/bash
+
+# Starts geth and outputs to console/stdout. Useful for debugging
+geth --datadir "{{ geth_devchain_path }}/datadir" \
+    --networkid {{ geth_devchain_id }} \
+    --mine --minerthreads=1 \
+    --etherbase={{ geth_devaccounts[0] }} \
+    --rpc \
+    --rpcport "{{ geth_devrpc_port }}" \
+    --rpcaddr "{{ geth_devrpc_ip }}" \
+    --rpccorsdomain "{{ geth_devrpc_cors }}" \
+    --gcmode=archive \
+    --targetgaslimit="{{ geth_devchain_gaslimit }}"

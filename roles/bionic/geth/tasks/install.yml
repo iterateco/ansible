@@ -1,0 +1,16 @@
+- apt_repository:
+    repo: 'ppa:ethereum/ethereum'
+
+- apt: 
+    pkg: "{{ item }}" 
+    state: present
+  with_items:
+    - software-properties-common
+    - ethereum
+
+- name: Install eth-mine-when-need npm package
+  npm: 
+    name: "{{ item }}" 
+    global: yes
+  with_items:
+    - "eth-mine-when-need@{{ geth_eth_mine_version }}"
