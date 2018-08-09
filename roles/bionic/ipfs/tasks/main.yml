@@ -1,0 +1,6 @@
+---
+- name: Install ipfs
+  include: install.yml
+
+- name: Configure ipfs
+  include: configure.yml

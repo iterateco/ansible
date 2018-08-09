@@ -1,0 +1,21 @@
+---
+- stat: 
+    path: "{{ansible_env.HOME}}/.ipfs"
+  register: ipfs_configured
+
+- block:
+  - name: Init ipfs
+    command: ipfs init
+
+  - name: Update config
+    command: "{{ item }}"
+    with_items:
+      - ipfs config Addresses.API /ip4/0.0.0.0/tcp/5001
+      - ipfs config Addresses.Gateway /ip4/0.0.0.0/tcp/8081
+      - ipfs config --json API.HTTPHeaders.Access-Control-Allow-Origin '["*"]'
+      - ipfs config --json API.HTTPHeaders.Access-Control-Allow-Methods '["GET","PUT","POST","DELETE"]'
+      - ipfs config --json API.HTTPHeaders.Access-Control-Allow-Credentials '["true"]'
+      - ipfs config --json Gateway.HTTPHeaders.Access-Control-Allow-Methods '["GET"]'
+      - ipfs config --json Gateway.HTTPHeaders.Access-Control-Allow-Credentials '["true"]'
+
+  when: ipfs_configured.stat.exists == False

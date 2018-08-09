@@ -1,0 +1,32 @@
+- stat: 
+    path: /usr/local/bin/ipfs
+  register: ipfs_installed
+
+- block:
+  - name: Download ipfs tar
+    get_url:
+      url: "https://dist.ipfs.io/go-ipfs/v0.4.17/go-ipfs_v0.4.17_linux-amd64.tar.gz"
+      dest: "/tmp/ipfs.tar.gz"
+
+  - name: Extract ipfs tar
+    unarchive:
+      src: "/tmp/ipfs.tar.gz"
+      dest: "/tmp"
+      copy: no
+
+  - name: Register ipfs bin
+    stat:
+      path: "/tmp/go-ipfs/ipfs"
+    register: ipfs_bin
+
+  - name: Copy ipfs bin
+    command: "cp -rf /tmp/go-ipfs/ipfs /usr/local/bin/ipfs"
+    when: ipfs_bin.stat.exists
+
+  - name: Ensure ipfs bin stats are set
+    file:
+      path: /usr/local/bin/ipfs
+      state: file
+      mode: 0755
+
+  when: ipfs_installed.stat.exists == False

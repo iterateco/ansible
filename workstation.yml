@@ -1,24 +1,40 @@
-# Usage:
-# vagrant up
-# or:
-# ansible-playbook workstation.yml
 ---
 - name: Setup workstation
-  hosts: all
+  hosts: localhost
+  connection: local
   become: true
 
-  vars:
-    env: local
-    # values to be used for ubuntu 14.04
-    # php_major_version: 5
-    # mysql_version: 5.6
-
   pre_tasks:
+    - debug: 
+        var: ansible_env.HOME
+
     - name: Update apt
       apt: 
         update_cache: yes 
         cache_valid_time: 600
 
-  roles:
-    - packer
-    - boto
+  tasks:
+    - include_role:
+        name: bionic/common
+    - include_role:
+        name: bionic/elasticsearch
+    - include_role:
+        name: bionic/ipfs
+    - include_role:
+        name: bionic/nodejs
+    - include_role:
+        name: bionic/pm2
+    - include_role:
+        name: bionic/yarn
+
+  # roles:
+  #   - common
+  #   - bashprompt
+  #   - elasticsearch
+  #   - ipfs
+  #   - nodejs
+  #   - geth
+  #   - yarn
+  #   - truffle
+  #   - blocktix
+  #   - pm2
