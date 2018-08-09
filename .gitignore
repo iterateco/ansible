@@ -7,6 +7,7 @@ Symfony/
 .vagrant/
 iterate
 #workstation.yml
+docker-compose.yml
 group_vars
 ubuntu-xenial-16.04-cloudimg-console.log
 *.retry
