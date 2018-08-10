@@ -9,8 +9,13 @@
     - ethereum
 
 - name: Install eth-mine-when-need npm package
-  npm: 
-    name: "{{ item }}" 
-    global: yes
-  with_items:
-    - "eth-mine-when-need@{{ geth_eth_mine_version }}"
+  shell: "sudo npm install -g eth-mine-when-need@{{ geth_eth_mine_version }}"
+
+# on AWS you'll get a permssion error here unless you install as per above
+# - name: Install eth-mine-when-need npm package
+#   npm: 
+#     name: "{{ item }}" 
+#     global: yes
+#   with_items:
+#     - "eth-mine-when-need@{{ geth_eth_mine_version }}"
+#   become_user: root
