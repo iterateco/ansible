@@ -3,8 +3,8 @@
     {
       "type": "amazon-ebs",
       "instance_type": "m3.medium",
-      "source_ami": "ami-41e0b93b",
-      "ami_name": "iterate-php-16.04-{{timestamp}}",
+      "source_ami": "ami-920b10ed",
+      "ami_name": "iterate-18.04-{{timestamp}}",
       "ssh_username": "ubuntu"
     }
   ],
@@ -19,7 +19,9 @@
     },
     {
       "type": "ansible",
-      "playbook_file": "./php-ami-packer.yml"
+      "playbook_file": "./ami.yml",
+      "user": "ubuntu",
+      "extra_arguments" : ["-vvv"]
     }
   ]
 }

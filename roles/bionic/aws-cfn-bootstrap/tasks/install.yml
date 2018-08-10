@@ -2,4 +2,3 @@
 - name: Install aws-cfn-bootstrap
   pip:
     name: https://s3.amazonaws.com/cloudformation-examples/aws-cfn-bootstrap-latest.tar.gz
-    executable: pip3

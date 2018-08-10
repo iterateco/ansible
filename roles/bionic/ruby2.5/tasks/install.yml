@@ -1,0 +1,5 @@
+---
+- name: Install ruby apt packages
+  apt: 
+    pkg: ruby-full
+    state: present

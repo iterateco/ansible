@@ -1,9 +1,14 @@
 ---
+
+# sudo apt-get install systemd
+
 - name: Make it as a service
   template:
     src: cfn-hup.service.j2
     dest: /lib/systemd/system/cfn-hup.service
-    mode: 0400
+
+# - name: Enable service
+#   command: systemctl enable cfn-hup.service
 
 - name: Enable cfn-hup service
   service:

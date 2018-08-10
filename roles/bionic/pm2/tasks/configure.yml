@@ -1,24 +1,20 @@
 ---
-- name: Register pm2 path
-  command: which pm2
-  register: which_pm2_path
+- stat: 
+    path: /etc/init.d/pm2
+  register: pm2_installed
 
-- name: Set pm2_path
-  set_fact:
-    pm2_path: "{{which_pm2_path.stdout_lines[0]}}"
+- block:
+  - name: Template copy; Configure pm2
+    template: 
+      src: pm2.j2 
+      dest: /etc/init.d/pm2
 
-- debug: 
-    var: pm2_path
+  - name: Permission upstart; Configure pm2
+    command: chmod a+x /etc/init.d/pm2
+    args:
+      warn: no
 
-- name: Template copy; Configure pm2
-  template: 
-    src: pm2.j2 
-    dest: /etc/init.d/pm2
+  - name: Update-rc.d; Configure pm2
+    command: update-rc.d pm2 defaults
 
-- name: Permission upstart; Configure pm2
-  command: chmod a+x /etc/init.d/pm2
-  args:
-    warn: no
-
-- name: Update-rc.d; Configure pm2
-  command: update-rc.d pm2 defaults
+  when: pm2_installed.stat.exists == False
