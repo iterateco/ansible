@@ -1,0 +1,7 @@
+---
+- name: Install ruby2.3
+  include_tasks: install.yml
+  tags:
+    - install
+    - ruby2.3
+    - install:ruby2.3

@@ -1,0 +1,11 @@
+[Unit]
+Description=Cloud formation helper daemon
+
+[Service]
+ExecStart=/usr/local/bin/cfn-hup --no-daemon
+Restart=always
+RestartSec={{ aws_cfn_hup_service_interval }}
+Type=simple
+
+[Install]
+WantedBy=multi-user.target

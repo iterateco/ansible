@@ -1,0 +1,4 @@
+---
+dependencies:
+  - pip3
+  - ruby2.3

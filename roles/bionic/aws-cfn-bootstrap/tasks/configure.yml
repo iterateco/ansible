@@ -1,0 +1,11 @@
+---
+- name: Make it as a service
+  template:
+    src: cfn-hup.service.j2
+    dest: /lib/systemd/system/cfn-hup.service
+    mode: 0400
+
+- name: Enable cfn-hup service
+  service:
+    name: cfn-hup
+    enabled: yes

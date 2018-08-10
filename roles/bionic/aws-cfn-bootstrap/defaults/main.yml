@@ -1,0 +1,2 @@
+---
+aws_cfn_hup_service_interval: 5min

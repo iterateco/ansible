@@ -1,0 +1,7 @@
+---
+- name: Install packer
+  include_tasks: install.yml
+  tags:
+    - install
+    - packer
+    - install:packer

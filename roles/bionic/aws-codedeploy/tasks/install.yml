@@ -1,0 +1,23 @@
+---
+- name: Install awscli
+  pip:
+    name: awscli
+    executable: pip3
+
+- name: Download s3 install
+  get_url:
+    url: https://aws-codedeploy-us-east-1.s3.amazonaws.com/latest/install
+    dest: /tmp/install
+
+- name: Add execute permission 
+  file: 
+    path: /tmp/install 
+    mode: 0755
+
+- name: Build aws cli
+  command: "sudo /tmp/install auto"
+  # [WARNING]: Consider using 'become', 'become_method', and 'become_user' rather than running sudo
+  # tried the following and non of them work
+  # become: true
+  # become_method: sudo
+  # become_user: root

@@ -1,0 +1,7 @@
+---
+- name: Install pip3
+  apt: 
+    pkg: "{{ item }}" 
+    state: present
+  with_items:
+    - python3-pip

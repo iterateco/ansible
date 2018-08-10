@@ -1,0 +1,5 @@
+---
+- name: Template copy; Configure awslogs
+  template: 
+    src: awslogs.conf.j2 
+    dest: /var/awslogs/etc/awslogs.conf

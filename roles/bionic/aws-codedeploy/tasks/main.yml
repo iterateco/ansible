@@ -1,0 +1,7 @@
+---
+- name: Install aws-codedeploy
+  include_tasks: install.yml
+  tags:
+    - install
+    - aws-codedeploy
+    - install:aws-codedeploy

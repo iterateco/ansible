@@ -1,0 +1,9 @@
+---
+- name: Add ruby repository
+  apt_repository: 
+    repo: ppa:brightbox/ruby-ng
+
+- name: Install ruby2.3 apt packages
+  apt: 
+    pkg: ruby2.3 
+    state: present

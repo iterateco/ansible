@@ -1,0 +1,7 @@
+---
+- name: Install boto3
+  include_tasks: install.yml
+  tags:
+    - install
+    - boto3
+    - install:boto3

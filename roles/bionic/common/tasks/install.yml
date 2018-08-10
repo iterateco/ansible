@@ -7,6 +7,7 @@
     - acl
     - vim
     - zip
+    - unzip
     - curl
     - ntp
     - rsync
@@ -16,3 +17,9 @@
     - build-essential
     - libssl-dev
     - locales
+    - python3.6-dev
+
+- name: Setup locale
+  shell: |
+    locale-gen en_US.UTF-8
+    locale-gen --no-purge --lang en_US.UTF-8

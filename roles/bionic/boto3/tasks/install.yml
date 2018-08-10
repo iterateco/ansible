@@ -1,0 +1,5 @@
+---
+- name: Install boto3
+  pip: 
+    name: boto3 
+    executable: pip3
