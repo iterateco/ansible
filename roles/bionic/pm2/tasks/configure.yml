@@ -3,6 +3,14 @@
     path: /etc/init.d/pm2
   register: pm2_installed
 
+- name: Register pm2 path
+  command: which pm2
+  register: which_pm2_path
+  
+- name: Set pm2_path
+  set_fact:
+    pm2_path: "{{which_pm2_path.stdout_lines[0]}}"
+
 - block:
   - name: Template copy; Configure pm2
     template: 
