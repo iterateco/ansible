@@ -1,0 +1,7 @@
+---
+- name: Install awscli
+  include_tasks: install.yml
+  tags:
+    - install
+    - awscli
+    - install:awscli

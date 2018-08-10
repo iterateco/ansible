@@ -1,0 +1,7 @@
+---
+- name: Configure bashprompt
+  include_tasks: configure.yml
+  tags:
+    - configure
+    - bashprompt
+    - configure:bashprompt

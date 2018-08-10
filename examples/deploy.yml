@@ -1,7 +1,0 @@
----
-- hosts: "&{{ env | expand('tag_Env_') }}:{{ roles | expand('tag_Roles_') }}"
-  sudo: True
-  vars_files:
-    - group_vars/{{ env }}.yml
-  roles:
-    - deploy
