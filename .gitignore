@@ -2,7 +2,8 @@
 *.pyc
 *.DS_STORE
 ansible.cfg
-#Vagrantfile
+Vagrantfile
+packer.json
 .vagrant
 .ansible
 .cache
