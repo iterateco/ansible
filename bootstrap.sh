@@ -2,32 +2,30 @@
 # this script allows developers to run different versions of ansible playbooks roles per project
 # and installs ansible on VM so developers need minimal packages on host machine
 
+LATEST_RELEASE=$(wget -qO- "https://api.github.com/repos/iterateco/ansible/releases/latest" | grep -Po '"tag_name": "\K.*?(?=")')
+LATEST_VERSION=${LATEST_RELEASE:1}
+
 while getopts "c:v:" opt; do
   case $opt in
     c) COMMAND="$OPTARG"
     ;;
-    v) INSTALL_VERSION="$OPTARG"
+    v) VERSION="$OPTARG"
     ;;
     \?) echo "Invalid option -$OPTARG" >&2
     ;;
   esac
 done
 
+INSTALL_VERSION=${VERSION:-$LATEST_VERSION}
+
+echo "Installing roles version $INSTALL_VERSION"
+
 INSTALL_DIR="$HOME/.iterate/ansible"
 
 if command -v ansible 2>/dev/null; then
-  echo "ansible already installed"
+  echo "Ansible already installed"
 else
-  echo "installing ansible"
-  # install via pip. ansible 2.0.2.0
-  # http://stackoverflow.com/questions/29134512/insecureplatformwarning-a-true-sslcontext-object-is-not-available-this-prevent
-  # these packages are required to prevent urllib3 from configuring SSL appropriately apt [libffi-dev libssl-dev], pip [pyopenssl ndg-httpsclient pyasn1]
-  # sudo apt-get update
-  # sudo apt-get install -y python-pip python-dev libffi-dev libssl-dev
-  # sudo -H pip install pyopenssl ndg-httpsclient pyasn1
-  # sudo -H pip install -U pip
-  # sudo -H pip install ansible
-  # sudo -H pip install --upgrade setuptools
+  echo "Installing ansible"
 
   # install apt-get
   sudo apt-get install -y software-properties-common
@@ -42,7 +40,8 @@ if [ ! -d "$INSTALL_DIR/ansible-$INSTALL_VERSION" ]; then
   sudo wget "https://github.com/iterateco/ansible/archive/v$INSTALL_VERSION.tar.gz" -O "$INSTALL_DIR/$INSTALL_VERSION.tar.gz"
   wgetreturn=$?
   if [[ $wgetreturn -ne 0 ]]; then
-    >&2 echo -e "\e[31m ansible role version not found $INSTALL_VERSION"
+    ERROR_MSG="Ansible role version not found $INSTALL_VERSION"
+    echo -e "\e[01;31m$ERROR_MSG\e[0m" >&2;
     exit 1
   fi
 
@@ -59,5 +58,9 @@ roles_path = $INSTALL_DIR/ansible-$INSTALL_VERSION/roles
 filter_plugins = $INSTALL_DIR/ansible-$INSTALL_VERSION/filter_plugins
 EOL
 
-echo "executing: $COMMAND"
-eval $COMMAND
+if [ ! -z "$COMMAND" ]; then
+  echo "executing: $COMMAND"
+  eval $COMMAND
+fi
+
+echo -e "\e[0;32mSuccess\e[0m" >&2;
