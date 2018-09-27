@@ -1,0 +1,14 @@
+---
+- name: Install mysql5.6
+  include_tasks: install.yml
+  tags:
+    - install
+    - mysql5.6
+    - install:mysql5.6
+
+- name: Configure mysql5.6
+  include_tasks: configure.yml
+  tags:
+    - configure 
+    - mysql5.6
+    - configure:mysql5.6
