@@ -26,29 +26,3 @@
   apt:
     pkg: postgresql-{{ postgresql_version }}-postgis-{{ postgis_version }}
     state: present
-  with_items:
-    - postgresql-{{ postgresql_version }}-postgis-{{ postgis_version }}={{ postgis_package_version }}
-
-- name: List postgresql extension
-  shell: psql -c "SELECT * FROM pg_extension;"
-  args:
-    executable: /bin/bash
-  register: postgresql_plugin_list
-  become: yes
-  become_user: postgres
-  become_method: sudo
-  changed_when: False
-
-- name: Enable postgis
-  shell: psql -c "CREATE EXTENSION postgis;"
-  args:
-    executable: /bin/bash
-  register: enable_postgis
-  become: yes
-  become_user: postgres
-  become_method: sudo
-  failed_when: '"CREATE EXTENSION" not in enable_postgis.stdout'
-  changed_when: False
-  when:
-    - '"postgis" not in postgresql_plugin_list.stdout'
-    - postgis_enabled
