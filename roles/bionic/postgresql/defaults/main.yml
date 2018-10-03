@@ -2,3 +2,4 @@
 postgresql_version: 9.6
 postgresql_apt_key_id: ACCC4CF8
 postgis_version: 2.4
+postgis_enabled: true
