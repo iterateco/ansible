@@ -26,8 +26,6 @@
   apt:
     pkg: postgresql-{{ postgresql_version }}-postgis-{{ postgis_version }}
     state: present
-  with_items:
-    - postgresql-{{ postgresql_version }}-postgis-{{ postgis_version }}={{ postgis_package_version }}
 
 - name: List postgresql extension
   shell: psql -c "SELECT * FROM pg_extension;"
