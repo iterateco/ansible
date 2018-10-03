@@ -37,16 +37,9 @@
   become_method: sudo
   changed_when: False
 
-- name: Enable postgis
-  shell: psql -c "CREATE EXTENSION postgis;"
+- name: Create postgis extension
+  shell: psql -c "CREATE EXTENSION IF NOT EXISTS postgis;"
   args:
     executable: /bin/bash
-  register: enable_postgis
-  become: yes
   become_user: postgres
   become_method: sudo
-  failed_when: '"CREATE EXTENSION" not in enable_postgis.stdout'
-  changed_when: False
-  when:
-    - '"postgis" not in postgresql_plugin_list.stdout'
-    - postgis_enabled
