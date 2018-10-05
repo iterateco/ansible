@@ -26,15 +26,3 @@
   apt:
     pkg: postgresql-{{ postgresql_version }}-postgis-{{ postgis_version }}
     state: present
-
-- name: Start PostgreSQL
-  service: name=postgresql
-          enabled=yes
-          state=started
-
-- name: Create postgis extension
-  shell: psql -c "CREATE EXTENSION IF NOT EXISTS postgis;"
-  args:
-    executable: /bin/bash
-  become_user: postgres
-  become_method: sudo
