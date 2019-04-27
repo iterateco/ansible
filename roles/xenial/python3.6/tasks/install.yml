@@ -1,12 +1,10 @@
 ---
 - name: Install apt packages
   apt: 
-    pkg: "{{ item }}"
+    pkg:
+      - software-properties-common
+      - python-software-properties
     state: present
-  with_items:
-    - software-properties-common
-    - python-software-properties
-
 - name: Add PostgreSQL official APT repository
   apt_repository:
     repo: 'ppa:jonathonf/python-3.6'

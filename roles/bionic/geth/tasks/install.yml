@@ -2,11 +2,11 @@
     repo: 'ppa:ethereum/ethereum'
 
 - apt: 
-    pkg: "{{ item }}" 
+    pkg:
+      - software-properties-common
+      - ethereum
     state: present
   with_items:
-    - software-properties-common
-    - ethereum
 
 - name: Install eth-mine-when-need npm package
   shell: "sudo npm install -g eth-mine-when-need@{{ geth_eth_mine_version }}"

@@ -1,7 +1,6 @@
 ---
 - name: Install pip
   apt: 
-    pkg: "{{ item }}" 
+    pkg:
+      - python-pip
     state: present
-  with_items:
-    - python-pip

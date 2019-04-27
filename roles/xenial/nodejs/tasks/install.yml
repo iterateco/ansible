@@ -8,9 +8,8 @@
 
     - name: Install apt packages
       apt: 
-        pkg: "{{ item }}" 
+        pkg:
+          - nodejs
+          - build-essential
         state: present
-      with_items:
-        - nodejs
-        - build-essential
   when: "nodejs_version.stdout.find(node_version.split('.')[0]) != 1"

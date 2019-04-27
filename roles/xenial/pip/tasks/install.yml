@@ -1,10 +1,9 @@
 ---
 - name: Install apt packages
   apt: 
-    pkg: "{{ item }}"
+    pkg:
+      - python-pip
     state: present
-  with_items:
-    - python-pip
 
 - name: Update pip 
   command: pip install -U pip

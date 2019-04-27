@@ -1,15 +1,14 @@
 ---
 - name: Install common apt packages
   apt: 
-    pkg: "{{ item }}"
+    pkg:
+      - acl
+      - vim
+      - zip
+      - curl
+      - ntp
+      - rsync
+      - jq
+      - wget
+      - sudo
     state: present
-  with_items:
-    - acl
-    - vim
-    - zip
-    - curl
-    - ntp
-    - rsync
-    - jq
-    - wget
-    - sudo

@@ -1,23 +1,22 @@
 ---
 - name: Install common apt packages
   apt: 
-    pkg: "{{ item }}"
+    pkg:
+      - acl
+      - vim
+      - zip
+      - unzip
+      - curl
+      - ntp
+      - rsync
+      - jq
+      - wget
+      - sudo
+      - build-essential
+      - libssl-dev
+      - locales
+      - python3.6-dev
     state: present
-  with_items:
-    - acl
-    - vim
-    - zip
-    - unzip
-    - curl
-    - ntp
-    - rsync
-    - jq
-    - wget
-    - sudo
-    - build-essential
-    - libssl-dev
-    - locales
-    - python3.6-dev
 
 - name: Setup locale
   shell: |

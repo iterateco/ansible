@@ -1,7 +1,7 @@
 ---
 - name: Install apt packages
   apt: 
-    pkg: "{{ item }}"
+    pkg:
+      - redis-server
     state: present
-  with_items:
-    - redis-server
+    

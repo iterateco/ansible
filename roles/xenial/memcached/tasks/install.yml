@@ -1,7 +1,7 @@
 ---
 - name: Install apt packages
   apt: 
-    pkg: "{{ item }}" 
+    pkg:
+      - memcached
     state: present
-  with_items:
-    - memcached
+    

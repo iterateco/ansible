@@ -1,11 +1,10 @@
 ---
 - name: Install apt packages
   apt: 
-    pkg: "{{ item }}"
+    pkg:
+      - curl
+      - git
     state: present
-  with_items:
-    - curl
-    - git
 
 - name: Install composer
   shell: "curl -sS https://getcomposer.org/installer | sudo php -- --install-dir=/usr/local/bin --filename=composer"

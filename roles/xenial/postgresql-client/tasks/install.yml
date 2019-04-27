@@ -10,9 +10,8 @@
 
 - name: Install apt packages
   apt: 
-    pkg: "{{ item }}"
+    pkg:
+      - "postgresql-client-{{ postgresql_version }}"
+      - python-psycopg2
+      - libpq-dev
     state: present
-  with_items:
-    - "postgresql-client-{{ postgresql_version }}"
-    - python-psycopg2
-    - libpq-dev

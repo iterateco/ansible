@@ -39,8 +39,7 @@
 
 - name: Install apt packages
   apt: 
-    pkg: "{{ item }}" 
+    pkg:
+      - yarn
     state: present
-  with_items:
-    - yarn
   when: yarn_installed.stat.exists == False

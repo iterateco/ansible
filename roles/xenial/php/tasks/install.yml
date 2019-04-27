@@ -2,39 +2,36 @@
 # php packages
 - name: Install apt packages
   apt: 
-    pkg: "{{ item }}" 
+    pkg:
+      - "{{ php_package_prefix }}"
+      - "{{ php_package_prefix }}-cli"
+      - "{{ php_package_prefix }}-curl"
+      - "{{ php_package_prefix }}-mysql"
+      - "{{ php_package_prefix }}-intl"
+      - "{{ php_package_prefix }}-gd"
+      - "{{ php_package_prefix }}-mcrypt"
+      - php-soap
+      - php-pear
+      - php-mbstring
     state: present
-  with_items:
-    - "{{ php_package_prefix }}"
-    - "{{ php_package_prefix }}-cli"
-    - "{{ php_package_prefix }}-curl"
-    - "{{ php_package_prefix }}-mysql"
-    - "{{ php_package_prefix }}-intl"
-    - "{{ php_package_prefix }}-gd"
-    - "{{ php_package_prefix }}-mcrypt"
-    - php-soap
-    - php-pear
-    - php-mbstring
 
 # php 5 packages
 - name: Install apt packages
   apt: 
-    pkg: "{{ item }}" 
+    pkg:
+      - php5-memcached
+      - php5-redis
+      - php-apc
     state: present
-  with_items:
-    - php5-memcached
-    - php5-redis
-    - php-apc
   when: php_major_version == 5
 
 # php 7 packages
 - name: Install apt packages
   apt: 
-    pkg: "{{ item }}" 
+    pkg:
+      - php-memcached
+      - php-redis
     state: present
-  with_items:
-    - php-memcached
-    - php-redis
   when: php_major_version == 7
 
 # apache2 configuration
@@ -51,7 +48,7 @@
 - name: Install mod php
   apt: 
     pkg: libapache2-mod-{{ php_package_prefix }} 
-    state: installed
+    state: present
   when: apache2_installed.stat.exists == True
 
 - stat: 
