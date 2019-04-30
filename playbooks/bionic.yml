@@ -1,0 +1,24 @@
+---
+- name: Setup workstation
+  hosts: localhost
+  connection: local
+  become: true
+
+  pre_tasks:
+    - name: Update apt
+      apt: 
+        update_cache: yes 
+        cache_valid_time: 600
+
+  tasks:
+    - include_role:
+        name: bionic/common
+    - include_role:
+        name: bionic/pip3
+    - include_role:
+        name: bionic/nodejs
+
+    - name: Install virtualenv
+      pip:
+        name: virtualenv
+        executable: pip3

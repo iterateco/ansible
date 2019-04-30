@@ -16,6 +16,7 @@
       - libssl-dev
       - locales
       - python3.6-dev
+      - awscli
     state: present
 
 - name: Setup locale

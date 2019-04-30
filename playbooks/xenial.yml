@@ -1,0 +1,27 @@
+---
+- name: Setup workstation
+  hosts: localhost
+  connection: local
+  become: true
+
+  pre_tasks:
+    - name: Update apt
+      apt: 
+        update_cache: yes 
+        cache_valid_time: 600
+
+  tasks:
+    - include_role:
+        name: xenial/common
+    - include_role:
+        name: xenial/boto
+    - include_role:
+        name: xenial/nodejs
+    - include_role:
+        name: xenial/apache
+    - include_role:
+        name: xenial/php
+    - include_role:
+        name: xenial/composer
+    - include_role:
+        name: xenial/uglify
