@@ -18,7 +18,8 @@ docker run -v $(pwd):/project:cached -it iterate/ubuntu-bionic
 
 2. Install packer and create packer.json file
 ```
-https://releases.hashicorp.com/packer/1.4.0/packer_1.4.0_linux_amd64.zip
+wget https://releases.hashicorp.com/packer/1.4.0/packer_1.4.0_linux_amd64.zip
+unzip packer_1.4.0_linux_amd64.zip
 
 ```
 
@@ -45,7 +46,7 @@ https://releases.hashicorp.com/packer/1.4.0/packer_1.4.0_linux_amd64.zip
     },
     {
       "type": "ansible",
-      "playbook_file": "/path/playbooks/ami.yml",
+      "playbook_file": "./playbooks/ami.yml",
       "user": "ubuntu",
       "extra_arguments" : ["-vvv"]
     }
@@ -59,5 +60,5 @@ export AWS_ACCESS_KEY_ID=""
 export AWS_SECRET_ACCESS_KEY=""
 export AWS_REGION=""
 
-ANSIBLE_ROLES_PATH=/path/to/roles packer build packer.json
+ANSIBLE_ROLES_PATH=/project/roles ./packer build packer.json
 ```

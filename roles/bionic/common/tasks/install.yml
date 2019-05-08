@@ -16,6 +16,7 @@
       - libssl-dev
       - locales
       - python3.6-dev
+      - python-setuptools
       - awscli
     state: present
 
