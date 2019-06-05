@@ -17,6 +17,7 @@
       - locales
       - python3.6-dev
       - python-setuptools
+      - libpq-dev
       - awscli
     state: present
 
