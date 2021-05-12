@@ -1,13 +1,15 @@
 ---
-- name: Install apache
-  include_tasks: install.yml
+- block:
+  - name: Install apache
+    include_tasks: install.yml
   tags:
     - install
     - apache
     - install:apache
 
-- name: Configure apache
-  include_tasks: configure.yml
+- block:
+  - name: Configure apache
+    include_tasks: configure.yml
   tags:
     - configure
     - apache
