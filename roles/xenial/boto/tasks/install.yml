@@ -1,3 +1,7 @@
+# TODO: Cap boto3 version to last Python 2.7 support!
+# Boto3 will no longer support Python 2.7 starting July 15, 2021.
+# To continue receiving service updates, bug fixes, and security updates please upgrade to Python 3.6 or later.
+# More information can be found here: https://aws.amazon.com/blogs/developer/announcing-end-of-support-for-python-2-7-in-aws-sdk-for-python-and-aws-cli-v1/
 ---
 - name: Install boto
   pip: name=boto3 state=latest
