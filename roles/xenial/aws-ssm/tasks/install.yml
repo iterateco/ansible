@@ -1,4 +1,7 @@
 ---
+#  Note: ssm agent already installed on most AMIs:
+# Service name is: snap.amazon-ssm-agent.amazon-ssm-agent
+# https://docs.aws.amazon.com/systems-manager/latest/userguide/sysman-install-ssm-agent.html
 - name: Download aws-ssm
   get_url: url=https://amazon-ssm-us-east-1.s3.amazonaws.com/latest/debian_amd64/amazon-ssm-agent.deb dest=/tmp/amazon-ssm-agent.deb
 
