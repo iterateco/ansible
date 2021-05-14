@@ -1,6 +1,7 @@
 ---
+# https://aws.amazon.com/code/amazon-cloudwatch-monitoring-scripts-for-linux/
 - name: Install apt packages
-  apt: 
+  apt:
     pkg:
       - unzip
       - libwww-perl
