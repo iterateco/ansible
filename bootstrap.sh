@@ -27,11 +27,26 @@ if command -v ansible 2>/dev/null; then
 else
   echo "Installing ansible"
 
-  # install apt-get
-  sudo apt-get install -y software-properties-common
-  sudo apt-add-repository -y ppa:ansible/ansible
-  sudo apt-get update
-  sudo apt-get install -y ansible
+  # Note: installation may fail due to apt lock:
+  # "Could not get lock /var/lib/dpkg/lock-frontend - open (11: Resource temporarily unavailable)"
+  # "Unable to acquire the dpkg frontend lock (/var/lib/dpkg/lock-frontend), is another process using it?"
+  # So we'll retry a 5 times, waiting 90 seconds in-between reties
+
+  n=0
+  until [ "$n" -ge 5 ]
+  do
+    n=$((n+1))
+    echo "Ansible install attempt: $n"
+
+    # install apt-get
+    sudo apt-get install -y software-properties-common
+    sudo apt-add-repository -y ppa:ansible/ansible
+    sudo apt-get update
+    sudo apt-get install -y ansible
+
+    command -v ansible 2>/dev/null && break
+    sleep 90
+  done
 fi
 
 # install ansible roles if not already installed
