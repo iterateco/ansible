@@ -3,7 +3,7 @@
   get_url: url=https://s3.amazonaws.com/elasticache-downloads/ClusterClient/PHP-7.0/latest-64bit dest=/tmp/cacheClient.zip
 
 - name: Unarchive AmazonElasticCacheClient
-  unarchive: src=/tmp/cacheClient.zip dest=/tmp
+  unarchive: src=/tmp/cacheClient.zip dest=/tmp remote_src=yes
 
 - name: Copy AmazonElasticCacheClient Binary
   command: cp /tmp/artifact/amazon-elasticache-cluster-client.so /usr/lib/php/20151012
