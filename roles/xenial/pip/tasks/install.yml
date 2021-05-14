@@ -1,9 +1,13 @@
 ---
-- name: Install apt packages
-  apt: 
-    pkg:
-      - python-pip
-    state: present
+# More recent versions of pip dropped support for python2.7
+# https://stackoverflow.com/a/65871131/2426653
+- name: Download get-pip.py
+  get_url:
+    url: https://bootstrap.pypa.io/pip/2.7/get-pip.py
+    dest: /tmp/get-pip.py
 
-- name: Update pip 
-  command: pip install -U pip
+- name: Execute get-pip.py script
+  command: python /tmp/get-pip.py
+
+- name: Install pip
+  command: python -m pip install --upgrade "pip < 21.0"
