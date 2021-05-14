@@ -1,13 +1,15 @@
 ---
-- name: Install aws-cfn-boostrap
-  include_tasks: install.yml
+- block:
+  - name: Install aws-cfn-boostrap
+    include_tasks: install.yml
   tags:
     - install
     - aws-cfn-boostrap
     - install:aws-cfn-boostrap
 
-- name: Configure aws-cfn-bootstrap
-  include_tasks: configure.yml
+- block:
+  - name: Configure aws-cfn-bootstrap
+    include_tasks: configure.yml
   tags:
     - configure
     - aws-cfn-bootstrap
