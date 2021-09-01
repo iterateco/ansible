@@ -1,0 +1,11 @@
+---
+- name: Add repository
+  apt_repository: 
+    repo: ppa:deadsnakes/ppa
+
+- name: Install apt packages
+  apt: 
+    pkg:
+      - software-properties-common
+      - python3.8
+    state: present

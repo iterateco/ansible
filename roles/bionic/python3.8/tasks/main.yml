@@ -1,0 +1,7 @@
+---
+- name: Install python3.8
+  include_tasks: install.yml
+  tags:
+    - install
+    - python3.8
+    - install:python3.8
