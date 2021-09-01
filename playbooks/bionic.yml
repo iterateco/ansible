@@ -17,6 +17,8 @@
         name: bionic/pip3
     - include_role:
         name: bionic/nodejs
+    - include_role:
+        name: bionic/python3.8
 
     - name: Install virtualenv
       pip:
