@@ -4,10 +4,12 @@ FROM ${IMAGE}
 
 ARG IMAGE
 ARG PLAYBOOK
+ARG DEBIAN_FRONTEND=noninteractive
+
 RUN echo "building from ${IMAGE} using ${PLAYBOOK}"
 
 RUN apt-get -y update
-RUN apt-get -y install git wget sudo software-properties-common python-psycopg2 python-mysqldb
+RUN apt-get -y install git wget sudo software-properties-common
 RUN apt-add-repository -y ppa:ansible/ansible
 RUN apt-get -y update
 RUN apt-get -y install ansible

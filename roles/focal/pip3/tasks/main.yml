@@ -1,0 +1,7 @@
+---
+- name: Install pip3
+  include_tasks: install.yml
+  tags:
+    - install
+    - pip3
+    - install:pip3

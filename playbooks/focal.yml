@@ -1,0 +1,26 @@
+---
+- name: Setup workstation
+  hosts: localhost
+  connection: local
+  become: true
+
+  pre_tasks:
+    - name: Update apt
+      apt: 
+        update_cache: yes 
+        cache_valid_time: 600
+
+  tasks:
+    - include_role:
+        name: focal/common
+    - include_role:
+        name: focal/pip3
+    - include_role:
+        name: focal/nodejs
+    - include_role:
+        name: focal/python3.9
+
+    - name: Install virtualenv
+      pip:
+        name: virtualenv
+        executable: pip3

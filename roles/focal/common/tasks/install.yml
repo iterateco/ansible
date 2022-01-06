@@ -1,0 +1,26 @@
+---
+- name: Install common apt packages
+  apt: 
+    pkg:
+      - acl
+      - vim
+      - zip
+      - unzip
+      - curl
+      - ntp
+      - rsync
+      - jq
+      - wget
+      - sudo
+      - build-essential
+      - libssl-dev
+      - locales
+      - python-setuptools
+      - libpq-dev
+      - awscli
+    state: present
+
+- name: Setup locale
+  shell: |
+    locale-gen en_US.UTF-8
+    locale-gen --no-purge --lang en_US.UTF-8

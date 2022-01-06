@@ -1,0 +1,15 @@
+---
+- shell: "node -v 2>/dev/null || true"
+  register: nodejs_version
+
+- block:
+    - name: Curl https://deb.nodesource.com
+      shell: "curl -sL https://deb.nodesource.com/setup_{{ node_version }} | sudo -E bash -"
+
+    - name: Install apt packages
+      apt: 
+        pkg:
+          - nodejs
+          - build-essential
+        state: present
+  when: "nodejs_version.stdout.find(node_version.split('.')[0]) != 1"
